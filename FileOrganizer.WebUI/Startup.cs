@@ -8,7 +8,10 @@ namespace FileOrganizer.WebUI
 {
     public class Startup
     {
-        public void ConfigureServices( IServiceCollection services ) { }
+        public void ConfigureServices( IServiceCollection services )
+        {
+            services.AddRazorPages();
+        }
 
         public void Configure( IApplicationBuilder app, IWebHostEnvironment env )
         {
@@ -20,12 +23,14 @@ namespace FileOrganizer.WebUI
             app.UseRouting();
 
             app.UseEndpoints( ep =>
-             {
-                 ep.MapGet( "/", async context =>
-                 {
-                     await context.Response.WriteAsync( "Hello World!" );
-                 } );
-             } );
+            {
+                ep.MapGet( "/", async context =>
+                {
+                    await context.Response.WriteAsync( "Hello World!" );
+                } );
+
+                ep.MapRazorPages();
+            } );
         }
     }
 }
