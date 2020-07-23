@@ -1,3 +1,4 @@
+using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +12,8 @@ namespace FileOrganizer.WebUI
         public void ConfigureServices( IServiceCollection services )
         {
             services.AddRazorPages();
+
+            services.AddSingleton<IAuthService>( ( sp ) => new AuthService() );
         }
 
         public void Configure( IApplicationBuilder app, IWebHostEnvironment env )

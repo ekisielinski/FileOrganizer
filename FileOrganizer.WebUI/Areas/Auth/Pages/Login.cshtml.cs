@@ -1,11 +1,50 @@
+using FileOrganizer.WebUI.Services.Auth;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace FileOrganizer.WebUI.Areas.Auth.Pages
 {
     public class LoginModel : PageModel
     {
+        readonly IAuthService authService;
+
+        //====== ctors
+
+        public LoginModel( IAuthService authService ) => this.authService = authService;
+
+        //====== public properties
+
+        [BindProperty]
+        [Required( ErrorMessage = "User name is required." )]
+        public string? UserName { get; set; }
+
+        [BindProperty]
+        [Required( ErrorMessage = "Password is required." )]
+        public string? Password { get; set; }
+
+        //---
+
+        public string? Error { get; private set; }
+
+        //--- actions
+
         public void OnGet()
         {
+        }
+
+        public IActionResult OnPost()
+        {
+            if (!ModelState.IsValid) return Page();
+
+            if (authService.Login( UserName!, Password! ))
+            {
+                return RedirectToPage( "/main" );
+            }
+
+            Error = "Invalid credentials!";
+
+            return Page();
         }
     }
 }

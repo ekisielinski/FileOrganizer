@@ -1,4 +1,27 @@
 ﻿@page "/login"
 @model FileOrganizer.WebUI.Areas.Auth.Pages.LoginModel
 
-<p>Hello from Razor Page.</p>
+<form method="post" asp-page="/login">
+    
+    <div>
+        <label asp-for="UserName">User</label>
+        <input asp-for="UserName" autocomplete="off" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+
+    <div>
+        <label for="pass">Pass</label>
+        <input id="pass" type="password" name="Password">
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <button type="submit">Login</button>
+
+</form>
+
+@if (Model.Error != null)
+{
+<div>
+    ERROR: @Model.Error
+</div>
+}

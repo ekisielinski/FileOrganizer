@@ -1,0 +1,5 @@
+﻿@page "/main"
+@model FileOrganizer.WebUI.Pages.IndexModel
+@inject FileOrganizer.WebUI.Services.Auth.IAuthService authService
+
+You are logged in as: @authService.CurrentUser
