@@ -9,7 +9,8 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
     {
         public void Install( IServiceCollection services, IConfiguration configuration )
         {
-            services.AddSingleton<IAuthService>( sp => new AuthService() );
+            services.AddSingleton<AuthService>();
+            services.AddTransient<IAuthService>( sp => sp.GetService<AuthService>() );
             services.AddTransient<IAuthUserAccessor>( sp => sp.GetService<IAuthService>() );
 
             services.AddAuthentication( "CookieAuthentication" )

@@ -2,7 +2,7 @@
 {
     public interface IAuthService : IAuthUserAccessor
     {
-        bool Login( string userName, string password );
+        bool Login( UserName userName, string password );
 
         void Logout();
     }

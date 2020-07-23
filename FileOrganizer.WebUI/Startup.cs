@@ -1,4 +1,5 @@
 using FileOrganizer.WebUI.DiSetup;
+using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +22,9 @@ namespace FileOrganizer.WebUI
         public void ConfigureServices( IServiceCollection services )
         {
             services.AddRazorPages();
+            services.AddHttpContextAccessor();
+
+            services.AddSingleton<IAppUserFinder, AppUserFinderMock>();
 
             ServicesInstallerHelper.InstallAll( services, Configuration, typeof( Startup ).Assembly );
         }
@@ -33,6 +37,9 @@ namespace FileOrganizer.WebUI
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints( ep =>
             {
