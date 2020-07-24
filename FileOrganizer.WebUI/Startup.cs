@@ -36,6 +36,7 @@ namespace FileOrganizer.WebUI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthentication();

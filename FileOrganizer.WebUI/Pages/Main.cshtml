@@ -2,4 +2,11 @@
 @model FileOrganizer.WebUI.Pages.IndexModel
 @inject FileOrganizer.WebUI.Services.Auth.IAuthUserAccessor accessor
 
-You are logged in as: <b>@accessor.CurrentUser</b>
+@if (accessor.CurrentUser is null)
+{
+    <span>You are not logged in.</span>
+}
+else
+{
+    <span>You are logged in as: <b>@accessor.CurrentUser</b></span>
+}

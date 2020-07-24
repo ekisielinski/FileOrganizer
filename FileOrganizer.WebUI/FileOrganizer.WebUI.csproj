@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Auth\Models\" />
-    <Folder Include="wwwroot\styles\" />
   </ItemGroup>
 
   <ItemGroup>
