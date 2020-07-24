@@ -7,6 +7,7 @@
     <link href="~/styles/site.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+    @await Component.InvokeAsync( "MainMenu" )
     @RenderBody()
 </body>
 </html>
