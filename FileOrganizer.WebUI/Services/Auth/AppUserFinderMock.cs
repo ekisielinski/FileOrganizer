@@ -28,7 +28,7 @@ namespace FileOrganizer.WebUI.Services.Auth
             {
                 return new AuthUser(
                     userName,
-                    new UserDisplayName( "moderator" ),
+                    new UserDisplayName( "some user" ),
                     new UserRoles( Enumerable.Empty<string>() )
                     );
             }

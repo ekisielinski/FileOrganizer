@@ -20,7 +20,11 @@ namespace FileOrganizer.WebUI
 
         public void ConfigureServices( IServiceCollection services )
         {
-            services.AddRazorPages();
+            services.AddRazorPages( options =>
+            {
+                options.Conventions.AuthorizeFolder( "/" );
+            } );
+
             services.AddHttpContextAccessor();
 
             services.AddSingleton<IAppUserFinder, AppUserFinderMock>();

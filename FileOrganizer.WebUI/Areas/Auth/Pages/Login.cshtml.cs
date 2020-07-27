@@ -1,10 +1,12 @@
 using FileOrganizer.WebUI.Services.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 
 namespace FileOrganizer.WebUI.Areas.Auth.Pages
 {
+    [AllowAnonymous]
     public class LoginModel : PageModel
     {
         readonly IAuthService authService;
@@ -29,8 +31,11 @@ namespace FileOrganizer.WebUI.Areas.Auth.Pages
 
         //--- actions
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (authService.CurrentUser != null) return RedirectToPage( "Index" );
+
+            return Page();
         }
 
         public IActionResult OnPost()
