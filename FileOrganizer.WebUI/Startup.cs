@@ -2,7 +2,6 @@ using FileOrganizer.WebUI.DiSetup;
 using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -44,11 +43,6 @@ namespace FileOrganizer.WebUI
 
             app.UseEndpoints( ep =>
             {
-                ep.MapGet( "/", async context =>
-                {
-                    await context.Response.WriteAsync( "Hello World!" );
-                } );
-
                 ep.MapRazorPages();
             } );
         }

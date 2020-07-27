@@ -1,4 +1,4 @@
-﻿@page "/main"
+﻿@page
 @model FileOrganizer.WebUI.Pages.IndexModel
 @inject FileOrganizer.WebUI.Services.Auth.IAuthUserAccessor accessor
 
@@ -9,4 +9,8 @@
 else
 {
     <span>You are logged in as: <b>@accessor.CurrentUser</b></span>
+
+    <form method="post" asp-area="auth" asp-page="Logout">
+        <button type="submit">Logout</button>
+    </form>
 }

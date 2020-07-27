@@ -2,7 +2,7 @@
 @model FileOrganizer.WebUI.Areas.Auth.Pages.LoginModel
 
 <form method="post" asp-page="/login">
-    
+
     <div>
         <label asp-for="UserName">User</label>
         <input asp-for="UserName" autocomplete="off" />
@@ -21,7 +21,7 @@
 
 @if (Model.Error != null)
 {
-<div>
-    ERROR: @Model.Error
-</div>
+    <div>
+        ERROR: @Model.Error
+    </div>
 }

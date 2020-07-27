@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileOrganizer.WebUI", "FileOrganizer.WebUI\FileOrganizer.WebUI.csproj", "{D8CA8739-05FE-44F7-92E1-2BED921F3C2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileOrganizer.CommonUtils", "FileOrganizer.CommonUtils\FileOrganizer.CommonUtils.csproj", "{ACE6B497-2A7A-4672-A3BE-8EBAD63BCD07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileOrganizer.CommonUtils", "FileOrganizer.CommonUtils\FileOrganizer.CommonUtils.csproj", "{ACE6B497-2A7A-4672-A3BE-8EBAD63BCD07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

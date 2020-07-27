@@ -39,7 +39,7 @@ namespace FileOrganizer.WebUI.Areas.Auth.Pages
 
             if (authService.Login( new UserName( UserName! ), Password! ))
             {
-                return RedirectToPage( "/main" );
+                return RedirectToPage( "Index" );
             }
 
             Error = "Invalid credentials!";
