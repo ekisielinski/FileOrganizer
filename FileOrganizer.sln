@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileOrganizer.WebUI", "File
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileOrganizer.CommonUtils", "FileOrganizer.CommonUtils\FileOrganizer.CommonUtils.csproj", "{ACE6B497-2A7A-4672-A3BE-8EBAD63BCD07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileOrganizer.Core", "FileOrganizer.Core\FileOrganizer.Core.csproj", "{B0AD0863-2952-41AE-B1F0-46AC5C8D96DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{ACE6B497-2A7A-4672-A3BE-8EBAD63BCD07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACE6B497-2A7A-4672-A3BE-8EBAD63BCD07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACE6B497-2A7A-4672-A3BE-8EBAD63BCD07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0AD0863-2952-41AE-B1F0-46AC5C8D96DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0AD0863-2952-41AE-B1F0-46AC5C8D96DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0AD0863-2952-41AE-B1F0-46AC5C8D96DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0AD0863-2952-41AE-B1F0-46AC5C8D96DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
