@@ -3,7 +3,14 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    @if (ViewBag.Title is null)
+    {
+        <title>File Organizer</title>
+    }
+    else
+    {
+        <title>File Organizer - @ViewBag.Title</title>
+    }
     <link href="~/styles/site.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
