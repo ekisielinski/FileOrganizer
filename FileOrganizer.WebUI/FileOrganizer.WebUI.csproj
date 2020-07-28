@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FileOrganizer.CommonUtils\FileOrganizer.CommonUtils.csproj" />
+    <ProjectReference Include="..\FileOrganizer.Core\FileOrganizer.Core.csproj" />
   </ItemGroup>
 
 </Project>

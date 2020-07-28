@@ -1,3 +1,4 @@
+using FileOrganizer.Core.Services;
 using FileOrganizer.WebUI.DiSetup;
 using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.AspNetCore.Builder;
@@ -28,6 +29,7 @@ namespace FileOrganizer.WebUI
             services.AddHttpContextAccessor();
 
             services.AddSingleton<IAppUserFinder, AppUserFinderMock>();
+            services.AddSingleton<IFileUploader, InMemoryFileUploader>();
 
             ServicesInstallerHelper.InstallAll( services, Configuration, typeof( Startup ).Assembly );
         }
