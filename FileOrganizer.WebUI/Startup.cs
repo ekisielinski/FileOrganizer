@@ -21,6 +21,8 @@ namespace FileOrganizer.WebUI
 
         public void ConfigureServices( IServiceCollection services )
         {
+            //services.AddControllersWithViews(); // TODO: when it is required?
+
             services.AddRazorPages( options =>
             {
                 options.Conventions.AuthorizeFolder( "/" );
@@ -49,6 +51,7 @@ namespace FileOrganizer.WebUI
 
             app.UseEndpoints( ep =>
             {
+                ep.MapControllerRoute( name: "default", pattern: "{controller}/{action=Index}/{id?}" );
                 ep.MapRazorPages();
             } );
         }
