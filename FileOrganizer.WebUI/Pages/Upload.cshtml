@@ -3,4 +3,13 @@
 
 @{ ViewBag.Title = "Upload"; }
 
-Upload...
+<form method="post" asp-page="Upload" enctype="multipart/form-data">
+    <label asp-for="Files">Files to upload:</label>
+    <input multiple asp-for="Files"/>
+    <button type="submit">Upload</button>
+</form>
+
+@if (Model.Error != null)
+{
+    <p>ERROR: @Model.Error</p>
+}

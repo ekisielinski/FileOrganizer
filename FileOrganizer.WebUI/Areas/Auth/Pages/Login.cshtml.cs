@@ -31,7 +31,7 @@ namespace FileOrganizer.WebUI.Areas.Auth.Pages
 
         public string? Error { get; private set; }
 
-        //--- actions
+        //====== actions
 
         public IActionResult OnGet()
         {
