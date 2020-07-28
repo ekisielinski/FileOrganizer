@@ -60,9 +60,9 @@ namespace FileOrganizer.WebUI.Services.Auth
                 new Claim( ClaimTypes.Name, appUser.DisplayName.Value ),
             };
 
-            foreach (string role in appUser.Roles.Roles)
+            foreach (string role in appUser.Roles.Items)
             {
-              //  userClaims.Add( new Claim( ClaimTypes.Role, role ) );
+                userClaims.Add( new Claim( ClaimTypes.Role, role ) );
             }
 
             var identity = new ClaimsIdentity( userClaims, "CookieAuthentication" );

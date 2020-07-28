@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FileOrganizer.WebUI.Areas.Auth.Pages
 {
+    // TODO: add return Url
+
     [AllowAnonymous]
     public class LoginModel : PageModel
     {

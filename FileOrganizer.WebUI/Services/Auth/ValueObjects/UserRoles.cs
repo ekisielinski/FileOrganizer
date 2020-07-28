@@ -12,18 +12,20 @@ namespace FileOrganizer.WebUI.Services.Auth
 
         public UserRoles( IEnumerable<string> roles )
         {
-            Roles = roles.ToList(); // TODO: needs validation, sorting, normalization?
+            Items = roles.Select( x => x.ToLowerInvariant())
+                         .OrderBy( x => x)
+                         .ToList(); // TODO: needs validation, normalization?
         }
 
         //====== public properties
 
-        public IReadOnlyList<string> Roles { get; }
+        public IReadOnlyList<string> Items { get; }
 
-        public bool IsAdministrator => Roles.Contains( Administrator );
-        public bool IsModerator     => Roles.Contains( Moderator );
+        public bool IsAdministrator => Items.Contains( Administrator );
+        public bool IsModerator     => Items.Contains( Moderator );
 
         //===== override: Object
 
-        public override string ToString() => string.Join( " | ", Roles );
+        public override string ToString() => string.Join( " | ", Items );
     }
 }
