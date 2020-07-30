@@ -14,4 +14,9 @@
     <ProjectReference Include="..\FileOrganizer.Core\FileOrganizer.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Database\Files\" />
+    <Folder Include="Database\Thumbs\" />
+  </ItemGroup>
+
 </Project>

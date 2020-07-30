@@ -1,4 +1,6 @@
-﻿using FileOrganizer.Services.FileDatabase;
+﻿using FileOrganizer.Core;
+using FileOrganizer.Core.Services;
+using FileOrganizer.Services.FileDatabase;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,8 +20,15 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
                 return new PhysicalFileDatabase( databaseRootPath );
             } );
 
-            services.AddScoped<IFileDatabase>( sp => sp.GetService<PhysicalFileDatabase>() );
-            services.AddScoped<IFileDatabaseReader>( sp => sp.GetService<PhysicalFileDatabase>() );
+            services.AddTransient<IFileDatabase>( sp => sp.GetService<PhysicalFileDatabase>() );
+            services.AddTransient<IFileDatabaseReader>( sp => sp.GetService<PhysicalFileDatabase>() );
+
+            //--- uploader
+
+            services.AddSingleton<IFileUploader>( sp => new InMemoryFileUploader(
+                sp.GetService<IFileDatabase>(),
+                sp.GetService<ITimestampGenerator>()
+                ) );
         }
     }
 }

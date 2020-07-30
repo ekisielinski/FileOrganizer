@@ -31,6 +31,8 @@ namespace FileOrganizer.WebUI.Pages
 
                     fileUploader.Upload( stream, new MimeType( file.ContentType ), file.FileName );
                 }
+
+                return;
             }
 
             Error = "Select at least one file.";
