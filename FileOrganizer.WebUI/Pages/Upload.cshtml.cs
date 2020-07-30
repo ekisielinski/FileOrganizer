@@ -20,22 +20,26 @@ namespace FileOrganizer.WebUI.Pages
 
         }
 
-        public void OnPost([FromServices] IFileUploader fileUploader )
+        public IActionResult OnPost([FromServices] IFileUploader fileUploader )
         {
             if (Files?.Count > 0)
             {
+                FileId? lastFileId = null;
+
                 foreach( IFormFile file in Files)
                 {
                     using var stream = file.OpenReadStream(); // TODO: is dispose neccessary?
                     // TODO: file.Length, avoid big files
 
-                    fileUploader.Upload( stream, new MimeType( file.ContentType ), file.FileName );
+                    lastFileId = fileUploader.Upload( stream, new MimeType( file.ContentType ), file.FileName );
                 }
 
-                return;
+                return RedirectToPage( "View", new { fileId = lastFileId!.Value } );
             }
 
             Error = "Select at least one file.";
+
+            return Page();
         }
     }
 }

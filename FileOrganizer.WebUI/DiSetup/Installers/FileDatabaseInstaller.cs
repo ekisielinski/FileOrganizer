@@ -25,10 +25,12 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
 
             //--- uploader
 
-            services.AddSingleton<IFileUploader>( sp => new InMemoryFileUploader(
+            services.AddSingleton<InMemoryFileUploader>( sp => new InMemoryFileUploader(
                 sp.GetService<IFileDatabase>(),
                 sp.GetService<ITimestampGenerator>()
                 ) );
+
+            services.AddTransient<IFileUploader>( sp => sp.GetService<InMemoryFileUploader>() );
         }
     }
 }

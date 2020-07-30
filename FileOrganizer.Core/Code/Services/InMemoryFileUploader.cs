@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace FileOrganizer.Core.Services
 {
-    public sealed class InMemoryFileUploader : IFileUploader
+    public sealed class InMemoryFileUploader : IFileUploader, IFileDetailsReader
     {
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
@@ -33,7 +33,7 @@ namespace FileOrganizer.Core.Services
             fileDatabase.GetStorage( FileDatabaseFolder.Files )
                         .Create( content, new FileName( newFileName ) );
 
-            int id = items.LastOrDefault()?.Id ?? 1;
+            int id = (items.LastOrDefault()?.Id ?? 0) + 1;
 
             items.Add( new Entry
             {
@@ -45,6 +45,21 @@ namespace FileOrganizer.Core.Services
             } );
 
             return new FileId( id );
+        }
+
+        //====== IFileDetailsReader
+
+        public FileDetails? GetFileDetailsById( FileId fileId )
+        {
+            Entry entry = items.FirstOrDefault( x => x.Id == fileId.Value );
+
+            if (entry is null) return null;
+
+            return new FileDetails
+            {
+                FileId = fileId,
+                FileNameInDatabase = entry.FileNameInDatabase
+            };
         }
 
         //====== private methods
