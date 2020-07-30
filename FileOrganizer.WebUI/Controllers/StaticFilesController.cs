@@ -1,10 +1,9 @@
 ﻿using FileOrganizer.CommonUtils;
+using FileOrganizer.Services.FileDatabase;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
-using System.Linq;
 
 namespace FileOrganizer.WebUI.Controllers
 {
@@ -12,32 +11,29 @@ namespace FileOrganizer.WebUI.Controllers
     [Authorize]
     public class StaticFilesController : Controller
     {
-        readonly IWebHostEnvironment webHostEnvironment;
+        readonly IFileDatabaseReader reader;
 
         //====== ctors
 
-        public StaticFilesController( IWebHostEnvironment webHostEnvironment )
+        public StaticFilesController( IFileDatabaseReader reader )
         {
-            this.webHostEnvironment = Guard.NotNull( webHostEnvironment, nameof( webHostEnvironment ) );
+            this.reader = Guard.NotNull( reader, nameof( reader ) );
         }
-
-        //====== private properties
-
-        private IDirectoryContents FilesDir  => webHostEnvironment.ContentRootFileProvider.GetDirectoryContents( "/Database/Files" );
-        private IDirectoryContents ThumbsDir => webHostEnvironment.ContentRootFileProvider.GetDirectoryContents( "/Database/Thumbs" );
 
         //====== actions
 
         public IActionResult File( string fileName )
         {
-            IFileInfo file = FilesDir.FirstOrDefault( x => x.Name == fileName );
+            IFileInfo file = reader.GetStorageReader( FileDatabaseFolder.Files )
+                                   .Get( new FileName( fileName ));
 
             return FileInfoToActionResult( file );
         }
 
         public IActionResult Thumb( string fileName )
         {
-            IFileInfo file = ThumbsDir.FirstOrDefault( x => x.Name == fileName );
+            IFileInfo file = reader.GetStorageReader( FileDatabaseFolder.Thumbs )
+                                   .Get( new FileName( fileName ));
 
             return FileInfoToActionResult( file );
         }
@@ -46,7 +42,7 @@ namespace FileOrganizer.WebUI.Controllers
 
         private IActionResult FileInfoToActionResult( IFileInfo file )
         {
-            if (file is null) return NotFound();
+            if (!file.Exists) return NotFound();
 
             // TODO: should return file if mime type is supported by the browser, othwerise should return fixed icon(?)
 
