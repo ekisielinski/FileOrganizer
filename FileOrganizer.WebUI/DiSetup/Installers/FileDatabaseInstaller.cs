@@ -14,23 +14,23 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
         {
             services.AddSingleton<PhysicalFileDatabase>( sp =>
             {
-                string contentRootPath = sp.GetService<IHostEnvironment>().ContentRootPath;
+                string contentRootPath = sp.GetRequiredService<IHostEnvironment>().ContentRootPath;
                 string databaseRootPath = Path.Combine( contentRootPath, "Database" );
 
                 return new PhysicalFileDatabase( databaseRootPath );
             } );
 
-            services.AddTransient<IFileDatabase>( sp => sp.GetService<PhysicalFileDatabase>() );
-            services.AddTransient<IFileDatabaseReader>( sp => sp.GetService<PhysicalFileDatabase>() );
+            services.AddTransient<IFileDatabase>( sp => sp.GetRequiredService<PhysicalFileDatabase>() );
+            services.AddTransient<IFileDatabaseReader>( sp => sp.GetRequiredService<PhysicalFileDatabase>() );
 
             //--- uploader
 
             services.AddSingleton<InMemoryFileUploader>( sp => new InMemoryFileUploader(
-                sp.GetService<IFileDatabase>(),
-                sp.GetService<ITimestampGenerator>()
+                sp.GetRequiredService<IFileDatabase>(),
+                sp.GetRequiredService<ITimestampGenerator>()
                 ) );
 
-            services.AddTransient<IFileUploader>( sp => sp.GetService<InMemoryFileUploader>() );
+            services.AddTransient<IFileUploader>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
         }
     }
 }
