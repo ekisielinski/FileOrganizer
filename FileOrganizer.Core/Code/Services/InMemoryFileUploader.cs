@@ -7,12 +7,17 @@ using System.Linq;
 
 namespace FileOrganizer.Core.Services
 {
+    // TODO: this class is temporary
+
     public sealed class InMemoryFileUploader : IFileUploader, IFileDetailsReader
     {
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
 
         readonly List<Entry> items = new List<Entry>();
+
+        int uploadId = -1;
+        int fileId = -1;
 
         //====== ctors
 
@@ -24,27 +29,35 @@ namespace FileOrganizer.Core.Services
 
         //====== IFileUploader
 
-        public FileId Upload( Stream content, MimeType mimeType, string? fileName )
+        public UploadResult Upload( UploadInfo[] uploads )
         {
-            UtcTimestamp timestamp = timestampGenerator.UtcNow;
+            uploadId++;
 
-            string newFileName = MakeRandomFileName( fileName, timestamp );
-
-            fileDatabase.GetStorage( FileDatabaseFolder.Files )
-                        .Create( content, new FileName( newFileName ) );
-
-            int id = (items.LastOrDefault()?.Id ?? 0) + 1;
-
-            items.Add( new Entry
+            foreach (UploadInfo upload in uploads)
             {
-                Id                 = id,
-                MimeType           = mimeType,
-                FileName           = fileName,
-                WhenAdded          = timestamp,
-                FileNameInDatabase = newFileName
-            } );
+                UtcTimestamp timestamp = timestampGenerator.UtcNow;
 
-            return new FileId( id );
+                string newFileName = MakeRandomFileName( upload.FileName, timestamp );
+
+                fileDatabase.GetStorage( FileDatabaseFolder.Files )
+                            .Create( upload.Content, new FileName( newFileName ) );
+
+                fileId++;
+
+                items.Add( new Entry
+                {
+                    Id                 = fileId,
+                    UploadId           = uploadId,
+                    MimeType           = upload.MimeType,
+                    FileName           = upload.FileName,
+                    WhenAdded          = timestamp,
+                    FileNameInDatabase = newFileName
+                } );
+            }
+
+            IEnumerable<FileId> fileIds = items.Where( x => x.UploadId == uploadId ).Select( x => new FileId( x.Id ) );
+
+            return new UploadResult( new UploadId( uploadId ), fileIds );
         }
 
         //====== IFileDetailsReader
@@ -60,6 +73,13 @@ namespace FileOrganizer.Core.Services
                 FileId = fileId,
                 FileNameInDatabase = entry.FileNameInDatabase
             };
+        }
+
+        public IReadOnlyList<FileDetails> GetFileDetailsByUploadId( UploadId uploadId )
+        {
+            IEnumerable<FileId> fileIds = items.Where( x => x.UploadId == uploadId.Value ).Select( x => new FileId( x.Id ) );
+
+            return fileIds.Select( GetFileDetailsById ).ToList();
         }
 
         //====== private methods
@@ -79,6 +99,7 @@ namespace FileOrganizer.Core.Services
         private sealed class Entry
         {
             public int          Id                 { get; set; } = -1;
+            public int          UploadId           { get; set; } = -1;
             public MimeType     MimeType           { get; set; } = MimeType.Unknown;
             public string?      FileName           { get; set; } = null;
             public UtcTimestamp WhenAdded          { get; set; } = new UtcTimestamp( DateTime.UtcNow );

@@ -1,5 +1,6 @@
 ﻿using FileOrganizer.Core.Services;
-using FileOrganizer.WebUI.Controllers;
+using FileOrganizer.Services.FileDatabase;
+using FileOrganizer.WebUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,16 +13,15 @@ namespace FileOrganizer.WebUI.Pages
 
         //====== actions
 
-        public IActionResult OnGet( int fileId, [FromServices] IFileDetailsReader reader  )
+        public IActionResult OnGet( int fileId,
+            [FromServices] IFileDetailsReader fileDetailsReader,
+            [FromServices] IStaticFilesLinkGenerator linkGenerator)
         {
-            FileDetails? details = reader.GetFileDetailsById( new FileId( fileId ) );
+            FileDetails? details = fileDetailsReader.GetFileDetailsById( new FileId( fileId ) );
 
             if (details is null) return NotFound();
 
-            FilePath = Url.ActionLink(
-                action: nameof( StaticFilesController.File ),
-                controller: "StaticFiles", // TODO: controller name utils
-                values: new { fileName = details.FileNameInDatabase } );
+            FilePath = linkGenerator.GetDatabaseFilePath( new FileName( details.FileNameInDatabase ), FileDatabaseFolder.Files );
 
             return Page();
         }

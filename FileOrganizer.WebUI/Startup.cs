@@ -1,6 +1,7 @@
 using FileOrganizer.Core;
 using FileOrganizer.Core.Services;
 using FileOrganizer.WebUI.DiSetup;
+using FileOrganizer.WebUI.Services;
 using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +34,8 @@ namespace FileOrganizer.WebUI
 
             services.AddSingleton<IAppUserFinder, AppUserFinderMock>();
             services.AddTransient<ITimestampGenerator, SystemTimestampGenerator>();
-            services.AddTransient<IFileDetailsReader>( sp => sp.GetService<InMemoryFileUploader>() );
+            services.AddTransient<IFileDetailsReader>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
+            services.AddTransient<IStaticFilesLinkGenerator, StaticFilesLinkGenerator>();
 
             ServicesInstallerHelper.InstallAll( services, Configuration, typeof( Startup ).Assembly );
         }

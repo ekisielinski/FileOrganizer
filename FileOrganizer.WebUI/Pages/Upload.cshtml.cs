@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Linq;
+
 namespace FileOrganizer.WebUI.Pages
 {
     public class UploadModel : PageModel
@@ -24,17 +26,20 @@ namespace FileOrganizer.WebUI.Pages
         {
             if (Files?.Count > 0)
             {
-                FileId? lastFileId = null;
+                UploadInfo[] uploads = Files
+                    .Select( x => new UploadInfo( x.OpenReadStream(), new MimeType( x.ContentType ), x.FileName ) )
+                    .ToArray();
 
-                foreach( IFormFile file in Files)
+                // TODO: should we dispose streams after upload?
+
+                UploadResult result = fileUploader.Upload( uploads );
+
+                if (result.FileIds.Count == 1)
                 {
-                    using var stream = file.OpenReadStream(); // TODO: is dispose neccessary?
-                    // TODO: file.Length, avoid big files
-
-                    lastFileId = fileUploader.Upload( stream, new MimeType( file.ContentType ), file.FileName );
+                    return RedirectToPage( "View", new { fileId = result.FileIds[0].Value } );
                 }
 
-                return RedirectToPage( "View", new { fileId = lastFileId!.Value } );
+                return RedirectToPage( "UploadResult", new { uploadId = result.Id.Value } );
             }
 
             Error = "Select at least one file.";

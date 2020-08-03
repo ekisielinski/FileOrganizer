@@ -1,0 +1,11 @@
+﻿@page
+@model FileOrganizer.WebUI.Pages.UploadResultModel
+
+<p>Uploaded files: @Model.Files.Count</p>
+
+@foreach (var file in Model.Files)
+{
+<a asp-page="View" asp-route-fileid="@file.FileId.Value">
+    <img width="250" src="@Model.GetFilePath( file )" />
+</a>
+}
