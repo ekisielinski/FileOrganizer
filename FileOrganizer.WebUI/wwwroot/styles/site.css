@@ -3,3 +3,13 @@
     font-family: Calibri;
     background-color: #FDFDFD;
 }
+
+.thumb-link
+{
+    text-decoration: none;
+}
+
+.thumb-link:hover img
+{
+    outline: 3px solid green;
+}
