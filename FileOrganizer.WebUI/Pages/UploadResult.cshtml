@@ -6,6 +6,6 @@
 @foreach (var file in Model.Files)
 {
 <a asp-page="View" asp-route-fileid="@file.FileId.Value" class="thumb-link">
-    <img width="250" src="@Model.GetFilePath( file )" />
+    <img width="250" src="@Model.GetThumbFilePath( file )" />
 </a>
 }

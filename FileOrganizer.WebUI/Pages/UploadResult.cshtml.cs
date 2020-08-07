@@ -34,11 +34,9 @@ namespace FileOrganizer.WebUI.Pages
 
         //====== public methods
 
-        public string GetFilePath( FileDetails fileDetails )
+        public string GetThumbFilePath( FileDetails fileDetails )
         {
-            var fileName = new FileName (fileDetails.FileNameInDatabase);
-
-            return linkGenerator.GetDatabaseFilePath( fileName, FileDatabaseFolder.Files );
+            return linkGenerator.GetDatabaseFilePath( fileDetails.DatabaseFiles.Thumbnail, FileDatabaseFolder.Thumbs );
         }
     }
 }

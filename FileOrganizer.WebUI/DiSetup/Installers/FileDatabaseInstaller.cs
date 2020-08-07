@@ -27,7 +27,8 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
 
             services.AddSingleton<InMemoryFileUploader>( sp => new InMemoryFileUploader(
                 sp.GetRequiredService<IFileDatabase>(),
-                sp.GetRequiredService<ITimestampGenerator>()
+                sp.GetRequiredService<ITimestampGenerator>(),
+                sp.GetRequiredService<IThumbnailsMaker>()
                 ) );
 
             services.AddTransient<IFileUploader>( sp => sp.GetRequiredService<InMemoryFileUploader>() );

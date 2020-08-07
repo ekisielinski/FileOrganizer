@@ -21,7 +21,7 @@ namespace FileOrganizer.WebUI.Pages
 
             if (details is null) return NotFound();
 
-            FilePath = linkGenerator.GetDatabaseFilePath( new FileName( details.FileNameInDatabase ), FileDatabaseFolder.Files );
+            FilePath = linkGenerator.GetDatabaseFilePath( details.DatabaseFiles.Source , FileDatabaseFolder.Files );
 
             return Page();
         }
