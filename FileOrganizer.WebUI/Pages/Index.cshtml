@@ -1,16 +1,4 @@
 ﻿@page
 @model FileOrganizer.WebUI.Pages.IndexModel
-@inject FileOrganizer.WebUI.Services.Auth.IAuthUserAccessor accessor
 
-@if (accessor.CurrentUser is null)
-{
-    <span>You are not logged in.</span>
-}
-else
-{
-    <span>You are logged in as: <b>@accessor.CurrentUser</b></span>
-
-    <form method="post" asp-area="Auth" asp-page="Logout">
-        <button type="submit">Logout</button>
-    </form>
-}
+<p>Index page...</p>

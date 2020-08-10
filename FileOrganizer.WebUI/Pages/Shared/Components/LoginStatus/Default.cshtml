@@ -1,0 +1,14 @@
+﻿@model FileOrganizer.WebUI.Services.Auth.AuthUser?
+
+@if (Model is null)
+{
+    <span>You are not logged in.</span>
+}
+else
+{
+    <span>You are logged in as: <b>@Model</b></span>
+
+    <form method="post" asp-area="Auth" asp-page="Logout">
+        <button type="submit">Logout</button>
+    </form>
+}
