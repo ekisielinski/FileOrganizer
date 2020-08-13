@@ -5,7 +5,14 @@
 
 <form method="post" asp-page="Upload" enctype="multipart/form-data">
     <label asp-for="Files">Files to upload:</label>
-    <input multiple asp-for="Files"/>
+    <br />
+    <input multiple asp-for="Files" />
+    <br />
+    <label asp-for="Description">Description:</label>
+    <br />
+    <textarea asp-for="Description"></textarea>
+    <br />
+    <br />
     <button type="submit">Upload</button>
 </form>
 

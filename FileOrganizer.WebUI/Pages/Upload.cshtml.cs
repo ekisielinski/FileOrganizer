@@ -11,6 +11,9 @@ namespace FileOrganizer.WebUI.Pages
         [BindProperty]
         public IFormFileCollection? Files { get; set; }
 
+        [BindProperty]
+        public string? Description { get; set; }
+
         //---
 
         public string? Error { get; private set; }
@@ -22,7 +25,7 @@ namespace FileOrganizer.WebUI.Pages
 
         }
 
-        public IActionResult OnPost([FromServices] IFileUploader fileUploader )
+        public IActionResult OnPost( [FromServices] IFileUploader fileUploader, [FromServices] IFileDetailsReader reader )
         {
             if (Files?.Count > 0)
             {
@@ -32,11 +35,13 @@ namespace FileOrganizer.WebUI.Pages
 
                 // TODO: should we dispose streams after upload?
 
-                UploadResult result = fileUploader.Upload( uploads );
+                UploadId uploadId = fileUploader.Upload( uploads, Description );
 
-                if (result.FileIds.Count == 1)
+                var result = reader.GetUploadDetails( uploadId );
+
+                if (result.Files.Count == 1)
                 {
-                    return RedirectToPage( "View", new { fileId = result.FileIds[0].Value } );
+                    return RedirectToPage( "View", new { fileId = result.Files[0].FileId.Value } );
                 }
 
                 return RedirectToPage( "UploadResult", new { uploadId = result.Id.Value } );

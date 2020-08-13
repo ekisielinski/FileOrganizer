@@ -17,9 +17,10 @@ namespace FileOrganizer.Core.Services
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
         readonly IThumbnailsMaker thumbnailsMaker;
-
-        readonly List<Entry> items = new List<Entry>();
         
+        readonly List<UploadEntry> uploads = new List<UploadEntry>();
+        readonly List<FileEntry> files = new List<FileEntry>();
+
         int uploadId = -1;
         int fileId = -1;
 
@@ -27,16 +28,18 @@ namespace FileOrganizer.Core.Services
 
         public InMemoryFileUploader( IFileDatabase fileDatabase, ITimestampGenerator timestampGenerator, IThumbnailsMaker thumbnailsMaker )
         {
-            this.fileDatabase = Guard.NotNull( fileDatabase, nameof( fileDatabase ) );
+            this.fileDatabase       = Guard.NotNull( fileDatabase, nameof( fileDatabase ) );
             this.timestampGenerator = Guard.NotNull( timestampGenerator, nameof( timestampGenerator ) );
-            this.thumbnailsMaker = Guard.NotNull( thumbnailsMaker, nameof( thumbnailsMaker ) );
+            this.thumbnailsMaker    = Guard.NotNull( thumbnailsMaker, nameof( thumbnailsMaker ) );
         }
 
         //====== IFileUploader
 
-        public UploadResult Upload( UploadInfo[] uploads )
+        public UploadId Upload( UploadInfo[] uploads, string? description )
         {
             uploadId++;
+
+            var tempFiles = new List<FileEntry>();
 
             foreach (UploadInfo upload in uploads)
             {
@@ -51,10 +54,10 @@ namespace FileOrganizer.Core.Services
 
                 fileId++;
 
-                items.Add( new Entry
+                tempFiles.Add( new FileEntry
                 {
                     Id            = fileId,
-                    UploadId      = uploadId,
+                    UploadId      = new UploadId( uploadId ),
                     MimeType      = upload.MimeType,
                     FileName      = upload.FileName,
                     WhenAdded     = timestamp,
@@ -62,16 +65,24 @@ namespace FileOrganizer.Core.Services
                 } );
             }
 
-            IEnumerable<FileId> fileIds = items.Where( x => x.UploadId == uploadId ).Select( x => new FileId( x.Id ) );
+            files.AddRange( tempFiles );
 
-            return new UploadResult( new UploadId( uploadId ), fileIds );
+            var fileDetailsList = tempFiles.Select( x => GetFileDetailsById( new FileId( x.Id ) ) );
+
+            this.uploads.Add( new UploadEntry
+            {
+                Id = new UploadId( uploadId ),
+                Description = description ?? string.Empty
+            } );
+
+            return new UploadId( uploadId );
         }
 
         //====== IFileDetailsReader
 
         public FileDetails? GetFileDetailsById( FileId fileId )
         {
-            Entry entry = items.FirstOrDefault( x => x.Id == fileId.Value );
+            FileEntry entry = files.FirstOrDefault( x => x.Id == fileId.Value );
 
             if (entry is null) return null;
 
@@ -82,11 +93,17 @@ namespace FileOrganizer.Core.Services
             };
         }
 
-        public IReadOnlyList<FileDetails> GetFileDetailsByUploadId( UploadId uploadId )
+        public UploadDetails? GetUploadDetails( UploadId uploadId )
         {
-            IEnumerable<FileId> fileIds = items.Where( x => x.UploadId == uploadId.Value ).Select( x => new FileId( x.Id ) );
+            var upload = uploads.FirstOrDefault( x => x.Id.Value == uploadId.Value);
+            
+            if (upload is null) return null;
 
-            return fileIds.Select( GetFileDetailsById ).ToList();
+            IEnumerable<FileDetails> fileDetailsList = files
+                .Where( x => x.UploadId.Value == uploadId.Value)
+                .Select( x => GetFileDetailsById( new FileId( x.Id ))!);
+
+            return new UploadDetails( uploadId, fileDetailsList, upload.Description );
         }
 
         //====== private methods
@@ -121,14 +138,20 @@ namespace FileOrganizer.Core.Services
 
         //====== helper class
 
-        private sealed class Entry
+        private sealed class FileEntry
         {
             public int           Id            { get; set; } = -1;
-            public int           UploadId      { get; set; } = -1;
+            public UploadId      UploadId      { get; set; }
             public MimeType      MimeType      { get; set; } = MimeType.Unknown;
             public string?       FileName      { get; set; } = null;
             public UtcTimestamp  WhenAdded     { get; set; } = new UtcTimestamp( DateTime.UtcNow );
             public DatabaseFiles DatabaseFiles { get; set; }
+        }
+
+        public sealed class UploadEntry
+        {
+            public UploadId Id { get; set; }
+            public string Description { get; set; } = string.Empty;
         }
     }
 }

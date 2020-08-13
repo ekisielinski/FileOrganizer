@@ -6,6 +6,6 @@ namespace FileOrganizer.Core.Services
     {
         FileDetails? GetFileDetailsById( FileId fileId );
 
-        IReadOnlyList<FileDetails> GetFileDetailsByUploadId( UploadId uploadId );
+        UploadDetails? GetUploadDetails( UploadId uploadId );
     }
 }

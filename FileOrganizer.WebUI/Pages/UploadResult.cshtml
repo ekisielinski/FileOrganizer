@@ -1,9 +1,14 @@
-﻿@page
+﻿@page "/upload/{uploadId}"
 @model FileOrganizer.WebUI.Pages.UploadResultModel
 
-<p>Uploaded files: @Model.Files.Count</p>
+<p>Uploaded files: @Model.UploadDetails.Files.Count</p>
 
-@foreach (var file in Model.Files)
+<p>
+    Description:<br />
+    @Model.UploadDetails.Description
+</p>
+
+@foreach (var file in Model.UploadDetails.Files)
 {
 <a asp-page="View" asp-route-fileid="@file.FileId.Value" class="thumb-link">
     <img width="250" src="@Model.GetThumbFilePath( file )" />

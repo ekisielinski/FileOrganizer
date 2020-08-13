@@ -4,7 +4,6 @@ using FileOrganizer.Services.FileDatabase;
 using FileOrganizer.WebUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
 
 namespace FileOrganizer.WebUI.Pages
 {
@@ -12,7 +11,7 @@ namespace FileOrganizer.WebUI.Pages
     {
         readonly IStaticFilesLinkGenerator linkGenerator;
 
-        public IReadOnlyList<FileDetails>? Files { get; private set; }
+        public UploadDetails UploadDetails { get; private set; }
 
         //====== ctors
 
@@ -25,9 +24,9 @@ namespace FileOrganizer.WebUI.Pages
 
         public IActionResult OnGet( int uploadId, [FromServices] IFileDetailsReader reader )
         {
-            Files = reader.GetFileDetailsByUploadId( new UploadId( uploadId ) );
+            UploadDetails = reader.GetUploadDetails( new UploadId( uploadId ) );
 
-            if (Files.Count == 0) return NotFound();
+            if (UploadDetails is null) return NotFound();
 
             return Page();
         }
