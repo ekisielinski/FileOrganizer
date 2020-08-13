@@ -36,20 +36,20 @@ namespace FileOrganizer.Core.Services
 
         //====== IFileUploader
 
-        public UploadId Upload( UploadInfo[] uploads, UploadDescription description )
+        public UploadId Upload( UploadParameters parameters )
         {
             uploadId++;
 
             var tempFiles = new List<FileEntry>();
 
-            foreach (UploadInfo upload in uploads)
+            foreach (SourceFile sourceFile in parameters.SourceFiles)
             {
                 UtcTimestamp timestamp = timestampGenerator.UtcNow;
 
-                string newFileName = MakeRandomFileName( upload.FileName, timestamp );
+                string newFileName = MakeRandomFileName( sourceFile.OrginalFileName, timestamp );
 
                 IFileInfo fileInfo = fileDatabase.GetStorage( FileDatabaseFolder.Files )
-                                                 .Create( upload.Content, new FileName( newFileName ) );
+                                                 .Create( sourceFile.Content, new FileName( newFileName ) );
 
                 string thumbFileName = CreateThumbnail( fileInfo, timestamp );
 
@@ -59,11 +59,11 @@ namespace FileOrganizer.Core.Services
                 {
                     Id            = fileId,
                     UploadId      = new UploadId( uploadId ),
-                    MimeType      = upload.MimeType,
-                    FileName      = upload.FileName,
+                    MimeType      = sourceFile.MimeType,
+                    FileName      = sourceFile.OrginalFileName,
                     WhenAdded     = timestamp,
                     DatabaseFiles = new DatabaseFiles( new FileName( newFileName ), new FileName( thumbFileName ) ),
-                    Size          = new DataSize( upload.Content.Length ),
+                    Size          = new DataSize( sourceFile.Content.Length ),
                 } );
             }
 
@@ -74,7 +74,7 @@ namespace FileOrganizer.Core.Services
             this.uploads.Add( new UploadEntry
             {
                 Id = new UploadId( uploadId ),
-                Description = description
+                Description = parameters.Description
             } );
 
             return new UploadId( uploadId );

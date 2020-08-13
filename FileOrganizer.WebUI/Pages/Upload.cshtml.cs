@@ -30,13 +30,15 @@ namespace FileOrganizer.WebUI.Pages
         {
             if (Files?.Count > 0)
             {
-                UploadInfo[] uploads = Files
-                    .Select( x => new UploadInfo( x.OpenReadStream(), new MimeType( x.ContentType ), x.FileName ) )
+                SourceFile[] uploads = Files
+                    .Select( x => new SourceFile( x.OpenReadStream(), new MimeType( x.ContentType ), x.FileName ) )
                     .ToArray();
 
                 // TODO: should we dispose streams after upload?
 
-                UploadId uploadId = fileUploader.Upload( uploads, new UploadDescription( Description ?? string.Empty ) );
+                var parameters = new UploadParameters( uploads, new UploadDescription( Description ?? string.Empty ) );
+
+                UploadId uploadId = fileUploader.Upload( parameters );
 
                 var result = reader.GetUploadDetails( uploadId );
 
