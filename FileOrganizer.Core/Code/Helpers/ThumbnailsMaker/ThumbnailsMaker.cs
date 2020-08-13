@@ -1,31 +1,23 @@
-﻿using System;
+﻿using Microsoft.Extensions.FileProviders;
 using System.Drawing;
+using System;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.IO;
 
-namespace FileOrganizer.Core.Utils
+namespace FileOrganizer.Core.Helpers
 {
-    public static class ImageThumbnailsMaker
+    public sealed class ThumbnailsMaker : IThumbnailsMaker
     {
-        public static Image? MakeThumb( Stream imageData, Size size )
+        public Image MakeThumb( IFileInfo fileInfo, Size size )
         {
-            try
-            {
-                using Image srcImage = Image.FromStream( imageData );
+            using var stream = fileInfo.CreateReadStream();
+            using Image srcImage = Image.FromStream( stream );
 
-                Size newSize  = ResizeKeepAspect( srcImage.Size, size.Width, size.Height, true );
+            Size newSize  = ResizeKeepAspect( srcImage.Size, size.Width, size.Height, true );
 
-                Image thumbnail = ResizeImage (srcImage, newSize.Width, newSize.Height);
-
-                return thumbnail;
-            }
-            catch
-            {
-                return null;
-            }
+            return ResizeImage( srcImage, newSize.Width, newSize.Height );
         }
-
+        
         //====== from StackOverflow
 
         private static Bitmap ResizeImage( Image image, int newWidth, int newHeight )
