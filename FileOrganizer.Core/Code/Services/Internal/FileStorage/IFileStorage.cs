@@ -1,8 +1,7 @@
-﻿using FileOrganizer.Core;
-using Microsoft.Extensions.FileProviders;
+﻿using Microsoft.Extensions.FileProviders;
 using System.IO;
 
-namespace FileOrganizer.Services.FileDatabase
+namespace FileOrganizer.Core.Services.Internal
 {
     public interface IFileStorage : IFileStorageReader
     {

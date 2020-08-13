@@ -1,10 +1,9 @@
 ﻿using FileOrganizer.CommonUtils;
-using FileOrganizer.Core;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.FileProviders.Physical;
 using System.IO;
 
-namespace FileOrganizer.Services.FileDatabase
+namespace FileOrganizer.Core.Services.Internal
 {
     public sealed class PhysicalFileStorage : IFileStorage
     {
@@ -12,20 +11,21 @@ namespace FileOrganizer.Services.FileDatabase
 
         //====== ctors
 
-        public PhysicalFileStorage( string rootDirPath )
+        public PhysicalFileStorage( DirectoryFullPath root )
         {
-            Guard.NotNull( rootDirPath, nameof( rootDirPath ) );
+            Guard.NotNull( root, nameof( root ) );
 
-            provider = new PhysicalFileProvider( rootDirPath );
+            provider = new PhysicalFileProvider( root.Value );
         }
 
         //====== IFileStorage
 
         public IFileInfo Create( Stream stream, FileName fileName )
         {
+            Guard.NotNull( stream, nameof( stream ) );
             Guard.NotNull( fileName, nameof( fileName ) );
 
-            Directory.CreateDirectory( Path.GetDirectoryName( provider.Root ) );
+            Directory.CreateDirectory( provider.Root );
 
             string filePath = Path.Combine( provider.Root, fileName.Value );
 

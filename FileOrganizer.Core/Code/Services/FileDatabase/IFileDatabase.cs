@@ -1,4 +1,6 @@
-﻿namespace FileOrganizer.Services.FileDatabase
+﻿using FileOrganizer.Core.Services.Internal;
+
+namespace FileOrganizer.Services.FileDatabase
 {
     public interface IFileDatabase : IFileDatabaseReader
     {

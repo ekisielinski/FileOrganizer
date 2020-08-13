@@ -1,4 +1,6 @@
 ﻿using FileOrganizer.CommonUtils;
+using FileOrganizer.Core;
+using FileOrganizer.Core.Services.Internal;
 using System;
 using System.IO;
 
@@ -27,15 +29,17 @@ namespace FileOrganizer.Services.FileDatabase
 
         //====== private methods
 
-        private string GetFolderFullPath( FileDatabaseFolder folder )
+        private DirectoryFullPath GetFolderFullPath( FileDatabaseFolder folder )
         {
-            return Path.Combine( rootPath, folder switch
+            string dirPath = Path.Combine( rootPath, folder switch
             {
                 FileDatabaseFolder.Files  => "Files",
                 FileDatabaseFolder.Thumbs => "Thumbs",
 
                 _ => throw new ArgumentException( "Invalid enum value.", nameof( folder ) )
             } );
+
+            return new DirectoryFullPath( dirPath );
         }
     }
 }
