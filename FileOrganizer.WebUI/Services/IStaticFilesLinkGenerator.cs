@@ -1,4 +1,5 @@
-﻿using FileOrganizer.Services.FileDatabase;
+﻿using FileOrganizer.Core;
+using FileOrganizer.Services.FileDatabase;
 
 namespace FileOrganizer.WebUI.Services
 {

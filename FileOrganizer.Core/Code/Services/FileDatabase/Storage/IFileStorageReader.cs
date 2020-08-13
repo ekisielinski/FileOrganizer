@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.FileProviders;
+﻿using FileOrganizer.Core;
+using Microsoft.Extensions.FileProviders;
 
 namespace FileOrganizer.Services.FileDatabase
 {
