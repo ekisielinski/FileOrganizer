@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FileOrganizer.Core
+namespace FileOrganizer.Core.Helpers
 {
     public sealed class SystemTimestampGenerator : ITimestampGenerator
     {

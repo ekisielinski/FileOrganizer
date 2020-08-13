@@ -6,6 +6,8 @@ namespace FileOrganizer.Core
     {
         public UtcTimestamp( DateTime value )
         {
+            if (value.Kind != DateTimeKind.Utc) throw new ArgumentException( "Invalid DateTime format.", nameof( value ) );
+
             Value = value;
         }
 
