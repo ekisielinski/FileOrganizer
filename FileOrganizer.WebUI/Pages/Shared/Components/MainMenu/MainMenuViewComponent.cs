@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FileOrganizer.WebUI.Pages.Shared.Components.MainMenu
+namespace FileOrganizer.WebUI.Pages.Shared.Components
 {
     public sealed class MainMenuViewComponent : ViewComponent
     {

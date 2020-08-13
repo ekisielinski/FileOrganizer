@@ -12,7 +12,5 @@
 
 @foreach (var file in Model.UploadDetails.Files)
 {
-<a asp-page="View" asp-route-fileid="@file.FileId.Value" class="thumb-link">
-    <img width="250" src="@Model.GetThumbFilePath( file )" />
-</a>
+    @await Component.InvokeAsync( "FileThumbnail", new { file = file } )
 }

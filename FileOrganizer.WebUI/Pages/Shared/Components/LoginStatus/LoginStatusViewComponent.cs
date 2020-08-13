@@ -2,7 +2,7 @@
 using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FileOrganizer.WebUI.Pages.Shared.Components.LoginStatus
+namespace FileOrganizer.WebUI.Pages.Shared.Components
 {
     public sealed class LoginStatusViewComponent : ViewComponent
     {
