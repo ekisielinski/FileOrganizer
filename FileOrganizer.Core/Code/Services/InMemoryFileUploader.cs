@@ -36,7 +36,7 @@ namespace FileOrganizer.Core.Services
 
         //====== IFileUploader
 
-        public UploadId Upload( UploadInfo[] uploads, string? description )
+        public UploadId Upload( UploadInfo[] uploads, UploadDescription description )
         {
             uploadId++;
 
@@ -73,7 +73,7 @@ namespace FileOrganizer.Core.Services
             this.uploads.Add( new UploadEntry
             {
                 Id = new UploadId( uploadId ),
-                Description = description ?? string.Empty
+                Description = description
             } );
 
             return new UploadId( uploadId );
@@ -152,7 +152,7 @@ namespace FileOrganizer.Core.Services
         public sealed class UploadEntry
         {
             public UploadId Id { get; set; }
-            public string Description { get; set; } = string.Empty;
+            public UploadDescription Description { get; set; } = UploadDescription.None;
         }
     }
 }

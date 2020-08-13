@@ -2,6 +2,6 @@
 {
     public interface IFileUploader
     {
-        UploadId Upload( UploadInfo[] uploads, string? description );
+        UploadId Upload( UploadInfo[] uploads, UploadDescription description );
     }
 }

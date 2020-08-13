@@ -6,7 +6,7 @@ namespace FileOrganizer.Core.Services
 {
     public sealed class UploadDetails
     {
-        public UploadDetails( UploadId id, IEnumerable<FileDetails> files, string description )
+        public UploadDetails( UploadId id, IEnumerable<FileDetails> files, UploadDescription description )
         {
             Guard.NotNull( id, nameof( id ) );
             Guard.NotNull( files, nameof( files ) );
@@ -23,6 +23,6 @@ namespace FileOrganizer.Core.Services
 
         public IReadOnlyList<FileDetails> Files { get; }
 
-        public string Description { get; }
+        public UploadDescription Description { get; }
     }
 }

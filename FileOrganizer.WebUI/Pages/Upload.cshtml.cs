@@ -36,7 +36,7 @@ namespace FileOrganizer.WebUI.Pages
 
                 // TODO: should we dispose streams after upload?
 
-                UploadId uploadId = fileUploader.Upload( uploads, Description );
+                UploadId uploadId = fileUploader.Upload( uploads, new UploadDescription( Description ?? string.Empty ) );
 
                 var result = reader.GetUploadDetails( uploadId );
 
