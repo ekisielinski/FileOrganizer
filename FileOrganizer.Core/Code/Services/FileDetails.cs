@@ -1,4 +1,6 @@
-﻿namespace FileOrganizer.Core.Services
+﻿using FileOrganizer.CommonUtils;
+
+namespace FileOrganizer.Core.Services
 {
     public sealed class FileDetails
     {
@@ -6,6 +8,7 @@
 
         public DatabaseFiles DatabaseFiles { get; set; }
 
+        public DataSize FileSize { get; set; }
         // TODO: immutable
     }
 }

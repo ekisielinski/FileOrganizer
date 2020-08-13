@@ -24,5 +24,7 @@ namespace FileOrganizer.Core.Services
         public IReadOnlyList<FileDetails> Files { get; }
 
         public UploadDescription Description { get; }
+
+        public DataSize UploadSize => Files.Select( x => x.FileSize ).Aggregate( DataSize.Sum );
     }
 }

@@ -62,7 +62,8 @@ namespace FileOrganizer.Core.Services
                     MimeType      = upload.MimeType,
                     FileName      = upload.FileName,
                     WhenAdded     = timestamp,
-                    DatabaseFiles = new DatabaseFiles( new FileName( newFileName ), new FileName( thumbFileName ) )
+                    DatabaseFiles = new DatabaseFiles( new FileName( newFileName ), new FileName( thumbFileName ) ),
+                    Size          = new DataSize( upload.Content.Length ),
                 } );
             }
 
@@ -89,8 +90,9 @@ namespace FileOrganizer.Core.Services
 
             return new FileDetails
             {
-                FileId = fileId,
-                DatabaseFiles = entry.DatabaseFiles
+                FileId        = fileId,
+                DatabaseFiles = entry.DatabaseFiles,
+                FileSize      = entry.Size,
             };
         }
 
@@ -147,6 +149,7 @@ namespace FileOrganizer.Core.Services
             public string?       FileName      { get; set; } = null;
             public UtcTimestamp  WhenAdded     { get; set; } = new UtcTimestamp( DateTime.UtcNow );
             public DatabaseFiles DatabaseFiles { get; set; }
+            public DataSize      Size          { get; set; }
         }
 
         public sealed class UploadEntry

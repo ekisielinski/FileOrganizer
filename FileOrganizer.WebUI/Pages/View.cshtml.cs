@@ -18,11 +18,11 @@ namespace FileOrganizer.WebUI.Pages
             [FromServices] IFileDetailsReader fileDetailsReader,
             [FromServices] IStaticFilesLinkGenerator linkGenerator)
         {
-            FileDetails? details = fileDetailsReader.GetFileDetailsById( new FileId( fileId ) );
+            FileDetails = fileDetailsReader.GetFileDetailsById( new FileId( fileId ) );
 
-            if (details is null) return NotFound();
+            if (FileDetails is null) return NotFound();
 
-            FilePath = linkGenerator.GetDatabaseFilePath( details.DatabaseFiles.Source , FileDatabaseFolder.Files );
+            FilePath = linkGenerator.GetDatabaseFilePath( FileDetails.DatabaseFiles.Source , FileDatabaseFolder.Files );
 
             return Page();
         }
