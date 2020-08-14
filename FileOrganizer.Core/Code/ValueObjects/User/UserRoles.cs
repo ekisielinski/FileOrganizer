@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace FileOrganizer.WebUI.Services.Auth
+namespace FileOrganizer.Core
 {
     public sealed class UserRoles
     {

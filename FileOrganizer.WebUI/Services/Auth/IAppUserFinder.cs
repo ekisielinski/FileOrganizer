@@ -1,4 +1,6 @@
-﻿namespace FileOrganizer.WebUI.Services.Auth
+﻿using FileOrganizer.Core;
+
+namespace FileOrganizer.WebUI.Services.Auth
 {
     public interface IAppUserFinder
     {

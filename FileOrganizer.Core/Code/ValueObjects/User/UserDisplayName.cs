@@ -1,6 +1,6 @@
 ﻿using FileOrganizer.CommonUtils;
 
-namespace FileOrganizer.WebUI.Services.Auth
+namespace FileOrganizer.Core
 {
     public sealed class UserDisplayName
     {

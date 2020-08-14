@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using FileOrganizer.Core;
+using System.Linq;
 
 namespace FileOrganizer.WebUI.Services.Auth
 {
