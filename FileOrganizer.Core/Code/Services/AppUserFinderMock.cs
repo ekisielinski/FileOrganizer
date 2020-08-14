@@ -35,5 +35,10 @@ namespace FileOrganizer.Core
 
             return null;
         }
+
+        public AppUser? Find( UserName userName )
+        {
+            return Find( userName, "any-password" );
+        }
     }
 }
