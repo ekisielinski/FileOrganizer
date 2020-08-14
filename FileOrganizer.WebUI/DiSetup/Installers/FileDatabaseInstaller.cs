@@ -1,4 +1,5 @@
-﻿using FileOrganizer.Core.Helpers;
+﻿using FileOrganizer.Core;
+using FileOrganizer.Core.Helpers;
 using FileOrganizer.Core.Services;
 using FileOrganizer.Services.FileDatabase;
 using Microsoft.Extensions.Configuration;

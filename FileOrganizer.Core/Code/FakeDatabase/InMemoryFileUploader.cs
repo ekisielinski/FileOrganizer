@@ -1,5 +1,6 @@
 ﻿using FileOrganizer.CommonUtils;
 using FileOrganizer.Core.Helpers;
+using FileOrganizer.Core.Services;
 using FileOrganizer.Services.FileDatabase;
 using Microsoft.Extensions.FileProviders;
 using System;
@@ -9,11 +10,11 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 
-namespace FileOrganizer.Core.Services
+namespace FileOrganizer.Core
 {
     // TODO: this class is temporary
 
-    public sealed class InMemoryFileUploader : IFileUploader, IFileDetailsReader
+    public sealed class InMemoryFileUploader : IFileUploader, IFileDetailsReader, IAppUserFinder
     {
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
@@ -21,6 +22,8 @@ namespace FileOrganizer.Core.Services
         
         readonly List<UploadEntry> uploads = new List<UploadEntry>();
         readonly List<FileEntry> files = new List<FileEntry>();
+
+        readonly List<AppUser> appUsers = new List<AppUser>( FakeData.CreateAppUsers() );
 
         int uploadId = -1;
         int fileId = -1;
@@ -137,6 +140,21 @@ namespace FileOrganizer.Core.Services
             string extensionWithDot = Path.GetExtension( fileName ?? string.Empty );
 
             return $"{datePart}_{randomName}{extensionWithDot}";
+        }
+
+        public AppUser? Find( UserName userName, string password )
+        {
+            return appUsers.FirstOrDefault( x => x.Name.Value == userName.Value ); // we ignore password for now
+        }
+
+        public AppUser? Find( UserName userName )
+        {
+            return Find( userName, "any-password" );
+        }
+
+        public IReadOnlyList<AppUser> GetAllAppUsers()
+        {
+            return appUsers.ToList();
         }
 
         //====== helper class

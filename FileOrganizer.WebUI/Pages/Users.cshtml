@@ -1,0 +1,11 @@
+﻿@page
+@inject FileOrganizer.Core.IAppUserFinder finder
+
+@foreach (var appUser in finder.GetAllAppUsers())
+{
+    <p>
+        <a asp-page="User" asp-route-username="@appUser.Name">
+            <b>@appUser.Name</b> - @appUser.DisplayName
+        </a>
+    </p>
+}
