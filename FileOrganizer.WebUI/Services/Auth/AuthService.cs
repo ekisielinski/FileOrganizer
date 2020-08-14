@@ -51,7 +51,7 @@ namespace FileOrganizer.WebUI.Services.Auth
             Guard.NotNull( userName, nameof( userName ) );
             Guard.NotNull( password, nameof( password ) );
 
-            AuthUser? appUser = appUserFinder.Find( userName, password );
+            AppUser? appUser = appUserFinder.Find( userName, password );
 
             if (appUser is null) return false;
 

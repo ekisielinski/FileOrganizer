@@ -1,15 +1,14 @@
-﻿using FileOrganizer.Core;
-using System.Linq;
+﻿using System.Linq;
 
-namespace FileOrganizer.WebUI.Services.Auth
+namespace FileOrganizer.Core
 {
     public sealed class AppUserFinderMock : IAppUserFinder
     {
-        public AuthUser? Find( UserName userName, string password )
+        public AppUser? Find( UserName userName, string password )
         {
             if (userName.Value == "admin") // any pass
             {
-                return new AuthUser(
+                return new AppUser(
                     userName,
                     new UserDisplayName( "administrator" ),
                     new UserRoles( new[] { "administrator", "moderator" } )
@@ -18,7 +17,7 @@ namespace FileOrganizer.WebUI.Services.Auth
 
             if (userName.Value == "mod") // any pass
             {
-                return new AuthUser(
+                return new AppUser(
                     userName,
                     new UserDisplayName( "moderator" ),
                     new UserRoles( new[] { "moderator" } )
@@ -27,7 +26,7 @@ namespace FileOrganizer.WebUI.Services.Auth
 
             if (userName.Value == "user") // any pass
             {
-                return new AuthUser(
+                return new AppUser(
                     userName,
                     new UserDisplayName( "some user" ),
                     new UserRoles( Enumerable.Empty<string>() )
