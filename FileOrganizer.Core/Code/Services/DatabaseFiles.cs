@@ -1,5 +1,4 @@
 ﻿using FileOrganizer.CommonUtils;
-using FileOrganizer.Services.FileDatabase;
 
 namespace FileOrganizer.Core.Services
 {

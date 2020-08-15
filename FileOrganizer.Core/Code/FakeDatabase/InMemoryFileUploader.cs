@@ -14,7 +14,7 @@ namespace FileOrganizer.Core
 {
     // TODO: this class is temporary
 
-    public sealed class InMemoryFileUploader : IFileUploader, IFileDetailsReader, IAppUserFinder
+    public sealed class InMemoryFileUploader : IFileUploader, IFileDetailsReader, IAppUserFinder, IFileSearcher
     {
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
@@ -155,6 +155,11 @@ namespace FileOrganizer.Core
         public IReadOnlyList<AppUser> GetAllAppUsers()
         {
             return appUsers.ToList();
+        }
+
+        public IReadOnlyList<FileDetails> GetAll()
+        {
+            return files.Select( x => GetFileDetailsById( new FileId( x.Id ) ) ).ToList();
         }
 
         //====== helper class

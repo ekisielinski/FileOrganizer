@@ -1,0 +1,11 @@
+﻿@page
+@model FileOrganizer.WebUI.Pages.SearchModel
+
+<p>Found files: @Model.Files.Count</p>
+
+<div>
+    @foreach (var file in Model.Files)
+    {
+        @await Component.InvokeAsync( "FileThumbnail", new { file = file } )
+    }
+</div>

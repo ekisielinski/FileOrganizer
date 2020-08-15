@@ -36,6 +36,7 @@ namespace FileOrganizer.WebUI
             services.AddTransient<ITimestampGenerator, SystemTimestampGenerator>();
             services.AddTransient<IFileDetailsReader>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
             services.AddSingleton<IAppUserFinder>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
+            services.AddSingleton<IFileSearcher>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
             services.AddTransient<IStaticFilesLinkGenerator, StaticFilesLinkGenerator>();
             services.AddTransient<IThumbnailsMaker, ThumbnailsMaker>();
 

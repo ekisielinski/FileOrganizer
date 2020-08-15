@@ -1,5 +1,5 @@
 ﻿@model FileOrganizer.Core.Services.FileDetails
 
 <a asp-page="View" asp-route-fileid="@Model.FileId.Value" class="thumb-link">
-    <img width="250" src="@ViewBag.ThumbLink" title="ID: @Model.FileId.Value, Size: @Model.FileSize"/>
+    <img class="file-thumbnail" src="@ViewBag.ThumbLink" title="ID: @Model.FileId.Value, Size: @Model.FileSize"/>
 </a>
