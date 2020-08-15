@@ -1,6 +1,16 @@
 ﻿@page
 @model FileOrganizer.WebUI.Pages.SearchModel
 
+<form asp-page="Search" method="get">
+    <select asp-for="PageSize">
+        <option value="10">10</option>
+        <option value="25" selected="selected">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+    </select>
+    <input type="submit" value="Search"/>
+</form>
+
 <p>Found files: @Model.Files.Count</p>
 
 <div>

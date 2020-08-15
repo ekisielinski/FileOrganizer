@@ -5,6 +5,6 @@ namespace FileOrganizer.Core
 {
     public interface IFileSearcher
     {
-        IReadOnlyList<FileDetails> GetAll(); // TODO: add search options and paging
+        IReadOnlyList<FileDetails> GetFiles( PagingParameters pagingParameters ); // TODO: add search options
     }
 }

@@ -157,9 +157,12 @@ namespace FileOrganizer.Core
             return appUsers.ToList();
         }
 
-        public IReadOnlyList<FileDetails> GetAll()
+        public IReadOnlyList<FileDetails> GetFiles( PagingParameters pagingParameters )
         {
-            return files.Select( x => GetFileDetailsById( new FileId( x.Id ) ) ).ToList();
+            return files
+                .Skip( pagingParameters.SkipCount )
+                .Take( pagingParameters.PageSize )
+                .Select( x => GetFileDetailsById( new FileId( x.Id ) ) ).ToList();
         }
 
         //====== helper class
