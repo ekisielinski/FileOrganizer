@@ -165,6 +165,11 @@ namespace FileOrganizer.Core
                 .Select( x => GetFileDetailsById( new FileId( x.Id ) ) ).ToList();
         }
 
+        public int CountFiles()
+        {
+            return files.Count;
+        }
+
         //====== helper class
 
         private sealed class FileEntry

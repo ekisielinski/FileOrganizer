@@ -2,16 +2,31 @@
 @model FileOrganizer.WebUI.Pages.SearchModel
 
 <form asp-page="Search" method="get">
-    <select asp-for="PageSize">
-        <option value="10">10</option>
-        <option value="25" selected="selected">25</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-    </select>
-    <input type="submit" value="Search"/>
+    <select asp-for="PageSize" asp-items="Model.PageSizeSelectList"></select>
+    <input type="submit" value="Search" />
 </form>
 
-<p>Found files: @Model.Files.Count</p>
+<p>Found files: @Model.FileCount</p>
+
+<div>
+    @if (Model.PageCount > 1)
+    {
+        <p>Pages:</p>
+        @for (int i = 0; i < Model.PageCount; i++)
+        {
+            <a asp-page="Search" asp-route-pageindex="@i" asp-route-pagesize="@Model.PageSize">
+                @if (Model.PageIndex == i)
+                {
+                    <b> @(i + 1) </b>
+                }
+                else
+                {
+                    <span> @(i + 1) </span>
+                }
+            </a>
+        }
+    }
+</div>
 
 <div>
     @foreach (var file in Model.Files)
