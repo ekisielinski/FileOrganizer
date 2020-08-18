@@ -9,6 +9,10 @@ namespace FileOrganizer.Core.Services
         public DatabaseFiles DatabaseFiles { get; set; }
 
         public DataSize FileSize { get; set; }
+
+        public FileTitle Title { get; set; } = FileTitle.Empty;
+        public FileDescription Description { get; set; } = FileDescription.Empty;
+
         // TODO: immutable
     }
 }

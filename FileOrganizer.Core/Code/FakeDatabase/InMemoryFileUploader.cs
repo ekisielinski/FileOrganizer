@@ -14,7 +14,8 @@ namespace FileOrganizer.Core
 {
     // TODO: this class is temporary
 
-    public sealed class InMemoryFileUploader : IFileUploader, IFileDetailsReader, IAppUserFinder, IFileSearcher
+    public sealed class InMemoryFileUploader
+        : IFileUploader, IFileDetailsReader, IAppUserFinder, IFileSearcher, IFileDetailsUpdater
     {
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
@@ -96,6 +97,8 @@ namespace FileOrganizer.Core
                 FileId        = fileId,
                 DatabaseFiles = entry.DatabaseFiles,
                 FileSize      = entry.Size,
+                Description   = entry.Description,
+                Title         = entry.Title
             };
         }
 
@@ -170,17 +173,29 @@ namespace FileOrganizer.Core
             return files.Count;
         }
 
+        public void UpdateDescription( FileId fileId, FileDescription description )
+        {
+            files.FirstOrDefault( x => x.Id == fileId.Value ).Description = description;
+        }
+
+        public void UpdateTitle( FileId fileId, FileTitle title )
+        {
+            files.FirstOrDefault( x => x.Id == fileId.Value ).Title = title;
+        }
+
         //====== helper class
 
         private sealed class FileEntry
         {
-            public int           Id            { get; set; } = -1;
-            public UploadId      UploadId      { get; set; }
-            public MimeType      MimeType      { get; set; } = MimeType.Unknown;
-            public string?       FileName      { get; set; } = null;
-            public UtcTimestamp  WhenAdded     { get; set; } = new UtcTimestamp( DateTime.UtcNow );
-            public DatabaseFiles DatabaseFiles { get; set; }
-            public DataSize      Size          { get; set; }
+            public int             Id            { get; set; } = -1;
+            public UploadId        UploadId      { get; set; }
+            public MimeType        MimeType      { get; set; } = MimeType.Unknown;
+            public string?         FileName      { get; set; } = null;
+            public UtcTimestamp    WhenAdded     { get; set; } = new UtcTimestamp( DateTime.UtcNow );
+            public DatabaseFiles   DatabaseFiles { get; set; }
+            public DataSize        Size          { get; set; }
+            public FileDescription Description   { get; set; } = FileDescription.Empty;
+            public FileTitle       Title         { get; set; } = FileTitle.Empty;
         }
 
         public sealed class UploadEntry

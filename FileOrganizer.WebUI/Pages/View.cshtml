@@ -3,8 +3,24 @@
 
 @{ ViewBag.Title = "View"; }
 
+<h2>@Model.FileDetails.Title</h2>
+
 <p>
     File size: @Model.FileDetails.FileSize
+    <br />
+    Description:<br />
+    @if (Model.FileDetails.Description.IsEmpty)
+    {
+        <span>None</span>
+    }
+    else
+    {
+        <span>@Model.FileDetails.Description</span>
+    }
+
+    <br />
+
+    <a asp-page="EditFileDetails" asp-route-fileid="@Model.FileDetails.FileId.Value">Edit File Details</a>
 </p>
 
 <img src="@Model.FilePath" />

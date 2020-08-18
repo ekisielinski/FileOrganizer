@@ -1,0 +1,25 @@
+﻿@page
+@model FileOrganizer.WebUI.Pages.EditFileDetailsModel
+
+@await Component.InvokeAsync( "FileThumbnail", new { file = Model.FileDetails } )
+
+<p>Edit file description:</p>
+
+<form asp-page="EditFileDetails" method="Post">
+    <label asp-for="Title"></label>
+    <br />
+    <input asp-for="Title" autocomplete="off"></input>
+    <br />
+    <br />
+    <label asp-for="Description"></label>
+    <br />
+    <textarea asp-for="Description" cols="50" rows="5"></textarea>
+
+    <input asp-for="FileId">
+
+    <br />
+
+    <input type="submit" value="Save" />
+</form>
+
+<a asp-page="View" asp-route-fileid="@Model.FileDetails.FileId.Value">Back</a>
