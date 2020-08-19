@@ -1,0 +1,30 @@
+﻿@page
+@inject FileOrganizer.Core.IUploadInfoReader reader
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Timestamp</th>
+            <th>User name</th>
+            <th>User full name</th>
+            <th>Files</th>
+            <th>Size</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in reader.GetAll())
+        {
+            <tr>
+                <td><a asp-page="UploadResult" asp-route-uploadid="@item.Id">@item.Id</a></td>
+                <td>@item.WhenAdded</td>
+                <td>@item.UserName</td>
+                <td>@item.DisplayName</td>
+                <td>@item.FileCount</td>
+                <td>@item.TotalSize</td>
+                <td>@item.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>

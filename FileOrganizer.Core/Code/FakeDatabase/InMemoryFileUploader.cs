@@ -14,8 +14,13 @@ namespace FileOrganizer.Core
 {
     // TODO: this class is temporary
 
-    public sealed class InMemoryFileUploader
-        : IFileUploader, IFileDetailsReader, IAppUserFinder, IFileSearcher, IFileDetailsUpdater
+    public sealed class InMemoryFileUploader :
+        IFileUploader,
+        IFileDetailsReader,
+        IAppUserFinder,
+        IFileSearcher,
+        IFileDetailsUpdater,
+        IUploadInfoReader
     {
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
@@ -42,6 +47,8 @@ namespace FileOrganizer.Core
 
         public UploadId Upload( UploadParameters parameters )
         {
+            UtcTimestamp startTimestamp = timestampGenerator.UtcNow;
+
             uploadId++;
 
             var tempFiles = new List<FileEntry>();
@@ -73,12 +80,14 @@ namespace FileOrganizer.Core
 
             files.AddRange( tempFiles );
 
-            var fileDetailsList = tempFiles.Select( x => GetFileDetailsById( new FileId( x.Id ) ) );
-
-            this.uploads.Add( new UploadEntry
+            uploads.Add( new UploadEntry
             {
-                Id = new UploadId( uploadId ),
-                Description = parameters.Description
+                Id          = new UploadId( uploadId ),
+                Description = parameters.Description,
+                WhenAdded   = startTimestamp,
+                FileCount   = tempFiles.Count,
+                Size        = new DataSize( parameters.SourceFiles.Sum( x => x.Content.Length ) ),
+                UserName    = new UserName( "admin" ) // temp
             } );
 
             return new UploadId( uploadId );
@@ -183,6 +192,22 @@ namespace FileOrganizer.Core
             files.FirstOrDefault( x => x.Id == fileId.Value ).Title = title;
         }
 
+        public IReadOnlyList<UploadInfo> GetAll()
+        {
+            var infos = uploads.Select( x => new UploadInfo()
+            {
+                Id          = x.Id,
+                Description = x.Description,
+                WhenAdded   = x.WhenAdded,
+                FileCount   = x.FileCount,
+                UserName    = x.UserName,
+                DisplayName = appUsers.FirstOrDefault( appUser => appUser.Name.Value == x.UserName.Value ).DisplayName,
+                TotalSize   = x.Size
+            } );
+
+            return infos.ToList();
+        }
+
         //====== helper class
 
         private sealed class FileEntry
@@ -200,8 +225,12 @@ namespace FileOrganizer.Core
 
         public sealed class UploadEntry
         {
-            public UploadId Id { get; set; }
+            public UploadId          Id          { get; set; }
             public UploadDescription Description { get; set; } = UploadDescription.None;
+            public UtcTimestamp      WhenAdded   { get; set; }
+            public int               FileCount   { get; set; }
+            public DataSize          Size        { get; set; }
+            public UserName          UserName    { get; set; }
         }
     }
 }

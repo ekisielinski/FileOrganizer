@@ -9,13 +9,29 @@
     text-decoration: none;
 }
 
-.thumb-link:hover img
-{
-    outline: 3px solid green;
-}
+    .thumb-link:hover img
+    {
+        outline: 3px solid green;
+    }
 
 .file-thumbnail
 {
     max-width: 250px;
     max-height: 250px;
 }
+
+table
+{
+    border: 1px solid silver;
+    padding: 4px;
+}
+
+    table thead
+    {
+        background-color: rgba(0,0,0,0.2);
+    }
+
+    table th, table td
+    {
+        padding: 2px 4px;
+    }
