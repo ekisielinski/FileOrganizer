@@ -14,6 +14,5 @@ namespace FileOrganizer.Core
         
         public DataSize TotalSize { get; set; }
         public int FileCount { get; set; }
-
     }
 }

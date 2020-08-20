@@ -39,6 +39,7 @@ namespace FileOrganizer.WebUI
             services.AddSingleton<IAppUserFinder>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
             services.AddSingleton<IFileSearcher>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
             services.AddSingleton<IUploadInfoReader>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
+            services.AddSingleton<IAppUserCreator>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
             services.AddTransient<IStaticFilesLinkGenerator, StaticFilesLinkGenerator>();
             services.AddTransient<IThumbnailsMaker, ThumbnailsMaker>();
 

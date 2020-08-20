@@ -1,6 +1,10 @@
 ﻿@page
 @inject FileOrganizer.Core.IAppUserFinder finder
 
+<a asp-page="NewUser">Create new</a>
+
+<br />
+
 @foreach (var appUser in finder.GetAllAppUsers())
 {
     <p>

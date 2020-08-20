@@ -20,7 +20,8 @@ namespace FileOrganizer.Core
         IAppUserFinder,
         IFileSearcher,
         IFileDetailsUpdater,
-        IUploadInfoReader
+        IUploadInfoReader,
+        IAppUserCreator
     {
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
@@ -206,6 +207,13 @@ namespace FileOrganizer.Core
             } );
 
             return infos.ToList();
+        }
+
+        public void Create( AppUser appUser, UserPassword password )
+        {
+            if (appUsers.Any( x => x.Name.Value == appUser.Name.Value )) throw new Exception( "User already exists." );
+
+            appUsers.Add( appUser );
         }
 
         //====== helper class
