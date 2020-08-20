@@ -201,8 +201,9 @@ namespace FileOrganizer.Core
                 Description = x.Description,
                 WhenAdded   = x.WhenAdded,
                 FileCount   = x.FileCount,
-                UserName    = x.UserName,
-                DisplayName = appUsers.FirstOrDefault( appUser => appUser.Name.Value == x.UserName.Value ).DisplayName,
+                User        = new UserInfo(
+                    x.UserName,
+                    appUsers.FirstOrDefault( appUser => appUser.Name.Value == x.UserName.Value ).DisplayName ),
                 TotalSize   = x.Size
             } );
 

@@ -19,8 +19,8 @@
             <tr>
                 <td><a asp-page="UploadResult" asp-route-uploadid="@item.Id">@item.Id</a></td>
                 <td>@item.WhenAdded</td>
-                <td>@item.UserName</td>
-                <td>@item.DisplayName</td>
+                <td>@item.User.Name</td>
+                <td>@item.User.DisplayName</td>
                 <td>@item.FileCount</td>
                 <td>@item.TotalSize</td>
                 <td>@item.Description</td>

@@ -15,6 +15,8 @@ namespace FileOrganizer.Core
 
         public string Value { get; }
 
+        public bool IsEmpty => Value.Length == 0;
+
         //====== public static properties
 
         public static UserDisplayName None { get; } = new UserDisplayName( string.Empty );
