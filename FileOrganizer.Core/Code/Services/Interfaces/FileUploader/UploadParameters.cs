@@ -1,6 +1,5 @@
 ﻿using FileOrganizer.CommonUtils;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FileOrganizer.Core.Services
 {
@@ -8,11 +7,8 @@ namespace FileOrganizer.Core.Services
     {
         public UploadParameters( IEnumerable<SourceFile> sourceFiles, UploadDescription description )
         {
-            Guard.NotNull( sourceFiles, nameof( sourceFiles ) );
-
+            SourceFiles = ArgUtils.ToRoList( sourceFiles, nameof( sourceFiles ) );
             Description = Guard.NotNull( description, nameof( description ) );
-
-            SourceFiles = sourceFiles.ToList();
         }
 
         //====== public properties
