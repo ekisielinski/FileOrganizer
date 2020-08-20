@@ -34,12 +34,12 @@ namespace FileOrganizer.WebUI
             services.AddHttpContextAccessor();
 
             services.AddTransient<ITimestampGenerator, SystemTimestampGenerator>();
-            services.AddTransient<IFileDetailsReader>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
-            services.AddTransient<IFileDetailsUpdater>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
-            services.AddSingleton<IAppUserFinder>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
-            services.AddSingleton<IFileSearcher>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
-            services.AddSingleton<IUploadInfoReader>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
-            services.AddSingleton<IAppUserCreator>( sp => sp.GetRequiredService<InMemoryFileUploader>() );
+            services.AddTransient<IFileDetailsReader>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
+            services.AddTransient<IFileDetailsUpdater>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
+            services.AddSingleton<IAppUserFinder>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
+            services.AddSingleton<IFileSearcher>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
+            services.AddSingleton<IUploadInfoReader>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
+            services.AddSingleton<IAppUserCreator>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddTransient<IStaticFilesLinkGenerator, StaticFilesLinkGenerator>();
             services.AddTransient<IThumbnailsMaker, ThumbnailsMaker>();
 

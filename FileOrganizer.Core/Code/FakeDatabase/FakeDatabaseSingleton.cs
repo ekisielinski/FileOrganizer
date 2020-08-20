@@ -14,7 +14,7 @@ namespace FileOrganizer.Core
 {
     // TODO: this class is temporary
 
-    public sealed class InMemoryFileUploader :
+    public sealed partial class FakeDatabaseSingleton :
         IFileUploader,
         IFileDetailsReader,
         IAppUserFinder,
@@ -37,7 +37,7 @@ namespace FileOrganizer.Core
 
         //====== ctors
 
-        public InMemoryFileUploader( IFileDatabase fileDatabase, ITimestampGenerator timestampGenerator, IThumbnailsMaker thumbnailsMaker )
+        public FakeDatabaseSingleton( IFileDatabase fileDatabase, ITimestampGenerator timestampGenerator, IThumbnailsMaker thumbnailsMaker )
         {
             this.fileDatabase       = Guard.NotNull( fileDatabase, nameof( fileDatabase ) );
             this.timestampGenerator = Guard.NotNull( timestampGenerator, nameof( timestampGenerator ) );
@@ -214,31 +214,6 @@ namespace FileOrganizer.Core
             if (appUsers.Any( x => x.Name.Value == appUser.Name.Value )) throw new Exception( "User already exists." );
 
             appUsers.Add( appUser );
-        }
-
-        //====== helper class
-
-        private sealed class FileEntry
-        {
-            public int             Id            { get; set; } = -1;
-            public UploadId        UploadId      { get; set; }
-            public MimeType        MimeType      { get; set; } = MimeType.Unknown;
-            public string?         FileName      { get; set; } = null;
-            public UtcTimestamp    WhenAdded     { get; set; } = new UtcTimestamp( DateTime.UtcNow );
-            public DatabaseFiles   DatabaseFiles { get; set; }
-            public DataSize        Size          { get; set; }
-            public FileDescription Description   { get; set; } = FileDescription.Empty;
-            public FileTitle       Title         { get; set; } = FileTitle.Empty;
-        }
-
-        public sealed class UploadEntry
-        {
-            public UploadId          Id          { get; set; }
-            public UploadDescription Description { get; set; } = UploadDescription.None;
-            public UtcTimestamp      WhenAdded   { get; set; }
-            public int               FileCount   { get; set; }
-            public DataSize          Size        { get; set; }
-            public UserName          UserName    { get; set; }
         }
     }
 }
