@@ -3,7 +3,6 @@ using FileOrganizer.Core.Helpers;
 using FileOrganizer.Core.Services;
 using FileOrganizer.WebUI.DiSetup;
 using FileOrganizer.WebUI.Services;
-using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -42,6 +41,7 @@ namespace FileOrganizer.WebUI
             services.AddSingleton<IAppUserCreator>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddTransient<IStaticFilesLinkGenerator, StaticFilesLinkGenerator>();
             services.AddTransient<IThumbnailsMaker, ThumbnailsMaker>();
+            services.AddTransient<IDatabaseInitializer, DefaultDatabaseInitializer>();
 
             ServicesInstallerHelper.InstallAll( services, Configuration, typeof( Startup ).Assembly );
         }
@@ -64,6 +64,10 @@ namespace FileOrganizer.WebUI
                 ep.MapControllerRoute( name: "default", pattern: "{controller}/{action=Index}/{id?}" );
                 ep.MapRazorPages();
             } );
+
+
+            using IServiceScope? serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            serviceScope.ServiceProvider.GetRequiredService<IDatabaseInitializer>().Init();
         }
     }
 }

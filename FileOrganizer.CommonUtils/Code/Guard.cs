@@ -8,5 +8,12 @@ namespace FileOrganizer.CommonUtils
         {
             return value ?? throw new ArgumentNullException( paramName );
         }
+
+        public static int NotNegative( int value, string? paramName = null )
+        {
+            if (value >= 0) return value;
+
+            throw new ArgumentOutOfRangeException( paramName ?? nameof( value ), value, "Negative values are forbidden." );
+        }
     }
 }

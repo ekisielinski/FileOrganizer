@@ -24,6 +24,10 @@ namespace FileOrganizer.Core
         public bool IsAdministrator => Items.Contains( Administrator );
         public bool IsModerator     => Items.Contains( Moderator );
 
+        //===== public static properties
+
+        public static UserRoles Empty { get; } = new UserRoles( Enumerable.Empty<string>() );
+
         //===== override: Object
 
         public override string ToString() => string.Join( " | ", Items );

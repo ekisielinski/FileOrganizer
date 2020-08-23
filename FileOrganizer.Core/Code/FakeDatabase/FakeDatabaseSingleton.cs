@@ -30,7 +30,7 @@ namespace FileOrganizer.Core
         readonly List<UploadEntry> uploads = new List<UploadEntry>();
         readonly List<FileEntry> files = new List<FileEntry>();
 
-        readonly List<AppUser> appUsers = new List<AppUser>( FakeData.CreateAppUsers() );
+        readonly List<AppUser> appUsers = new List<AppUser>();
 
         int uploadId = -1;
         int fileId = -1;
