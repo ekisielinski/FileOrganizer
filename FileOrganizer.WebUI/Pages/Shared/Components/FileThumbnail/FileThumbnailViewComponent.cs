@@ -3,6 +3,7 @@ using FileOrganizer.Core.Services;
 using FileOrganizer.Services.FileDatabase;
 using FileOrganizer.WebUI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 
 namespace FileOrganizer.WebUI.Pages.Shared.Components
 {
@@ -23,7 +24,10 @@ namespace FileOrganizer.WebUI.Pages.Shared.Components
         {
             string link = linkGenerator.GetDatabaseFilePath( file.DatabaseFiles.Thumbnail, FileDatabaseFolder.Thumbs );
 
+            // TODO: create model
+
             ViewBag.ThumbLink = link;
+            ViewBag.DimensionString = file.ImageDetails.Size is Size size ? $"{size.Width}x{size.Height}" : "unknown";
 
             return View( file );
         }

@@ -15,5 +15,6 @@ namespace FileOrganizer.Core
         public DataSize        Size          { get; set; }
         public FileDescription Description   { get; set; } = FileDescription.Empty;
         public FileTitle       Title         { get; set; } = FileTitle.Empty;
+        public ImageDetails?   ImageDetails  { get; set; } = null;
     }
 }

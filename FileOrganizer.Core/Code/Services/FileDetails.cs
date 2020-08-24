@@ -13,6 +13,8 @@ namespace FileOrganizer.Core.Services
         public FileTitle Title { get; set; } = FileTitle.Empty;
         public FileDescription Description { get; set; } = FileDescription.Empty;
 
+        public ImageDetails ImageDetails { get; set; } = new ImageDetails();
+
         // TODO: immutable
     }
 }

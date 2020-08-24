@@ -76,6 +76,7 @@ namespace FileOrganizer.Core
                     WhenAdded     = timestamp,
                     DatabaseFiles = new DatabaseFiles( new FileName( newFileName ), new FileName( thumbFileName ) ),
                     Size          = new DataSize( sourceFile.Content.Length ),
+                    ImageDetails  = new ImageDetails { Size = GetImageDimension( fileInfo ) }
                 } );
             }
 
@@ -108,7 +109,8 @@ namespace FileOrganizer.Core
                 DatabaseFiles = entry.DatabaseFiles,
                 FileSize      = entry.Size,
                 Description   = entry.Description,
-                Title         = entry.Title
+                Title         = entry.Title,
+                ImageDetails  = entry.ImageDetails
             };
         }
 
@@ -215,6 +217,21 @@ namespace FileOrganizer.Core
             if (appUsers.Any( x => x.Name.Value == appUser.Name.Value )) throw new Exception( "User already exists." );
 
             appUsers.Add( appUser );
+        }
+
+        private static Size? GetImageDimension( IFileInfo fileInfo )
+        {
+            try
+            {
+                using var stream = fileInfo.CreateReadStream();
+                using Image srcImage = Image.FromStream( stream );
+
+                return srcImage.Size;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
