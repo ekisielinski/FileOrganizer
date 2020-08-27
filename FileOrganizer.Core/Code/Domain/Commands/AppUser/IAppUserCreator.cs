@@ -1,6 +1,6 @@
 ﻿namespace FileOrganizer.Core
 {
-    public interface IAppUserCreator
+    public interface IAppUserCreator : IDomainCommand
     {
         void Create( AppUser appUser, UserPassword password );
     }

@@ -2,7 +2,7 @@
 
 namespace FileOrganizer.Core
 {
-    public sealed class AppUser : IAppUserNames, IEntity
+    public sealed class AppUser : IAppUserNames
     {
         public AppUser( UserName name, UserDisplayName displayName, UserRoles roles )
         {

@@ -2,7 +2,7 @@
 
 namespace FileOrganizer.Core
 {
-    public sealed class AppUserDetails : IEntity
+    public sealed class AppUserDetails
     {
         public AppUserDetails( AppUser user, EmailAddress email, UtcTimestamp whenCreated )
         {

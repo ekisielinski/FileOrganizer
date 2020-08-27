@@ -22,7 +22,8 @@ namespace FileOrganizer.Core
         IFileDetailsUpdater,
         IUploadInfoReader,
         IAppUserCreator,
-        ICredentialsValidator
+        ICredentialsValidator,
+        IAppUserReader
     {
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
@@ -160,6 +161,12 @@ namespace FileOrganizer.Core
 
         #region App Users
 
+        AppUser IAppUserReader.GetUser( UserName userName )
+            => users.Single( x => x.User.Name.Value == userName.Value ).User;
+
+        AppUserDetails IAppUserReader.GetUserDetails( UserName userName )
+            => users.Single( x => x.User.Name.Value == userName.Value );
+
         AppUser? ICredentialsValidator.TryGetUser( UserName name, UserPassword password )
         {
             return users.FirstOrDefault( x => x.User.Name.Value == name.Value ).User; // we ignore password for now
@@ -172,11 +179,6 @@ namespace FileOrganizer.Core
             var appUserDetails = new AppUserDetails( appUser, EmailAddress.Empty, timestampGenerator.UtcNow );
 
             users.Add( appUserDetails );
-        }
-
-        public AppUser? Find( UserName userName )
-        {
-            return users.FirstOrDefault( x => x.User.Name.Value == userName.Value ).User;
         }
 
         public IReadOnlyList<AppUser> GetAllAppUsers()

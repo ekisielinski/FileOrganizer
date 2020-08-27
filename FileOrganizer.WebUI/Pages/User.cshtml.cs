@@ -6,13 +6,19 @@ namespace FileOrganizer.WebUI.Pages
 {
     public class UserModel : PageModel
     {
-        public AppUser? AppUser { get; set; }
+        public AppUserDetails? Details { get; set; }
 
         //====== actions
 
-        public IActionResult OnGet( string userName, [FromServices] IAppUserFinder userFinder )
+        public IActionResult OnGet( string userName, [FromServices] IAppUserReader reader )
         {
-            AppUser = userFinder.Find( new UserName( userName ) );
+            try
+            {
+                Details = reader.GetUserDetails( new UserName( userName ) );
+            }
+            catch
+            {
+            }
 
             return Page();
         }

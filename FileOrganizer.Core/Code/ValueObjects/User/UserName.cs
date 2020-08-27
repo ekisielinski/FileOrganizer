@@ -2,7 +2,7 @@
 
 namespace FileOrganizer.Core
 {
-    public sealed class UserName : IValueObject
+    public sealed class UserName : IEntityId, IValueObject
     {
         public UserName( string value )
         {

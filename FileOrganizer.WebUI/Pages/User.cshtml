@@ -1,16 +1,19 @@
 ﻿@page "/user/{userName}"
 @model FileOrganizer.WebUI.Pages.UserModel
 
-@if (Model.AppUser is null)
+@if (Model.Details is null)
 {
     <p>User not found.</p>
 }
 else
 {
-    <p>User: <b>@Model.AppUser.Name</b></p>
-    <p>Display name: <b>@Model.AppUser.DisplayName</b></p>
-    <p>Roles:<br />
-        @foreach (string role in Model.AppUser.Roles.Items)
+    <p>User: <b>@Model.Details.User.Name</b></p>
+    <p>Display name: <b>@Model.Details.User.DisplayName</b></p>
+    <p>Email: <b>@Model.Details.Email</b></p>
+    <p>Registered: <b>@Model.Details.WhenCreated</b></p>
+    <p>
+        Roles:<br />
+        @foreach (string role in Model.Details.User.Roles.Items)
         {
             <b>@role</b><br />
         }
