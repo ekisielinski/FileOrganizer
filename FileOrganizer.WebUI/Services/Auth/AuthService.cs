@@ -10,15 +10,15 @@ namespace FileOrganizer.WebUI.Services.Auth
 {
     public sealed class AuthService : IAuthService
     {
-        readonly IAppUserFinder appUserFinder;
+        readonly ICredentialsValidator credentialsValidator;
         readonly IHttpContextAccessor httpContextAccessor;
 
         //====== ctors
 
-        public AuthService( IAppUserFinder appUserFinder, IHttpContextAccessor httpContextAccessor )
+        public AuthService( ICredentialsValidator credentialsValidator, IHttpContextAccessor httpContextAccessor )
         {
             this.httpContextAccessor = Guard.NotNull( httpContextAccessor, nameof( httpContextAccessor ) );
-            this.appUserFinder       = Guard.NotNull( appUserFinder,       nameof( appUserFinder ) );
+            this.credentialsValidator = Guard.NotNull( credentialsValidator, nameof( credentialsValidator ) );
         }
 
         //====== IAuthService
@@ -51,7 +51,7 @@ namespace FileOrganizer.WebUI.Services.Auth
             Guard.NotNull( userName, nameof( userName ) );
             Guard.NotNull( password, nameof( password ) );
 
-            AppUser? appUser = appUserFinder.Find( userName, password );
+            AppUser? appUser = credentialsValidator.ValidateUser( userName, new UserPassword( password ) );
 
             if (appUser is null) return false;
 

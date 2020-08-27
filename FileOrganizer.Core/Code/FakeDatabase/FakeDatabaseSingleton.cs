@@ -21,7 +21,8 @@ namespace FileOrganizer.Core
         IFileSearcher,
         IFileDetailsUpdater,
         IUploadInfoReader,
-        IAppUserCreator
+        IAppUserCreator,
+        ICredentialsValidator
     {
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
@@ -159,6 +160,11 @@ namespace FileOrganizer.Core
 
         #region App Users
 
+        AppUser? ICredentialsValidator.ValidateUser( UserName name, UserPassword password )
+        {
+            return users.FirstOrDefault( x => x.User.Name.Value == name.Value ).User; // we ignore password for now
+        }
+
         void IAppUserCreator.Create( AppUser appUser, UserPassword password )
         {
             if (users.Any( x => x.User.Name.Value == appUser.Name.Value )) throw new Exception( "User already exists." );
@@ -168,14 +174,9 @@ namespace FileOrganizer.Core
             users.Add( appUserDetails );
         }
 
-        public AppUser? Find( UserName userName, string password )
-        {
-            return users.FirstOrDefault( x => x.User.Name.Value == userName.Value ).User; // we ignore password for now
-        }
-
         public AppUser? Find( UserName userName )
         {
-            return Find( userName, "any-password" );
+            return users.FirstOrDefault( x => x.User.Name.Value == userName.Value ).User;
         }
 
         public IReadOnlyList<AppUser> GetAllAppUsers()
