@@ -16,4 +16,8 @@
     <ProjectReference Include="..\FileOrganizer.CommonUtils\FileOrganizer.CommonUtils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Code\Domain\Commands\" />
+  </ItemGroup>
+
 </Project>

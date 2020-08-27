@@ -51,7 +51,7 @@ namespace FileOrganizer.WebUI.Services.Auth
             Guard.NotNull( userName, nameof( userName ) );
             Guard.NotNull( password, nameof( password ) );
 
-            AppUser? appUser = credentialsValidator.ValidateUser( userName, new UserPassword( password ) );
+            AppUser? appUser = credentialsValidator.TryGetUser( userName, new UserPassword( password ) );
 
             if (appUser is null) return false;
 

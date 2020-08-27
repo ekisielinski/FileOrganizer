@@ -160,7 +160,7 @@ namespace FileOrganizer.Core
 
         #region App Users
 
-        AppUser? ICredentialsValidator.ValidateUser( UserName name, UserPassword password )
+        AppUser? ICredentialsValidator.TryGetUser( UserName name, UserPassword password )
         {
             return users.FirstOrDefault( x => x.User.Name.Value == name.Value ).User; // we ignore password for now
         }
