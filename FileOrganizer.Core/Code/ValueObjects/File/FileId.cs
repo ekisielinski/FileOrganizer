@@ -1,6 +1,6 @@
 ﻿namespace FileOrganizer.Core
 {
-    public sealed class FileId
+    public sealed class FileId : IEntityId
     {
         public FileId( int value )
         {
