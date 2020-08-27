@@ -30,7 +30,7 @@ namespace FileOrganizer.Core
         readonly List<UploadEntry> uploads = new List<UploadEntry>();
         readonly List<FileEntry> files = new List<FileEntry>();
 
-        readonly List<AppUser> appUsers = new List<AppUser>();
+        readonly List<AppUserDetails> users = new List<AppUserDetails>();
 
         int uploadId = -1;
         int fileId = -1;
@@ -157,9 +157,20 @@ namespace FileOrganizer.Core
             return $"{datePart}_{randomName}{extensionWithDot}";
         }
 
+        #region App Users
+
+        void IAppUserCreator.Create( AppUser appUser, UserPassword password )
+        {
+            if (users.Any( x => x.User.Name.Value == appUser.Name.Value )) throw new Exception( "User already exists." );
+
+            var appUserDetails = new AppUserDetails( appUser, EmailAddress.Empty, timestampGenerator.UtcNow );
+
+            users.Add( appUserDetails );
+        }
+
         public AppUser? Find( UserName userName, string password )
         {
-            return appUsers.FirstOrDefault( x => x.Name.Value == userName.Value ); // we ignore password for now
+            return users.FirstOrDefault( x => x.User.Name.Value == userName.Value ).User; // we ignore password for now
         }
 
         public AppUser? Find( UserName userName )
@@ -168,9 +179,9 @@ namespace FileOrganizer.Core
         }
 
         public IReadOnlyList<AppUser> GetAllAppUsers()
-        {
-            return appUsers.ToList();
-        }
+            => users.Select( x => x.User ).ToList();
+
+        #endregion
 
         public IReadOnlyList<FileDetails> GetFiles( PagingParameters pagingParameters )
         {
@@ -203,22 +214,17 @@ namespace FileOrganizer.Core
                 Description = x.Description,
                 WhenAdded   = x.WhenAdded,
                 FileCount   = x.FileCount,
-                User        = new UserInfo(
+                Owner       = new AppUser(
                     x.UserName,
-                    appUsers.FirstOrDefault( appUser => appUser.Name.Value == x.UserName.Value ).DisplayName ),
+                    users.FirstOrDefault( appUser => appUser.User.Name.Value == x.UserName.Value ).User.DisplayName,
+                    UserRoles.Empty ),
                 TotalSize   = x.Size
             } );
 
             return infos.ToList();
         }
 
-        public void Create( AppUser appUser, UserPassword password )
-        {
-            if (appUsers.Any( x => x.Name.Value == appUser.Name.Value )) throw new Exception( "User already exists." );
-
-            appUsers.Add( appUser );
-        }
-
+       
         private static Size? GetImageDimension( IFileInfo fileInfo )
         {
             try

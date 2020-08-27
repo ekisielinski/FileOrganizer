@@ -9,7 +9,7 @@ namespace FileOrganizer.Core
         public UtcTimestamp WhenAdded { get; set; }
         public UploadDescription Description { get; set; }
 
-        public UserInfo User { get; set; }
+        public IAppUserNames Owner { get; set; }
 
         public DataSize TotalSize { get; set; }
         public int FileCount { get; set; }
