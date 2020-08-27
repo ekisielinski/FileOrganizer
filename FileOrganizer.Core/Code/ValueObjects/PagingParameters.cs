@@ -2,7 +2,7 @@
 
 namespace FileOrganizer.Core
 {
-    public class PagingParameters
+    public class PagingParameters : IValueObject
     {
         public PagingParameters( int pageSize, int pageIndex )
         {

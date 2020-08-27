@@ -2,7 +2,7 @@
 
 namespace FileOrganizer.Core
 {
-    public sealed class UserPassword
+    public sealed class UserPassword : IValueObject
     {
         public UserPassword( string value )
         {

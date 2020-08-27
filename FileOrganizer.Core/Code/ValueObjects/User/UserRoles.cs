@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace FileOrganizer.Core
 {
-    public sealed class UserRoles
+    public sealed class UserRoles : IValueObject
     {
         public const string Administrator = "administrator";
         public const string Moderator     = "moderator";

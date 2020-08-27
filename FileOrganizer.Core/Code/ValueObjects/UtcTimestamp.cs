@@ -2,7 +2,7 @@
 
 namespace FileOrganizer.Core
 {
-    public sealed class UtcTimestamp
+    public sealed class UtcTimestamp : IValueObject
     {
         public UtcTimestamp( DateTime value )
         {

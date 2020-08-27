@@ -1,6 +1,6 @@
 ﻿namespace FileOrganizer.Core
 {
-    public sealed class FileName
+    public sealed class FileName : IValueObject
     {
         public FileName( string value )
         {

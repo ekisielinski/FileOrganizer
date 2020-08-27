@@ -1,6 +1,6 @@
 ﻿namespace FileOrganizer.Core
 {
-    public sealed class DirectoryFullPath
+    public sealed class DirectoryFullPath : IValueObject
     {
         public DirectoryFullPath( string value )
         {

@@ -1,6 +1,6 @@
 ﻿namespace FileOrganizer.Core.Services
 {
-    public sealed class MimeType
+    public sealed class MimeType : IValueObject
     {
         public MimeType( string value )
         {

@@ -1,6 +1,6 @@
 ﻿namespace FileOrganizer.Core
 {
-    public sealed class UploadDescription
+    public sealed class UploadDescription : IValueObject
     {
         public UploadDescription( string value )
         {
