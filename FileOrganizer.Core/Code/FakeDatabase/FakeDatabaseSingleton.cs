@@ -176,7 +176,7 @@ namespace FileOrganizer.Core
         {
             if (users.Any( x => x.User.Name.Value == appUser.Name.Value )) throw new Exception( "User already exists." );
 
-            var appUserDetails = new AppUserDetails( appUser, EmailAddress.Empty, timestampGenerator.UtcNow );
+            var appUserDetails = new AppUserDetails( appUser, null, timestampGenerator.UtcNow );
 
             users.Add( appUserDetails );
         }

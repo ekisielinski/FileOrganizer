@@ -4,17 +4,17 @@ namespace FileOrganizer.Core
 {
     public sealed class AppUserDetails
     {
-        public AppUserDetails( AppUser user, EmailAddress email, UtcTimestamp whenCreated )
+        public AppUserDetails( AppUser user, EmailAddress? email, UtcTimestamp whenCreated )
         {
-            User        = Guard.NotNull( user,        nameof( user ) );
-            Email       = Guard.NotNull( email,       nameof( email ) );
+            User        = Guard.NotNull( user, nameof( user ) );
+            Email       = email;
             WhenCreated = Guard.NotNull( whenCreated, nameof( whenCreated ) );
         }
 
         //====== public properties
 
-        public AppUser      User        { get; }
-        public EmailAddress Email       { get; }
-        public UtcTimestamp WhenCreated { get; }
+        public AppUser       User        { get; }
+        public EmailAddress? Email       { get; }
+        public UtcTimestamp  WhenCreated { get; }
     }
 }

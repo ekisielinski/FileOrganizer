@@ -9,7 +9,7 @@ else
 {
     <p>User: <b>@Model.Details.User.Name</b></p>
     <p>Display name: <b>@Model.Details.User.DisplayName</b></p>
-    <p>Email: <b>@Model.Details.Email</b></p>
+    <p>Email: <b>@(Model.Details.Email?.ToString() ?? "none")</b></p>
     <p>Registered: <b>@Model.Details.WhenCreated</b></p>
     <p>
         Roles:<br />

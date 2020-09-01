@@ -11,10 +11,6 @@
 
         public string Value { get; }
 
-        //====== public static properties
-
-        public static EmailAddress Empty { get; } = new EmailAddress( string.Empty );
-
         //====== override: Object
 
         public override string ToString() => Value;
