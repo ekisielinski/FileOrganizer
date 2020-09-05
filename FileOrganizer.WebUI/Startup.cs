@@ -1,6 +1,5 @@
 using FileOrganizer.Core;
 using FileOrganizer.Core.Helpers;
-using FileOrganizer.Core.Services;
 using FileOrganizer.WebUI.DiSetup;
 using FileOrganizer.WebUI.Services;
 using Microsoft.AspNetCore.Builder;
@@ -33,15 +32,6 @@ namespace FileOrganizer.WebUI
             services.AddHttpContextAccessor();
 
             services.AddTransient<ITimestampGenerator, SystemTimestampGenerator>();
-            services.AddTransient<IFileDetailsReader>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
-            services.AddTransient<IFileDetailsUpdater>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
-            services.AddSingleton<ICredentialsValidator>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
-            services.AddSingleton<IAppUserFinder>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
-            services.AddSingleton<IAppUserReader>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
-            services.AddSingleton<IAppUserUpdater>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
-            services.AddSingleton<IFileSearcher>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
-            services.AddSingleton<IUploadInfoReader>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
-            services.AddSingleton<IAppUserCreator>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddTransient<IStaticFilesLinkGenerator, StaticFilesLinkGenerator>();
             services.AddTransient<IThumbnailsMaker, ThumbnailsMaker>();
             services.AddTransient<IDatabaseInitializer, DefaultDatabaseInitializer>();
@@ -67,7 +57,6 @@ namespace FileOrganizer.WebUI
                 ep.MapControllerRoute( name: "default", pattern: "{controller}/{action=Index}/{id?}" );
                 ep.MapRazorPages();
             } );
-
 
             using IServiceScope? serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
             serviceScope.ServiceProvider.GetRequiredService<IDatabaseInitializer>().Init();
