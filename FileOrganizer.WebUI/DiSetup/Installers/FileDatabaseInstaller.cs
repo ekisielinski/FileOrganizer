@@ -29,7 +29,8 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
             services.AddSingleton<FakeDatabaseSingleton>( sp => new FakeDatabaseSingleton(
                 sp.GetRequiredService<IFileDatabase>(),
                 sp.GetRequiredService<ITimestampGenerator>(),
-                sp.GetRequiredService<IThumbnailsMaker>()
+                sp.GetRequiredService<IThumbnailsMaker>(),
+                sp.GetRequiredService<ISha256Generator>()
                 ) );
 
             services.AddTransient<IFileUploader>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );

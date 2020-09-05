@@ -29,7 +29,8 @@ namespace FileOrganizer.Core
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
         readonly IThumbnailsMaker thumbnailsMaker;
-        
+        readonly ISha256Generator sha256Generator;
+
         readonly List<UploadEntry> uploads = new List<UploadEntry>();
         readonly List<FileEntry> files = new List<FileEntry>();
 
@@ -40,11 +41,13 @@ namespace FileOrganizer.Core
 
         //====== ctors
 
-        public FakeDatabaseSingleton( IFileDatabase fileDatabase, ITimestampGenerator timestampGenerator, IThumbnailsMaker thumbnailsMaker )
+        public FakeDatabaseSingleton( IFileDatabase fileDatabase, ITimestampGenerator timestampGenerator, IThumbnailsMaker thumbnailsMaker,
+            ISha256Generator sha256Generator )
         {
             this.fileDatabase       = Guard.NotNull( fileDatabase, nameof( fileDatabase ) );
             this.timestampGenerator = Guard.NotNull( timestampGenerator, nameof( timestampGenerator ) );
             this.thumbnailsMaker    = Guard.NotNull( thumbnailsMaker, nameof( thumbnailsMaker ) );
+            this.sha256Generator    = Guard.NotNull( sha256Generator, nameof( sha256Generator ) ); ;
         }
 
         //====== IFileUploader
@@ -60,6 +63,8 @@ namespace FileOrganizer.Core
             foreach (SourceFile sourceFile in parameters.SourceFiles)
             {
                 UtcTimestamp timestamp = timestampGenerator.UtcNow;
+
+                Sha256Hash hash = sha256Generator.GenerateHash( sourceFile.Content );
 
                 string newFileName = MakeRandomFileName( sourceFile.OrginalFileName, timestamp );
 
@@ -79,7 +84,8 @@ namespace FileOrganizer.Core
                     WhenAdded     = timestamp,
                     DatabaseFiles = new DatabaseFiles( new FileName( newFileName ), new FileName( thumbFileName ) ),
                     Size          = new DataSize( sourceFile.Content.Length ),
-                    ImageDetails  = new ImageDetails { Size = GetImageDimension( fileInfo ) }
+                    ImageDetails  = new ImageDetails { Size = GetImageDimension( fileInfo ) },
+                    Hash          = hash
                 } );
             }
 

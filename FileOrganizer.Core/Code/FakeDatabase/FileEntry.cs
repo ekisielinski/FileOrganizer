@@ -16,5 +16,6 @@ namespace FileOrganizer.Core
         public FileDescription Description   { get; set; } = FileDescription.Empty;
         public FileTitle       Title         { get; set; } = FileTitle.Empty;
         public ImageDetails?   ImageDetails  { get; set; } = null;
+        public Sha256Hash      Hash          { get; set; }
     }
 }
