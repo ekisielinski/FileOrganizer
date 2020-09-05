@@ -1,7 +1,4 @@
-﻿using FileOrganizer.Core;
-using FileOrganizer.Core.Helpers;
-using FileOrganizer.Core.Services;
-using FileOrganizer.Services.FileDatabase;
+﻿using FileOrganizer.Services.FileDatabase;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,17 +20,6 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
 
             services.AddTransient<IFileDatabase>( sp => sp.GetRequiredService<PhysicalFileDatabase>() );
             services.AddTransient<IFileDatabaseReader>( sp => sp.GetRequiredService<PhysicalFileDatabase>() );
-
-            //--- uploader
-
-            services.AddSingleton<FakeDatabaseSingleton>( sp => new FakeDatabaseSingleton(
-                sp.GetRequiredService<IFileDatabase>(),
-                sp.GetRequiredService<ITimestampGenerator>(),
-                sp.GetRequiredService<IThumbnailsMaker>(),
-                sp.GetRequiredService<ISha256Generator>()
-                ) );
-
-            services.AddTransient<IFileUploader>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
         }
     }
 }
