@@ -1,4 +1,4 @@
-﻿@page "/user/{userName}"
+﻿@page "/user/view/{userName}"
 @model FileOrganizer.WebUI.Pages.UserModel
 
 @if (Model.Details is null)
@@ -18,4 +18,6 @@ else
             <b>@role</b><br />
         }
     </p>
+
+    <a asp-page="EditUser" asp-route-username="@Model.Details.User.Name">Edit</a>
 }

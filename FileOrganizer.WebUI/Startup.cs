@@ -38,6 +38,7 @@ namespace FileOrganizer.WebUI
             services.AddSingleton<ICredentialsValidator>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddSingleton<IAppUserFinder>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddSingleton<IAppUserReader>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
+            services.AddSingleton<IAppUserUpdater>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddSingleton<IFileSearcher>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddSingleton<IUploadInfoReader>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddSingleton<IAppUserCreator>( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );

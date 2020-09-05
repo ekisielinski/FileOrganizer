@@ -23,7 +23,8 @@ namespace FileOrganizer.Core
         IUploadInfoReader,
         IAppUserCreator,
         ICredentialsValidator,
-        IAppUserReader
+        IAppUserReader,
+        IAppUserUpdater
     {
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;
@@ -183,6 +184,24 @@ namespace FileOrganizer.Core
 
         public IReadOnlyList<AppUser> GetAllAppUsers()
             => users.Select( x => x.User ).ToList();
+
+
+        void IAppUserUpdater.SetEmail( UserName userName, EmailAddress? email )
+        {
+            AppUserDetails details = users.Single( x => x.User.Name.Value == userName.Value );
+            var newDetails = new AppUserDetails( details.User, email, details.WhenCreated );
+            users.Remove( details );
+            users.Add( newDetails );
+        }
+
+        void IAppUserUpdater.SetDisplayName( UserName userName, UserDisplayName displayName )
+        {
+            AppUserDetails details = users.Single( x => x.User.Name.Value == userName.Value );
+            var newUser = new AppUser( details.User.Name, displayName, details.User.Roles );
+            var newDetails = new AppUserDetails( newUser, details.Email, details.WhenCreated );
+            users.Remove( details );
+            users.Add( newDetails );
+        }
 
         #endregion
 

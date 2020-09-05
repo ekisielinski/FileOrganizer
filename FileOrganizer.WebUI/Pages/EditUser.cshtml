@@ -1,0 +1,29 @@
+﻿@page "/user/edit/{userName}"
+@model FileOrganizer.WebUI.Pages.EditUserModel
+
+@if (Model.Details is null)
+{
+    <p>User not found</p>
+    <a asp-page="Users">Back to users list</a>
+}
+else
+{
+    <p>Edit user: @Model.Details.User.Name</p>
+
+    <form method="post" asp-page="EditUser">
+        <label asp-for="DisplayName"></label>
+        <br />
+        <input asp-for="DisplayName" autocomplete="off" />
+        <br />
+        <br />
+        <label asp-for="Email"></label>
+        <br />
+        <input asp-for="Email" />
+
+        <br />
+
+        <input type="submit" value="Update" />
+    </form>
+
+    <a asp-page="User" asp-route-username="@Model.Details.User.Name">Back to user info</a>
+}
