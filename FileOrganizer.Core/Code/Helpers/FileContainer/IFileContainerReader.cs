@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.FileProviders;
 
-namespace FileOrganizer.Core.Services.Internal
+namespace FileOrganizer.Core.Helpers
 {
-    public interface IFileStorageReader
+    public interface IFileContainerReader
     {
         IFileInfo Get( FileName fileName );
     }

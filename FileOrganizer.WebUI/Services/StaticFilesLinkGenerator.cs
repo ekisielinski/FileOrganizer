@@ -29,8 +29,8 @@ namespace FileOrganizer.WebUI.Services
 
             string actionName = folder switch
             {
-                FileDatabaseFolder.Files  => nameof( StaticFilesController.File ),
-                FileDatabaseFolder.Thumbs => nameof( StaticFilesController.Thumb ),
+                FileDatabaseFolder.SourceFiles => nameof( StaticFilesController.File ),
+                FileDatabaseFolder.Thumbnails  => nameof( StaticFilesController.Thumb ),
 
                 _ => throw new ArgumentException( "Invalid enum value.", nameof( folder ) )
             };

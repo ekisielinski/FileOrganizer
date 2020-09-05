@@ -25,7 +25,7 @@ namespace FileOrganizer.WebUI.Controllers
 
         public IActionResult File( string fileName )
         {
-            IFileInfo file = reader.GetStorageReader( FileDatabaseFolder.Files )
+            IFileInfo file = reader.GetContainerReader( FileDatabaseFolder.SourceFiles )
                                    .Get( new FileName( fileName ));
 
             return FileInfoToActionResult( file );
@@ -33,7 +33,7 @@ namespace FileOrganizer.WebUI.Controllers
 
         public IActionResult Thumb( string fileName )
         {
-            IFileInfo file = reader.GetStorageReader( FileDatabaseFolder.Thumbs )
+            IFileInfo file = reader.GetContainerReader( FileDatabaseFolder.Thumbnails )
                                    .Get( new FileName( fileName ));
 
             return FileInfoToActionResult( file );

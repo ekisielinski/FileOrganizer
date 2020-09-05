@@ -1,6 +1,6 @@
 ﻿using FileOrganizer.CommonUtils;
 using FileOrganizer.Core;
-using FileOrganizer.Core.Services.Internal;
+using FileOrganizer.Core.Helpers;
 using System;
 using System.IO;
 
@@ -21,11 +21,11 @@ namespace FileOrganizer.Services.FileDatabase
 
         //===== IFileDatabase
 
-        public IFileStorage GetStorage( FileDatabaseFolder folder )
-            => new PhysicalFileStorage( GetFolderFullPath( folder ) );
+        public IFileContainer GetContainer( FileDatabaseFolder folder )
+            => new PhysicalFileContainer( GetFolderFullPath( folder ) );
 
-        public IFileStorageReader GetStorageReader( FileDatabaseFolder folder )
-            => new PhysicalFileStorage( GetFolderFullPath( folder ) );
+        public IFileContainerReader GetContainerReader( FileDatabaseFolder folder )
+            => new PhysicalFileContainer( GetFolderFullPath( folder ) );
 
         //====== private methods
 
@@ -33,8 +33,8 @@ namespace FileOrganizer.Services.FileDatabase
         {
             string dirPath = Path.Combine( rootPath, folder switch
             {
-                FileDatabaseFolder.Files  => "Files",
-                FileDatabaseFolder.Thumbs => "Thumbs",
+                FileDatabaseFolder.SourceFiles => "Files",
+                FileDatabaseFolder.Thumbnails  => "Thumbs",
 
                 _ => throw new ArgumentException( "Invalid enum value.", nameof( folder ) )
             } );

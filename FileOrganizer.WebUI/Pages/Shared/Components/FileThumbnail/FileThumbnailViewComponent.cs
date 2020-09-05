@@ -22,7 +22,7 @@ namespace FileOrganizer.WebUI.Pages.Shared.Components
 
         public IViewComponentResult Invoke( FileDetails file )
         {
-            string link = linkGenerator.GetDatabaseFilePath( file.DatabaseFiles.Thumbnail, FileDatabaseFolder.Thumbs );
+            string link = linkGenerator.GetDatabaseFilePath( file.DatabaseFiles.Thumbnail, FileDatabaseFolder.Thumbnails );
 
             // TODO: create model
 

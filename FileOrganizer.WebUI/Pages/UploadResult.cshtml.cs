@@ -36,7 +36,7 @@ namespace FileOrganizer.WebUI.Pages
 
         public string GetThumbFilePath( FileDetails fileDetails )
         {
-            return linkGenerator.GetDatabaseFilePath( fileDetails.DatabaseFiles.Thumbnail, FileDatabaseFolder.Thumbs );
+            return linkGenerator.GetDatabaseFilePath( fileDetails.DatabaseFiles.Thumbnail, FileDatabaseFolder.Thumbnails );
         }
     }
 }

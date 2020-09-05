@@ -2,7 +2,7 @@
 {
     public enum FileDatabaseFolder
     {
-        Files,
-        Thumbs
+        SourceFiles,
+        Thumbnails
     }
 }

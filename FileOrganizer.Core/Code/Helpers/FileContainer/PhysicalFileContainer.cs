@@ -3,15 +3,15 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.FileProviders.Physical;
 using System.IO;
 
-namespace FileOrganizer.Core.Services.Internal
+namespace FileOrganizer.Core.Helpers
 {
-    public sealed class PhysicalFileStorage : IFileStorage
+    public sealed class PhysicalFileContainer : IFileContainer
     {
         readonly PhysicalFileProvider provider;
 
         //====== ctors
 
-        public PhysicalFileStorage( DirectoryFullPath root )
+        public PhysicalFileContainer( DirectoryFullPath root )
         {
             Guard.NotNull( root, nameof( root ) );
 

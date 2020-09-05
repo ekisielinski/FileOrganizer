@@ -63,7 +63,7 @@ namespace FileOrganizer.Core
 
                 string newFileName = MakeRandomFileName( sourceFile.OrginalFileName, timestamp );
 
-                IFileInfo fileInfo = fileDatabase.GetStorage( FileDatabaseFolder.Files )
+                IFileInfo fileInfo = fileDatabase.GetContainer( FileDatabaseFolder.SourceFiles )
                                                  .Create( sourceFile.Content, new FileName( newFileName ) );
 
                 string thumbFileName = CreateThumbnail( fileInfo, timestamp );
@@ -144,7 +144,7 @@ namespace FileOrganizer.Core
 
             string newFileName = MakeRandomFileName( "any-name.jpg", timestamp );
 
-            var thumbFile = fileDatabase.GetStorage( FileDatabaseFolder.Thumbs )
+            var thumbFile = fileDatabase.GetContainer( FileDatabaseFolder.Thumbnails )
                                         .Create( memoryStream, new FileName( newFileName ) );
 
             return thumbFile.Name;

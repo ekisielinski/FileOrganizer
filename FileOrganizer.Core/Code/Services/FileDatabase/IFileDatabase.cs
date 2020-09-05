@@ -1,9 +1,9 @@
-﻿using FileOrganizer.Core.Services.Internal;
+﻿using FileOrganizer.Core.Helpers;
 
 namespace FileOrganizer.Services.FileDatabase
 {
     public interface IFileDatabase : IFileDatabaseReader
     {
-        IFileStorage GetStorage( FileDatabaseFolder folder );
+        IFileContainer GetContainer( FileDatabaseFolder folder );
     }
 }
