@@ -10,13 +10,15 @@ namespace FileOrganizer.Core
     {
         readonly IAppUserCreator appUserCreator;
         readonly IFileUploader fileUploader;
+        readonly IFileDetailsUpdater fileDetailsUpdater;
 
         //====== ctors
 
-        public DefaultDatabaseInitializer( IAppUserCreator appUserCreator, IFileUploader fileUploader )
+        public DefaultDatabaseInitializer( IAppUserCreator appUserCreator, IFileUploader fileUploader, IFileDetailsUpdater fileDetailsUpdater )
         {
             this.appUserCreator = Guard.NotNull( appUserCreator, nameof( appUserCreator ) );
             this.fileUploader = Guard.NotNull( fileUploader, nameof( fileUploader ) );
+            this.fileDetailsUpdater = Guard.NotNull( fileDetailsUpdater, nameof( fileDetailsUpdater ) );
         }
 
         //====== IDatabaseInitializer
@@ -44,6 +46,10 @@ namespace FileOrganizer.Core
 
             fileUploader.Upload( upload1 );
             fileUploader.Upload( upload2 );
+
+            // temp
+            fileDetailsUpdater.UpdateTitle( new FileId( 0 ), new FileTitle( "Red square" ) );
+            fileDetailsUpdater.UpdateDescription( new FileId( 0 ), new FileDescription( "Red square - description" ) );
         }
 
         private static SourceFile CreateFakeImage( int width, int height, Color color, string? orginalFileName )
