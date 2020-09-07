@@ -15,7 +15,8 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
                 sp.GetRequiredService<IFileDatabase>(),
                 sp.GetRequiredService<ITimestampGenerator>(),
                 sp.GetRequiredService<IThumbnailsMaker>(),
-                sp.GetRequiredService<ISha256Generator>()
+                sp.GetRequiredService<ISha256Generator>(),
+                sp.GetRequiredService<IPasswordHasher>()
             ) );
 
             services.AddTransient<IFileUploader>         ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );

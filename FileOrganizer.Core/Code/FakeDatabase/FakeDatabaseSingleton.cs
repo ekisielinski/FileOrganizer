@@ -30,23 +30,29 @@ namespace FileOrganizer.Core
         readonly ITimestampGenerator timestampGenerator;
         readonly IThumbnailsMaker thumbnailsMaker;
         readonly ISha256Generator sha256Generator;
+        readonly IPasswordHasher passwordHasher;
 
         readonly List<UploadEntry> uploads = new List<UploadEntry>();
         readonly List<FileEntry> files = new List<FileEntry>();
         readonly List<UserEntry> users = new List<UserEntry>();
-
+        
         int uploadId = -1;
         int fileId = -1;
 
         //====== ctors
 
-        public FakeDatabaseSingleton( IFileDatabase fileDatabase, ITimestampGenerator timestampGenerator, IThumbnailsMaker thumbnailsMaker,
-            ISha256Generator sha256Generator )
+        public FakeDatabaseSingleton(
+            IFileDatabase fileDatabase,
+            ITimestampGenerator timestampGenerator,
+            IThumbnailsMaker thumbnailsMaker,
+            ISha256Generator sha256Generator,
+            IPasswordHasher passwordHasher )
         {
             this.fileDatabase       = Guard.NotNull( fileDatabase, nameof( fileDatabase ) );
             this.timestampGenerator = Guard.NotNull( timestampGenerator, nameof( timestampGenerator ) );
             this.thumbnailsMaker    = Guard.NotNull( thumbnailsMaker, nameof( thumbnailsMaker ) );
             this.sha256Generator    = Guard.NotNull( sha256Generator, nameof( sha256Generator ) ); ;
+            this.passwordHasher     = passwordHasher;
         }
 
         //====== IFileUploader
@@ -175,16 +181,22 @@ namespace FileOrganizer.Core
 
         AppUser? ICredentialsValidator.TryGetUser( UserName name, UserPassword password )
         {
-            return users.FirstOrDefault( x => x.AppUserDetails.User.Name.Value == name.Value ).AppUserDetails.User; // we ignore password for now
+            var user = users.FirstOrDefault( x => x.AppUserDetails.User.Name.Value == name.Value );
+            if (user is null) return null;
+
+            bool ok = passwordHasher.VerifyHash( user.PasswordHash, password );
+
+            return ok ? user.AppUserDetails.User : null;
         }
 
         void IAppUserCreator.Create( AppUser appUser, UserPassword password )
         {
             if (users.Any( x => x.AppUserDetails.User.Name.Value == appUser.Name.Value )) throw new Exception( "User already exists." );
 
+            string hash = passwordHasher.HashPassword( password );
             var appUserDetails = new AppUserDetails( appUser, null, timestampGenerator.UtcNow );
 
-            users.Add( new UserEntry { AppUserDetails = appUserDetails } );
+            users.Add( new UserEntry { AppUserDetails = appUserDetails, PasswordHash = hash } );
         }
 
         public IReadOnlyList<AppUser> GetAllAppUsers()

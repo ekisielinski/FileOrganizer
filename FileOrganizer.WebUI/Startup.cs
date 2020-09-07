@@ -36,7 +36,8 @@ namespace FileOrganizer.WebUI
             services.AddTransient<IThumbnailsMaker, ThumbnailsMaker>();
             services.AddTransient<IDatabaseInitializer, DefaultDatabaseInitializer>();
             services.AddTransient<ISha256Generator, Sha256Generator>();
-            
+            services.AddTransient<IPasswordHasher, PasswordHasher>();
+
             ServicesInstallerHelper.InstallAll( services, Configuration, typeof( Startup ).Assembly );
         }
 
