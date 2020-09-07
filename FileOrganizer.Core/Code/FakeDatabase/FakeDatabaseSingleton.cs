@@ -33,8 +33,7 @@ namespace FileOrganizer.Core
 
         readonly List<UploadEntry> uploads = new List<UploadEntry>();
         readonly List<FileEntry> files = new List<FileEntry>();
-
-        readonly List<AppUserDetails> users = new List<AppUserDetails>();
+        readonly List<UserEntry> users = new List<UserEntry>();
 
         int uploadId = -1;
         int fileId = -1;
@@ -169,44 +168,51 @@ namespace FileOrganizer.Core
         #region App Users
 
         AppUser IAppUserReader.GetUser( UserName userName )
-            => users.Single( x => x.User.Name.Value == userName.Value ).User;
+            => users.Single( x => x.AppUserDetails.User.Name.Value == userName.Value ).AppUserDetails.User;
 
         AppUserDetails IAppUserReader.GetUserDetails( UserName userName )
-            => users.Single( x => x.User.Name.Value == userName.Value );
+            => users.Single( x => x.AppUserDetails.User.Name.Value == userName.Value ).AppUserDetails;
 
         AppUser? ICredentialsValidator.TryGetUser( UserName name, UserPassword password )
         {
-            return users.FirstOrDefault( x => x.User.Name.Value == name.Value ).User; // we ignore password for now
+            return users.FirstOrDefault( x => x.AppUserDetails.User.Name.Value == name.Value ).AppUserDetails.User; // we ignore password for now
         }
 
         void IAppUserCreator.Create( AppUser appUser, UserPassword password )
         {
-            if (users.Any( x => x.User.Name.Value == appUser.Name.Value )) throw new Exception( "User already exists." );
+            if (users.Any( x => x.AppUserDetails.User.Name.Value == appUser.Name.Value )) throw new Exception( "User already exists." );
 
             var appUserDetails = new AppUserDetails( appUser, null, timestampGenerator.UtcNow );
 
-            users.Add( appUserDetails );
+            users.Add( new UserEntry { AppUserDetails = appUserDetails } );
         }
 
         public IReadOnlyList<AppUser> GetAllAppUsers()
-            => users.Select( x => x.User ).ToList();
+            => users.Select( x => x.AppUserDetails.User ).ToList();
 
 
         void IAppUserUpdater.SetEmail( UserName userName, EmailAddress? email )
         {
-            AppUserDetails details = users.Single( x => x.User.Name.Value == userName.Value );
-            var newDetails = new AppUserDetails( details.User, email, details.WhenCreated );
-            users.Remove( details );
-            users.Add( newDetails );
+            UserEntry entry = users.Single( x => x.AppUserDetails.User.Name.Value == userName.Value );
+            users.Remove( entry );
+
+            var newEntry = new UserEntry
+            {
+                AppUserDetails = new AppUserDetails( entry.AppUserDetails.User, email, entry.AppUserDetails.WhenCreated )
+            };
+
+            users.Add( newEntry );
         }
 
         void IAppUserUpdater.SetDisplayName( UserName userName, UserDisplayName displayName )
         {
-            AppUserDetails details = users.Single( x => x.User.Name.Value == userName.Value );
-            var newUser = new AppUser( details.User.Name, displayName, details.User.Roles );
-            var newDetails = new AppUserDetails( newUser, details.Email, details.WhenCreated );
-            users.Remove( details );
-            users.Add( newDetails );
+            UserEntry entry = users.Single( x => x.AppUserDetails.User.Name.Value == userName.Value );
+            users.Remove( entry );
+
+            var newUser = new AppUser( entry.AppUserDetails.User.Name, displayName, entry.AppUserDetails.User.Roles );
+            var newDetails = new AppUserDetails( newUser, entry.AppUserDetails.Email, entry.AppUserDetails.WhenCreated );
+
+            users.Add( new UserEntry { AppUserDetails = newDetails } );
         }
 
         #endregion
@@ -244,7 +250,7 @@ namespace FileOrganizer.Core
                 FileCount   = x.FileCount,
                 Owner       = new AppUser(
                     x.UserName,
-                    users.FirstOrDefault( appUser => appUser.User.Name.Value == x.UserName.Value ).User.DisplayName,
+                    users.FirstOrDefault( appUser => appUser.AppUserDetails.User.Name.Value == x.UserName.Value ).AppUserDetails.User.DisplayName,
                     UserRoles.Empty ),
                 TotalSize   = x.Size
             } );
