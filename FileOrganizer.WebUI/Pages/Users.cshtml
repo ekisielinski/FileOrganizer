@@ -3,13 +3,24 @@
 
 <a asp-page="NewUser">Create new</a>
 
-<br />
-
-@foreach (var appUser in finder.GetAllAppUsers())
-{
-    <p>
-        <a asp-page="User" asp-route-username="@appUser.Name">
-            <b>@appUser.Name</b> - @appUser.DisplayName
-        </a>
-    </p>
-}
+<table>
+    <thead>
+        <tr>
+            <th>UserName</th>
+            <th>Display name</th>
+            <th>Profile</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appUser in finder.GetAllAppUsers())
+        {
+            <tr>
+                <td>@appUser.Name</td>
+                <td>@appUser.DisplayName</td>
+                <td>
+                    <a asp-page="User" asp-route-username="@appUser.Name">LINK</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
