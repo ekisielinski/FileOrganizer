@@ -1,5 +1,4 @@
 using FileOrganizer.Core;
-using FileOrganizer.Core.Helpers;
 using FileOrganizer.WebUI.DiSetup;
 using FileOrganizer.WebUI.Services;
 using Microsoft.AspNetCore.Builder;
@@ -30,13 +29,8 @@ namespace FileOrganizer.WebUI
             } );
 
             services.AddHttpContextAccessor();
-
-            services.AddTransient<ITimestampGenerator, SystemTimestampGenerator>();
             services.AddTransient<IStaticFilesLinkGenerator, StaticFilesLinkGenerator>();
-            services.AddTransient<IThumbnailsMaker, ThumbnailsMaker>();
             services.AddTransient<IDatabaseInitializer, DefaultDatabaseInitializer>();
-            services.AddTransient<ISha256Generator, Sha256Generator>();
-            services.AddTransient<IPasswordHasher, PasswordHasher>();
 
             ServicesInstallerHelper.InstallAll( services, Configuration, typeof( Startup ).Assembly );
         }

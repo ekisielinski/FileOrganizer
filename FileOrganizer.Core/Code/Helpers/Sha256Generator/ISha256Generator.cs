@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace FileOrganizer.Core
+namespace FileOrganizer.Core.Helpers
 {
     public interface ISha256Generator
     {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 
-namespace FileOrganizer.Core
+namespace FileOrganizer.Core.Helpers
 {
     public sealed class Sha256Generator : ISha256Generator
     {

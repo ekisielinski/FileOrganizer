@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace FileOrganizer.Core
+namespace FileOrganizer.Core.Helpers
 {
     public sealed class Sha256Hash : IEquatable<Sha256Hash>
     {

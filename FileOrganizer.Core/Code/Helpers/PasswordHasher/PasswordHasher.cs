@@ -1,7 +1,7 @@
 ﻿using FileOrganizer.CommonUtils;
 using Microsoft.AspNetCore.Identity;
 
-namespace FileOrganizer.Core
+namespace FileOrganizer.Core.Helpers
 {
     public sealed class PasswordHasher : IPasswordHasher
     {
