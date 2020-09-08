@@ -35,3 +35,19 @@ table
     {
         padding: 2px 4px;
     }
+
+
+form
+{
+    margin: 8px;
+    padding: 12px;
+    border: 1px solid rgba(0,0,0,0.125);
+    background-color: rgba(0,0,0,0.075);
+}
+
+input[type=text], textarea
+{
+    background-color: #ffffe1;
+    border: 1px solid rgba(0,0,0,0.2);
+    padding: 6px 8px;
+}

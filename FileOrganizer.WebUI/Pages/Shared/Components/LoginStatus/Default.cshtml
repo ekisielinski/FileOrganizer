@@ -8,7 +8,7 @@ else
 {
     <span>You are logged in as: <a asp-page="User" asp-route-username="@Model.Name"><b>@Model</b></a></span>
 
-    <form method="post" asp-area="Auth" asp-page="Logout">
+    <form method="post" asp-area="Auth" asp-page="Logout" style="width: 70px">
         <button type="submit">Logout</button>
     </form>
 }
