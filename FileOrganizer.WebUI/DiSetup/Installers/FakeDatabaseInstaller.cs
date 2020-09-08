@@ -20,6 +20,7 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
             ) );
 
             services.AddTransient<IFileUploader>         ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
+            services.AddTransient<IUploadDetailsReader>  ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddTransient<IFileDetailsReader>    ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddTransient<IFileDetailsUpdater>   ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddTransient<ICredentialsValidator> ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );

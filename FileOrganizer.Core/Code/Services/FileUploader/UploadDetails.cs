@@ -13,7 +13,7 @@ namespace FileOrganizer.Core.Services
             Guard.NotNull( description, nameof( description ) );
 
             Id = id;
-            Files = files.ToList();
+            Files = ArgUtils.ToRoList( files, nameof( files ) );
             Description = description;
         }
 

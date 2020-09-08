@@ -24,7 +24,8 @@ namespace FileOrganizer.Core
         IAppUserCreator,
         ICredentialsValidator,
         IAppUserReader,
-        IAppUserUpdater
+        IAppUserUpdater,
+        IUploadDetailsReader
     {
         readonly IFileDatabase fileDatabase;
         readonly ITimestampGenerator timestampGenerator;

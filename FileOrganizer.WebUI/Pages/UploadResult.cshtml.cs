@@ -23,11 +23,17 @@ namespace FileOrganizer.WebUI.Pages
 
         //====== actions
 
-        public IActionResult OnGet( int uploadId, [FromServices] IFileDetailsReader reader )
+        public IActionResult OnGet( int uploadId, [FromServices] IUploadDetailsReader reader )
         {
-            UploadDetails = reader.GetUploadDetails( new UploadId( uploadId ) );
-
-            if (UploadDetails is null) return NotFound();
+            try
+            {
+                UploadDetails = reader.GetUploadDetails( new UploadId( uploadId ) );
+            }
+            catch
+            {
+                // todo: should display some message
+                return NotFound();
+            }
 
             return Page();
         }

@@ -26,7 +26,7 @@ namespace FileOrganizer.WebUI.Pages
 
         }
 
-        public IActionResult OnPost( [FromServices] IFileUploader fileUploader, [FromServices] IFileDetailsReader reader )
+        public IActionResult OnPost( [FromServices] IFileUploader fileUploader, [FromServices] IUploadDetailsReader reader )
         {
             if (Files?.Count > 0)
             {
