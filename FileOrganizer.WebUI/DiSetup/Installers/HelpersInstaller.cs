@@ -11,7 +11,7 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
             services.AddTransient<ISha256Generator, Sha256Generator>();
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<IImageResizer, ImageResizer>();
-            services.AddTransient<IThumbnailsMaker, ThumbnailsMaker>();
+            services.AddTransient<IThumbnailMaker, ThumbnailMaker>();
             services.AddTransient<ITimestampGenerator, SystemTimestampGenerator>();
         }
     }

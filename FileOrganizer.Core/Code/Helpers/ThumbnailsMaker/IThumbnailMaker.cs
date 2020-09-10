@@ -3,8 +3,8 @@ using System.Drawing;
 
 namespace FileOrganizer.Core.Helpers
 {
-    public interface IThumbnailsMaker
+    public interface IThumbnailMaker
     {
-        Image MakeThumb( IFileInfo fileInfo, Size size );
+        ThumbnailMakerResult MakeThumb( IFileInfo fileInfo, Size size );
     }
 }
