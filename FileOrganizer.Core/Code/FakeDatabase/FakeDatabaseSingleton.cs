@@ -112,11 +112,9 @@ namespace FileOrganizer.Core
 
         //====== IFileDetailsReader
 
-        public FileDetails? GetFileDetailsById( FileId fileId )
+        public FileDetails GetFileDetailsById( FileId fileId )
         {
-            FileEntry entry = files.FirstOrDefault( x => x.Id == fileId.Value );
-
-            if (entry is null) return null;
+            FileEntry entry = files.Single( x => x.Id == fileId.Value );
 
             return new FileDetails
             {
@@ -129,11 +127,9 @@ namespace FileOrganizer.Core
             };
         }
 
-        public UploadDetails? GetUploadDetails( UploadId uploadId )
+        public UploadDetails GetUploadDetails( UploadId uploadId )
         {
-            var upload = uploads.FirstOrDefault( x => x.Id.Value == uploadId.Value);
-            
-            if (upload is null) return null;
+            var upload = uploads.Single( x => x.Id.Value == uploadId.Value);
 
             IEnumerable<FileDetails> fileDetailsList = files
                 .Where( x => x.UploadId.Value == uploadId.Value)

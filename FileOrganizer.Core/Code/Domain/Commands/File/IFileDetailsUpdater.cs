@@ -1,6 +1,6 @@
-﻿namespace FileOrganizer.Core.Services
+﻿namespace FileOrganizer.Core
 {
-    public interface IFileDetailsUpdater
+    public interface IFileDetailsUpdater : IDomainCommand
     {
         void UpdateTitle( FileId fileId, FileTitle title );
 
