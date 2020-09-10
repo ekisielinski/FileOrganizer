@@ -5,17 +5,17 @@ namespace FileOrganizer.Core.Helpers
 {
     public sealed class ThumbnailMakerResult
     {
-        public ThumbnailMakerResult( Image thumbnail, Size fullSize )
+        public ThumbnailMakerResult( FileName thumbFileName, Size orginalImageSize )
         {
-            Thumbnail = Guard.NotNull( thumbnail, nameof( thumbnail ) ); ;
-            
-            FullSize = fullSize;
+            ThumbnailFileName = Guard.NotNull( thumbFileName, nameof( thumbFileName ) );
+
+            OrginalImageSize = orginalImageSize;
         }
 
         //====== public properties
 
-        public Image Thumbnail { get; }
+        public FileName ThumbnailFileName { get; }
 
-        public Size FullSize { get; }
+        public Size OrginalImageSize { get; }
     }
 }

@@ -4,9 +4,6 @@ using FileOrganizer.Core.Services;
 using FileOrganizer.Services.FileDatabase;
 using Microsoft.Extensions.FileProviders;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 
 namespace FileOrganizer.Core
@@ -20,7 +17,7 @@ namespace FileOrganizer.Core
         readonly ITimestampGenerator timestampGenerator;
         readonly ISha256Generator sha256Generator;
         readonly IFileDatabase fileDatabase;
-        readonly IThumbnailMaker thumbnailsMaker;
+        readonly IThumbnailMaker thumbnailMaker;
 
         //====== ctors
 
@@ -29,13 +26,13 @@ namespace FileOrganizer.Core
             ITimestampGenerator timestampGenerator,
             ISha256Generator sha256Generator,
             IFileDatabase fileDatabase,
-            IThumbnailMaker thumbnailsMaker )
+            IThumbnailMaker thumbnailMaker )
         {
             this.database = database;
             this.timestampGenerator = timestampGenerator;
             this.sha256Generator = sha256Generator;
             this.fileDatabase = fileDatabase;
-            this.thumbnailsMaker = thumbnailsMaker;
+            this.thumbnailMaker = thumbnailMaker;
         }
 
         IReadOnlyList<UploadInfo> IUploadInfoReader.GetAll()
@@ -88,22 +85,7 @@ namespace FileOrganizer.Core
                 IFileInfo fileInfo = fileDatabase.GetContainer( FileDatabaseFolder.SourceFiles )
                                                  .Create( sourceFile.Content, new FileName( newFileName ) );
 
-                ThumbnailMakerResult thumbResult = null;
-                string thumbFileName = string.Empty;
-
-                try
-                {
-                    thumbResult = thumbnailsMaker.MakeThumb( fileInfo, new Size( 300, 300 ) );
-                    thumbFileName = SaveThumbnail( thumbResult.Thumbnail, timestamp );
-                }
-                catch
-                {
-                    // TODO: log errors
-                }
-                finally
-                {
-                    thumbResult?.Thumbnail?.Dispose();
-                }
+                ThumbnailMakerResult? thumbResult = thumbnailMaker.TryMakeAndSaveThumbnail( fileInfo, timestamp );
 
                 database.fileId++;
 
@@ -114,9 +96,9 @@ namespace FileOrganizer.Core
                     MimeType      = sourceFile.MimeType,
                     FileName      = sourceFile.OrginalFileName,
                     WhenAdded     = timestamp,
-                    DatabaseFiles = new DatabaseFiles( new FileName( newFileName ), new FileName( thumbFileName ) ),
+                    DatabaseFiles = new DatabaseFiles( new FileName( newFileName ), thumbResult?.ThumbnailFileName ),
                     Size          = new DataSize( sourceFile.Content.Length ),
-                    ImageDetails  = new ImageDetails { Size = thumbResult?.FullSize },
+                    ImageDetails  = new ImageDetails { Size = thumbResult?.OrginalImageSize },
                     Hash          = hash
                 } );
             }
@@ -134,20 +116,6 @@ namespace FileOrganizer.Core
             } );
 
             return new UploadId( database.uploadId );
-        }
-
-        private string SaveThumbnail( Image thumbnail, UtcTimestamp timestamp )
-        {
-            using var memoryStream = new MemoryStream( 50 * 1024 );
-
-            thumbnail.Save( memoryStream, ImageFormat.Jpeg );
-
-            string newFileName = FileUtils.GetRandomFileNameWithTimestamp( timestamp.Value, "any-name.jpg" );
-
-            var thumbFile = fileDatabase.GetContainer( FileDatabaseFolder.Thumbnails )
-                                        .Create( memoryStream, new FileName( newFileName ) );
-
-            return thumbFile.Name;
         }
     }
 }

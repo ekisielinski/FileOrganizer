@@ -1,4 +1,5 @@
 ﻿using FileOrganizer.Core.Helpers;
+using FileOrganizer.Services.FileDatabase;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,8 +12,14 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
             services.AddTransient<ISha256Generator, Sha256Generator>();
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<IImageResizer, ImageResizer>();
-            services.AddTransient<IThumbnailMaker, ThumbnailMaker>();
             services.AddTransient<ITimestampGenerator, SystemTimestampGenerator>();
+
+            // todo: move services with dependencies to different folder than services w/o dependencies
+
+            services.AddTransient<IThumbnailMaker>( sp => new ThumbnailMaker(
+                sp.GetRequiredService<IImageResizer>(),
+                sp.GetRequiredService<IFileDatabase>().GetContainer( FileDatabaseFolder.Thumbnails )
+                ) );
         }
     }
 }
