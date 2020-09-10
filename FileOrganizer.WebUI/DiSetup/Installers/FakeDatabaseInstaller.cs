@@ -1,7 +1,4 @@
 ﻿using FileOrganizer.Core;
-using FileOrganizer.Core.Helpers;
-using FileOrganizer.Core.Services;
-using FileOrganizer.Services.FileDatabase;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,16 +8,13 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
     {
         public void Install( IServiceCollection services, IConfiguration configuration )
         {
-            services.AddSingleton<FakeDatabaseSingleton>( sp => new FakeDatabaseSingleton(
-                sp.GetRequiredService<IFileDatabase>(),
-                sp.GetRequiredService<ITimestampGenerator>(),
-                sp.GetRequiredService<IThumbnailsMaker>(),
-                sp.GetRequiredService<ISha256Generator>(),
-                sp.GetRequiredService<IPasswordHasher>()
-            ) );
+            services.AddSingleton<FakeDatabaseSingleton>();
+            services.AddTransient<FakeDatabaseUploadApi>();
 
-            services.AddTransient<IFileUploader>         ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
-            services.AddTransient<IUploadDetailsReader>  ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
+            services.AddTransient<IFileUploader>         ( sp => sp.GetRequiredService<FakeDatabaseUploadApi>() );
+            services.AddTransient<IUploadDetailsReader>  ( sp => sp.GetRequiredService<FakeDatabaseUploadApi>() );
+            services.AddTransient<IUploadInfoReader>     ( sp => sp.GetRequiredService<FakeDatabaseUploadApi>() );
+
             services.AddTransient<IFileDetailsReader>    ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddTransient<IFileDetailsUpdater>   ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddTransient<ICredentialsValidator> ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
@@ -28,7 +22,6 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
             services.AddTransient<IAppUserReader>        ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddTransient<IAppUserUpdater>       ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddTransient<IFileSearcher>         ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
-            services.AddTransient<IUploadInfoReader>     ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
             services.AddTransient<IAppUserCreator>       ( sp => sp.GetRequiredService<FakeDatabaseSingleton>() );
         }
     }
