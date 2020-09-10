@@ -83,7 +83,7 @@ namespace FileOrganizer.Core
 
                 Sha256Hash hash = sha256Generator.GenerateHash( sourceFile.Content );
 
-                string newFileName = MakeRandomFileName( sourceFile.OrginalFileName, timestamp );
+                string newFileName = FileUtils.GetRandomFileNameWithTimestamp( timestamp.Value, sourceFile.OrginalFileName );
 
                 IFileInfo fileInfo = fileDatabase.GetContainer( FileDatabaseFolder.SourceFiles )
                                                  .Create( sourceFile.Content, new FileName( newFileName ) );
@@ -136,23 +136,13 @@ namespace FileOrganizer.Core
             return new UploadId( database.uploadId );
         }
 
-        private string MakeRandomFileName( string? fileName, UtcTimestamp timestamp )
-        {
-            string datePart = timestamp.Value.ToString( "yyyy-MM-dd");
-
-            string randomName = Path.GetFileNameWithoutExtension( Path.GetRandomFileName() );
-            string extensionWithDot = Path.GetExtension( fileName ?? string.Empty );
-
-            return $"{datePart}_{randomName}{extensionWithDot}";
-        }
-
         private string SaveThumbnail( Image thumbnail, UtcTimestamp timestamp )
         {
             using var memoryStream = new MemoryStream( 50 * 1024 );
 
             thumbnail.Save( memoryStream, ImageFormat.Jpeg );
 
-            string newFileName = MakeRandomFileName( "any-name.jpg", timestamp );
+            string newFileName = FileUtils.GetRandomFileNameWithTimestamp( timestamp.Value, "any-name.jpg" );
 
             var thumbFile = fileDatabase.GetContainer( FileDatabaseFolder.Thumbnails )
                                         .Create( memoryStream, new FileName( newFileName ) );
