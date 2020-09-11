@@ -1,6 +1,6 @@
 ﻿namespace FileOrganizer.Core
 {
-    public sealed class UploadId : IEntityId
+    public sealed class UploadId : IUniqueId
     {
         public UploadId( int value )
         {

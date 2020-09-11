@@ -1,6 +1,6 @@
 ﻿namespace FileOrganizer.Core
 {
-    public interface IEntityId
+    public interface IUniqueId
     {
         // empty
     }
