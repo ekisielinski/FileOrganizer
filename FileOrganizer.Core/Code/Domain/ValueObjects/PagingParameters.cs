@@ -6,7 +6,7 @@ namespace FileOrganizer.Core
     {
         public PagingParameters( int pageSize, int pageIndex )
         {
-            PageSize  = pageSize;
+            PageSize  = Guard.MinValue( pageSize, 1, nameof( pageSize ) );
             PageIndex = Guard.NotNegative( pageIndex, nameof( pageIndex ) );
         }
 

@@ -15,5 +15,12 @@ namespace FileOrganizer.CommonUtils
 
             throw new ArgumentOutOfRangeException( paramName ?? nameof( value ), value, "Negative values are forbidden." );
         }
+
+        public static int MinValue( int value, int min, string? paramName = null )
+        {
+            if (value >= min) return value;
+
+            throw new ArgumentOutOfRangeException( paramName ?? nameof( value ), value, "Value is too small. Minimum allowed value: " + min );
+        }
     }
 }
