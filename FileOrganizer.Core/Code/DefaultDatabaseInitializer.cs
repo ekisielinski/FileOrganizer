@@ -45,8 +45,12 @@ namespace FileOrganizer.Core
                 CreateFakeImage( 300, 400, Color.Crimson, "crimson.jpg" ),
             }, new UploadDescription( "Big rectangles" ) );
 
+            var upload3 = new UploadParameters( Enumerable.Repeat( CreateFakeImage( 50, 50, Color.BurlyWood, "_.jpg" ), 10),
+                new UploadDescription( "Many small squares" ) );
+
             fileUploader.Upload( upload1 );
             fileUploader.Upload( upload2 );
+            fileUploader.Upload( upload3 );
 
             // temp
             fileDetailsUpdater.UpdateTitle( new FileId( 0 ), new FileTitle( "Red square" ) );
