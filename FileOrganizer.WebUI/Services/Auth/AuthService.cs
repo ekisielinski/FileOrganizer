@@ -34,9 +34,9 @@ namespace FileOrganizer.WebUI.Services.Auth
                 string userName        = firstClaimsIdentity.FindFirst( ClaimTypes.NameIdentifier ).Value;
                 string userDisplayName = firstClaimsIdentity.FindFirst( ClaimTypes.Name ).Value;
 
-                IEnumerable<string> roles = firstClaimsIdentity
+                IEnumerable<UserRole> roles = firstClaimsIdentity
                     .FindAll( claim => claim.Type == ClaimTypes.Role)
-                    .Select( claim => claim.Value );
+                    .Select( claim => new UserRole( claim.Value ) );
 
                 return new AuthUser(
                     new UserName( userName ),
@@ -61,9 +61,9 @@ namespace FileOrganizer.WebUI.Services.Auth
                 new Claim( ClaimTypes.Name, appUser.DisplayName.Value ),
             };
 
-            foreach (string role in appUser.Roles.Items)
+            foreach (UserRole role in appUser.Roles.Items)
             {
-                userClaims.Add( new Claim( ClaimTypes.Role, role ) );
+                userClaims.Add( new Claim( ClaimTypes.Role, role.Value ) );
             }
 
             var identity = new ClaimsIdentity( userClaims, "CookieAuthentication" );

@@ -3,6 +3,7 @@ using FileOrganizer.Core.Services;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 
 namespace FileOrganizer.Core
 {
@@ -25,9 +26,9 @@ namespace FileOrganizer.Core
 
         public void Init()
         {
-            appUserCreator.Create( new AppUser( "admin", "Administrator", UserRoles.Administrator, UserRoles.Moderator ), new UserPassword( "admin" ) );
-            appUserCreator.Create( new AppUser( "mod", "Moderator", UserRoles.Moderator ), new UserPassword( "mod" ) );
-            appUserCreator.Create( new AppUser( "user", "User" ), new UserPassword( "user" ) );
+            appUserCreator.Create( CreateUser( "admin", "Administrator", UserRole.Administrator, UserRole.Moderator ), new UserPassword( "admin" ) );
+            appUserCreator.Create( CreateUser( "mod", "Moderator", UserRole.Moderator ), new UserPassword( "mod" ) );
+            appUserCreator.Create( CreateUser( "user", "User" ), new UserPassword( "user" ) );
 
             var upload1 = new UploadParameters( new[]
             {
@@ -63,6 +64,13 @@ namespace FileOrganizer.Core
             bitmap.Save( ms, ImageFormat.Jpeg );
 
             return new SourceFile( ms, new MimeType( "image/jpeg" ), orginalFileName );
+        }
+
+        private static AppUser CreateUser( string name, string displayName, params UserRole[] roles )
+        {
+            var userRoles = new UserRoles( roles );
+
+            return new AppUser( new UserName( name ), new UserDisplayName( displayName ), userRoles );
         }
     }
 }

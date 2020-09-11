@@ -13,7 +13,7 @@ else
     <p>Registered: <b>@Model.Details.WhenCreated</b></p>
     <p>
         Roles:<br />
-        @foreach (string role in Model.Details.User.Roles.Items)
+        @foreach (var role in Model.Details.User.Roles.Items)
         {
             <b>@role</b><br />
         }

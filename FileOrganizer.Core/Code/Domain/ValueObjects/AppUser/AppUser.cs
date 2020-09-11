@@ -11,12 +11,6 @@ namespace FileOrganizer.Core
             Roles       = Guard.NotNull( roles,       nameof( roles ) );
         }
 
-        public AppUser( string name, string displayName, params string[] roles )
-            : this( new UserName( name ), new UserDisplayName( displayName ), new UserRoles( roles ) )
-        {
-            // empty
-        }
-
         //====== public properties
 
         public UserName        Name        { get; }

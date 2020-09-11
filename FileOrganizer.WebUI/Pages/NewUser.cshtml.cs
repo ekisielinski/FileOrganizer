@@ -37,8 +37,8 @@ namespace FileOrganizer.WebUI.Pages
                 var userName = new UserName( UserName );
                 var displayName = new UserDisplayName( UserDisplayName ?? string.Empty );
 
-                var rolesList = new List<string>();
-                if (IsModerator) rolesList.Add( UserRoles.Moderator );
+                var rolesList = new List<UserRole>();
+                if (IsModerator) rolesList.Add( UserRole.Moderator );
                 var roles = new UserRoles( rolesList );
 
                 var appUser = new AppUser( userName, displayName, roles );
