@@ -66,7 +66,8 @@ namespace FileOrganizer.Core.FakeDatabase
                     DatabaseFiles = new DatabaseFiles( new FileName( newFileName ), thumbResult?.ThumbnailFileName ),
                     Size          = new DataSize( sourceFile.Content.Length ),
                     ImageDetails  = new ImageDetails { Size = thumbResult?.OrginalImageSize },
-                    Hash          = hash
+                    Hash          = hash,
+                    Uploader      = database.CurrentUser.Name
                 } );
             }
 
@@ -79,7 +80,7 @@ namespace FileOrganizer.Core.FakeDatabase
                 WhenAdded   = startTimestamp,
                 FileCount   = tempFiles.Count,
                 Size        = new DataSize( parameters.SourceFiles.Sum( x => x.Content.Length ) ),
-                UserName    = database.Requestor.UserName
+                UserName    = database.CurrentUser.Name
             } );
 
             return new UploadId( database.uploadId );

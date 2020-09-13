@@ -1,5 +1,6 @@
 ﻿using FileOrganizer.Core.Helpers;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FileOrganizer.Core.FakeDatabase
 {
@@ -28,5 +29,7 @@ namespace FileOrganizer.Core.FakeDatabase
         public UtcTimestamp UtcNow => timestampGenerator.UtcNow;
 
         public IRequestorAccessor Requestor { get; }
+
+        public AppUser CurrentUser => Users.Single( x => x.AppUserDetails.User.Name.Value == Requestor.UserName.Value ).AppUserDetails.User;
     }
 }

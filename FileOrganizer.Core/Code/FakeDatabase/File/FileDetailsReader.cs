@@ -1,5 +1,6 @@
 ﻿using FileOrganizer.Core.Services;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FileOrganizer.Core.FakeDatabase
 {
@@ -27,7 +28,8 @@ namespace FileOrganizer.Core.FakeDatabase
                 FileSize      = entry.Size,
                 Description   = entry.Description,
                 Title         = entry.Title,
-                ImageDetails  = entry.ImageDetails
+                ImageDetails  = entry.ImageDetails,
+                Uploader      = database.Users.First( x => x.AppUserDetails.User.Name.Value == entry.Uploader.Value ).AppUserDetails.User
             };
         }
     }
