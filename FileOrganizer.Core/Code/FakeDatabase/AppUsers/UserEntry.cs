@@ -1,4 +1,4 @@
-﻿namespace FileOrganizer.Core
+﻿namespace FileOrganizer.Core.FakeDatabase
 {
     internal sealed class UserEntry
     {

@@ -3,7 +3,7 @@ using FileOrganizer.Core.Helpers;
 using FileOrganizer.Core.Services;
 using System;
 
-namespace FileOrganizer.Core
+namespace FileOrganizer.Core.FakeDatabase
 {
     internal sealed class FileEntry
     {

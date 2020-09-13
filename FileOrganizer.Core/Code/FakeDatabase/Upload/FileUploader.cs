@@ -6,69 +6,36 @@ using Microsoft.Extensions.FileProviders;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FileOrganizer.Core
+namespace FileOrganizer.Core.FakeDatabase
 {
-    public sealed class FakeDatabaseUploadApi :
-        IFileUploader,
-        IUploadDetailsReader,
-        IUploadInfoReader
+    public sealed class FileUploader : IFileUploader
     {
         readonly FakeDatabaseSingleton database;
-        readonly ITimestampGenerator timestampGenerator;
-        readonly ISha256Generator sha256Generator;
         readonly IFileDatabase fileDatabase;
         readonly IThumbnailMaker thumbnailMaker;
+        readonly ISha256Generator sha256Generator;
 
         //====== ctors
 
-        public FakeDatabaseUploadApi(
+        public FileUploader(
             FakeDatabaseSingleton database,
-            ITimestampGenerator timestampGenerator,
-            ISha256Generator sha256Generator,
             IFileDatabase fileDatabase,
-            IThumbnailMaker thumbnailMaker )
+            IThumbnailMaker thumbnailMaker,
+            ISha256Generator sha256Generator )
         {
             this.database = database;
-            this.timestampGenerator = timestampGenerator;
-            this.sha256Generator = sha256Generator;
             this.fileDatabase = fileDatabase;
             this.thumbnailMaker = thumbnailMaker;
+            this.sha256Generator = sha256Generator;
         }
 
-        IReadOnlyList<UploadInfo> IUploadInfoReader.GetAll()
-        {
-            var infos = database.Uploads.Select( x => new UploadInfo()
-            {
-                Id          = x.Id,
-                Description = x.Description,
-                WhenAdded   = x.WhenAdded,
-                FileCount   = x.FileCount,
-                Owner       = new AppUser(
-                    x.UserName,
-                    database.Users.FirstOrDefault( appUser => appUser.AppUserDetails.User.Name.Value == x.UserName.Value ).AppUserDetails.User.DisplayName,
-                    UserRoles.Empty ),
-                TotalSize   = x.Size
-            } );
-
-            return infos.ToList();
-        }
-
-        UploadDetails IUploadDetailsReader.GetUploadDetails( UploadId uploadId )
-        {
-            UploadEntry upload = database.Uploads.Single( x => x.Id.Value == uploadId.Value);
-
-            IEnumerable<FileDetails> fileDetailsList = database.Files
-                .Where( x => x.UploadId.Value == uploadId.Value)
-                .Select( x => database.GetFileDetailsById( new FileId( x.Id ))!);
-
-            return new UploadDetails( uploadId, fileDetailsList, upload.Description );
-        }
+        //====== IFileUploader
 
         // todo: handle duplicates
 
         UploadId IFileUploader.Upload( UploadParameters parameters )
         {
-            UtcTimestamp startTimestamp = timestampGenerator.UtcNow;
+            UtcTimestamp startTimestamp = database.UtcNow;
 
             database.uploadId++;
 
@@ -76,7 +43,7 @@ namespace FileOrganizer.Core
 
             foreach (SourceFile sourceFile in parameters.SourceFiles)
             {
-                UtcTimestamp timestamp = timestampGenerator.UtcNow;
+                UtcTimestamp timestamp = database.UtcNow;
 
                 Sha256Hash hash = sha256Generator.GenerateHash( sourceFile.Content );
 

@@ -1,6 +1,6 @@
 ﻿using FileOrganizer.CommonUtils;
 
-namespace FileOrganizer.Core
+namespace FileOrganizer.Core.FakeDatabase
 {
     public sealed class UploadEntry
     {
