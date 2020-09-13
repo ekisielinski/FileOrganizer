@@ -3,48 +3,31 @@ using FileOrganizer.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 
 namespace FileOrganizer.WebUI.Services.Auth
 {
     public sealed class AuthService : IAuthService
     {
+        readonly IAuthUserAccessor authUserAccessor;
         readonly ICredentialsValidator credentialsValidator;
         readonly IHttpContextAccessor httpContextAccessor;
 
         //====== ctors
 
-        public AuthService( ICredentialsValidator credentialsValidator, IHttpContextAccessor httpContextAccessor )
+        public AuthService(
+            IAuthUserAccessor authUserAccessor,
+            ICredentialsValidator credentialsValidator,
+            IHttpContextAccessor httpContextAccessor )
         {
-            this.httpContextAccessor = Guard.NotNull( httpContextAccessor, nameof( httpContextAccessor ) );
+            this.authUserAccessor     = Guard.NotNull( authUserAccessor, nameof( authUserAccessor ) );
+            this.httpContextAccessor  = Guard.NotNull( httpContextAccessor, nameof( httpContextAccessor ) );
             this.credentialsValidator = Guard.NotNull( credentialsValidator, nameof( credentialsValidator ) );
         }
 
         //====== IAuthService
 
-        public AuthUser? CurrentUser
-        {
-            get
-            {
-                if (httpContextAccessor.HttpContext.User.Identity.IsAuthenticated == false) return null;
-
-                ClaimsIdentity firstClaimsIdentity = httpContextAccessor.HttpContext.User.Identities.First();
-
-                string userName        = firstClaimsIdentity.FindFirst( ClaimTypes.NameIdentifier ).Value;
-                string userDisplayName = firstClaimsIdentity.FindFirst( ClaimTypes.Name ).Value;
-
-                IEnumerable<UserRole> roles = firstClaimsIdentity
-                    .FindAll( claim => claim.Type == ClaimTypes.Role)
-                    .Select( claim => new UserRole( claim.Value ) );
-
-                return new AuthUser(
-                    new UserName( userName ),
-                    new UserDisplayName( userDisplayName ),
-                    new UserRoles( roles )
-                    );
-            }
-        }
+        public AuthUser? CurrentUser => authUserAccessor.CurrentUser;
 
         public bool Login( UserName userName, string password )
         {
