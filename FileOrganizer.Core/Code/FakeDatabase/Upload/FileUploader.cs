@@ -79,7 +79,7 @@ namespace FileOrganizer.Core.FakeDatabase
                 WhenAdded   = startTimestamp,
                 FileCount   = tempFiles.Count,
                 Size        = new DataSize( parameters.SourceFiles.Sum( x => x.Content.Length ) ),
-                UserName    = new UserName( "admin" ) // temp
+                UserName    = database.Requestor.UserName
             } );
 
             return new UploadId( database.uploadId );
