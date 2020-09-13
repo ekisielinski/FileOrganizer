@@ -16,13 +16,17 @@ namespace FileOrganizer.Core.FakeDatabase
 
         //====== ctors
 
-        public FakeDatabaseSingleton( ITimestampGenerator timestampGenerator )
+        public FakeDatabaseSingleton( IRequestorAccessor requestor, ITimestampGenerator timestampGenerator )
         {
+            Requestor = requestor;
+
             this.timestampGenerator = timestampGenerator;
         }
 
         //====== public properties
 
         public UtcTimestamp UtcNow => timestampGenerator.UtcNow;
+
+        public IRequestorAccessor Requestor { get; }
     }
 }

@@ -1,5 +1,6 @@
 using FileOrganizer.Core;
 using FileOrganizer.WebUI.DiSetup;
+using FileOrganizer.WebUI.DiSetup.Installers;
 using FileOrganizer.WebUI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,7 +56,11 @@ namespace FileOrganizer.WebUI
             } );
 
             using IServiceScope? serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-            serviceScope.ServiceProvider.GetRequiredService<IDatabaseInitializer>().Init();
+            {
+                RequestorAccessor.UseAdmin = true;
+                serviceScope.ServiceProvider.GetRequiredService<IDatabaseInitializer>().Init();
+                RequestorAccessor.UseAdmin = false;
+            }
         }
     }
 }

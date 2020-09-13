@@ -1,5 +1,6 @@
 ﻿using FileOrganizer.Core;
 using FileOrganizer.Core.FakeDatabase;
+using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,7 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
         public void Install( IServiceCollection services, IConfiguration configuration )
         {
             services.AddSingleton<FakeDatabaseSingleton>();
+            services.AddTransient<IRequestorAccessor, RequestorAccessor>();
 
             // Upload
             services.AddTransient<IFileUploader, FileUploader>();
@@ -28,5 +30,23 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
             services.AddTransient<IAppUserUpdater, AppUserUpdater>();
             services.AddTransient<IAppUserCreator, AppUserCreator>();
         }
+    }
+
+    // todo: move this class somewhere
+    public sealed class RequestorAccessor : IRequestorAccessor
+    {
+        public static bool UseAdmin = false;
+
+        readonly IAuthUserAccessor authUserAccessor;
+
+        public RequestorAccessor( IAuthUserAccessor authUserAccessor ) => this.authUserAccessor = authUserAccessor;
+
+        public UserName? UserName
+            => UseAdmin ? new UserName( "admin" )
+                        : authUserAccessor.CurrentUser?.Name;
+
+        public UserRoles Roles
+            => UseAdmin ? new UserRoles( new[] { UserRole.Administrator, UserRole.Moderator } )
+                        : authUserAccessor.CurrentUser?.Roles ?? UserRoles.Empty;
     }
 }
