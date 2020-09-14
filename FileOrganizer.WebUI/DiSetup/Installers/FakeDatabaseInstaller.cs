@@ -29,6 +29,10 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
             services.AddTransient<IAppUserReader, AppUserReader>();
             services.AddTransient<IAppUserUpdater, AppUserUpdater>();
             services.AddTransient<IAppUserCreator, AppUserCreator>();
+
+            // Activity Logger
+            services.AddTransient<IActivityLogger, ActivityLogger>();
+            services.AddTransient<IActivityLogReader, ActivityLogReader>();
         }
     }
 

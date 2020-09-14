@@ -5,12 +5,14 @@ namespace FileOrganizer.Core.FakeDatabase
     public sealed class AppUserUpdater : IAppUserUpdater
     {
         readonly FakeDatabaseSingleton database;
+        readonly IActivityLogger logger;
 
         //====== ctors
 
-        public AppUserUpdater( FakeDatabaseSingleton database )
+        public AppUserUpdater( FakeDatabaseSingleton database, IActivityLogger logger )
         {
             this.database = database;
+            this.logger = logger;
         }
 
         //====== IAppUserUpdater
@@ -26,6 +28,8 @@ namespace FileOrganizer.Core.FakeDatabase
             };
 
             database.Users.Add( newEntry );
+
+            logger.Add( $"Email updated for user '{userName}'. New value: " + (email?.ToString() ?? "<empty>") );
         }
 
         public void SetDisplayName( UserName userName, UserDisplayName displayName )
@@ -37,6 +41,8 @@ namespace FileOrganizer.Core.FakeDatabase
             var newDetails = new AppUserDetails( newUser, entry.AppUserDetails.Email, entry.AppUserDetails.WhenCreated );
 
             database.Users.Add( new UserEntry { AppUserDetails = newDetails } );
+
+            logger.Add( $"Display name updated for user '{userName}'. New value: {displayName}" );
         }
     }
 }

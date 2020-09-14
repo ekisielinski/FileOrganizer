@@ -1,0 +1,25 @@
+﻿@page
+@model FileOrganizer.WebUI.Pages.LogsModel
+
+<h1>Logs</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th>User</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var entry in Model.Logs)
+        {
+        <tr>
+            <td>@entry.Timestamp</td>
+            <td>@entry.UserName</td>
+            <td>@entry.Message</td>
+        </tr>
+        }
+    </tbody>
+</table>

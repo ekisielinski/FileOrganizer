@@ -8,13 +8,15 @@ namespace FileOrganizer.Core.FakeDatabase
     {
         readonly FakeDatabaseSingleton database;
         readonly IPasswordHasher passwordHasher;
+        readonly IActivityLogger logger;
 
         //====== ctors
 
-        public AppUserCreator( FakeDatabaseSingleton database, IPasswordHasher passwordHasher )
+        public AppUserCreator( FakeDatabaseSingleton database, IPasswordHasher passwordHasher, IActivityLogger logger )
         {
             this.database = database;
             this.passwordHasher = passwordHasher;
+            this.logger = logger;
         }
 
         //====== IAppUserCreator
@@ -30,6 +32,8 @@ namespace FileOrganizer.Core.FakeDatabase
             var appUserDetails = new AppUserDetails( appUser, null, database.UtcNow );
 
             database.Users.Add( new UserEntry { AppUserDetails = appUserDetails, PasswordHash = hash } );
+            
+            logger.Add( "New user created: " + appUser );
         }
     }
 }

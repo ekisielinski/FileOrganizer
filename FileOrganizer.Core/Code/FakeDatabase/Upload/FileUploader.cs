@@ -14,6 +14,7 @@ namespace FileOrganizer.Core.FakeDatabase
         readonly IFileDatabase fileDatabase;
         readonly IThumbnailMaker thumbnailMaker;
         readonly ISha256Generator sha256Generator;
+        readonly IActivityLogger logger;
 
         //====== ctors
 
@@ -21,12 +22,14 @@ namespace FileOrganizer.Core.FakeDatabase
             FakeDatabaseSingleton database,
             IFileDatabase fileDatabase,
             IThumbnailMaker thumbnailMaker,
-            ISha256Generator sha256Generator )
+            ISha256Generator sha256Generator,
+            IActivityLogger logger )
         {
             this.database = database;
             this.fileDatabase = fileDatabase;
             this.thumbnailMaker = thumbnailMaker;
             this.sha256Generator = sha256Generator;
+            this.logger = logger;
         }
 
         //====== IFileUploader
@@ -82,6 +85,8 @@ namespace FileOrganizer.Core.FakeDatabase
                 Size        = new DataSize( parameters.SourceFiles.Sum( x => x.Content.Length ) ),
                 UserName    = database.CurrentUser.Name
             } );
+
+            logger.Add( $"New upload #{database.uploadId}. Files: {tempFiles.Count}" );
 
             return new UploadId( database.uploadId );
         }

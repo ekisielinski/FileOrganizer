@@ -15,6 +15,8 @@ namespace FileOrganizer.Core.FakeDatabase
         internal List<FileEntry>   Files   { get; } = new List<FileEntry>();
         internal List<UserEntry>   Users   { get; } = new List<UserEntry>();
 
+        internal List<ActivityLogEntry> Logs { get; } = new List<ActivityLogEntry>();
+
         //====== ctors
 
         public FakeDatabaseSingleton( IRequestorAccessor requestor, ITimestampGenerator timestampGenerator )
