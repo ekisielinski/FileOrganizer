@@ -24,15 +24,22 @@ namespace FileOrganizer.Core.FakeDatabase
                 Description = x.Description,
                 WhenAdded   = x.WhenAdded,
                 FileCount   = x.FileCount,
-                Owner       = new AppUser(
-                    x.UserName,
-                    database.Users.FirstOrDefault( appUser => appUser.AppUserDetails.User.Name.Value == x.UserName.Value )
-                                  .AppUserDetails.User.DisplayName,
-                    UserRoles.Empty ),
+                Owner       = GetUserNames( x.UserName ),
                 TotalSize   = x.Size
             } );
 
             return infos.ToList();
+        }
+
+        //====== private methods
+
+        private IAppUserNames GetUserNames( UserName userName )
+        {
+            UserDisplayName displayName = database.Users
+                .First( appUser => appUser.AppUserDetails.User.Name.Value == userName.Value )
+                .AppUserDetails.User.DisplayName;
+
+            return new AppUser( userName, displayName, UserRoles.Empty );
         }
     }
 }

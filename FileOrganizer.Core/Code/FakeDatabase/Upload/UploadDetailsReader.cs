@@ -27,7 +27,7 @@ namespace FileOrganizer.Core.FakeDatabase
                 .Where( x => x.UploadId.Value == uploadId.Value)
                 .Select( x => fileDetailsReader.GetFileDetailsById( new FileId( x.Id ))!);
 
-            return new UploadDetails( uploadId, fileDetailsList, upload.Description );
+            return new UploadDetails( uploadId, fileDetailsList, upload.Description, upload.RejectedDuplicates );
         }
     }
 }

@@ -11,6 +11,10 @@
 
         public long Bytes { get; }
 
+        //====== public static properties
+
+        public static DataSize Zero { get; } = new DataSize( 0 );
+
         //====== public static methods
 
         public static DataSize Sum( DataSize first, DataSize second )

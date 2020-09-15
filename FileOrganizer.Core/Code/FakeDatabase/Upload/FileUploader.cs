@@ -43,6 +43,7 @@ namespace FileOrganizer.Core.FakeDatabase
             database.uploadId++;
 
             var tempFiles = new List<FileEntry>();
+            var duplicates = new List<string>();
 
             foreach (SourceFile sourceFile in parameters.SourceFiles)
             {
@@ -50,28 +51,35 @@ namespace FileOrganizer.Core.FakeDatabase
 
                 Sha256Hash hash = sha256Generator.GenerateHash( sourceFile.Content );
 
-                string newFileName = FileUtils.GetRandomFileNameWithTimestamp( timestamp.Value, sourceFile.OrginalFileName );
-
-                IFileInfo fileInfo = fileDatabase.GetContainer( FileDatabaseFolder.SourceFiles )
-                                                 .Create( sourceFile.Content, new FileName( newFileName ) );
-
-                ThumbnailMakerResult? thumbResult = thumbnailMaker.TryMakeAndSaveThumbnail( fileInfo, timestamp );
-
-                database.fileId++;
-
-                tempFiles.Add( new FileEntry
+                if (IsDuplicate( hash ))
                 {
-                    Id            = database.fileId,
-                    UploadId      = new UploadId( database.uploadId ),
-                    MimeType      = sourceFile.MimeType,
-                    FileName      = sourceFile.OrginalFileName,
-                    WhenAdded     = timestamp,
-                    DatabaseFiles = new DatabaseFiles( new FileName( newFileName ), thumbResult?.ThumbnailFileName ),
-                    Size          = new DataSize( sourceFile.Content.Length ),
-                    ImageDetails  = new ImageDetails { Size = thumbResult?.OrginalImageSize },
-                    Hash          = hash,
-                    Uploader      = database.CurrentUser.Name
-                } );
+                    duplicates.Add( sourceFile.OrginalFileName ?? "???" );
+                }
+                else
+                {
+                    string newFileName = FileUtils.GetRandomFileNameWithTimestamp( timestamp.Value, sourceFile.OrginalFileName );
+
+                    IFileInfo fileInfo = fileDatabase.GetContainer( FileDatabaseFolder.SourceFiles )
+                                                     .Create( sourceFile.Content, new FileName( newFileName ) );
+
+                    ThumbnailMakerResult? thumbResult = thumbnailMaker.TryMakeAndSaveThumbnail( fileInfo, timestamp );
+
+                    database.fileId++;
+
+                    tempFiles.Add( new FileEntry
+                    {
+                        Id            = database.fileId,
+                        UploadId      = new UploadId( database.uploadId ),
+                        MimeType      = sourceFile.MimeType,
+                        FileName      = sourceFile.OrginalFileName,
+                        WhenAdded     = timestamp,
+                        DatabaseFiles = new DatabaseFiles( new FileName( newFileName ), thumbResult?.ThumbnailFileName ),
+                        Size          = new DataSize( sourceFile.Content.Length ),
+                        ImageDetails  = new ImageDetails { Size = thumbResult?.OrginalImageSize },
+                        Hash          = hash,
+                        Uploader      = database.CurrentUser.Name
+                    } );
+                }
             }
 
             database.Files.AddRange( tempFiles );
@@ -82,13 +90,21 @@ namespace FileOrganizer.Core.FakeDatabase
                 Description = parameters.Description,
                 WhenAdded   = startTimestamp,
                 FileCount   = tempFiles.Count,
-                Size        = new DataSize( parameters.SourceFiles.Sum( x => x.Content.Length ) ),
-                UserName    = database.CurrentUser.Name
+                Size        = tempFiles.Select( x => x.Size ).Aggregate( DataSize.Zero, DataSize.Sum ),
+                UserName    = database.CurrentUser.Name,
+                RejectedDuplicates = duplicates
             } );
 
             logger.Add( $"New upload #{database.uploadId}. Files: {tempFiles.Count}" );
 
             return new UploadId( database.uploadId );
+        }
+
+        //====== private methods
+
+        private bool IsDuplicate( Sha256Hash hash )
+        {
+            return database.Files.Any( x => x.Hash.Equals( hash ) );
         }
     }
 }

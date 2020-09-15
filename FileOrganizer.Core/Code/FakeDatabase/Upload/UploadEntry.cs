@@ -1,4 +1,5 @@
 ﻿using FileOrganizer.CommonUtils;
+using System.Collections.Generic;
 
 namespace FileOrganizer.Core.FakeDatabase
 {
@@ -10,5 +11,7 @@ namespace FileOrganizer.Core.FakeDatabase
         public int               FileCount   { get; set; }
         public DataSize          Size        { get; set; }
         public UserName          UserName    { get; set; }
+
+        public IReadOnlyList<string> RejectedDuplicates { get; set; }
     }
 }

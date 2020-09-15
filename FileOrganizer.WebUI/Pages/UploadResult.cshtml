@@ -10,6 +10,17 @@
     Upload size: @Model.UploadDetails.UploadSize
 </p>
 
+@if (Model.UploadDetails.RejectedDuplicates.Any())
+{
+<p>Rejected duplicates:</p>
+<ul>
+    @foreach (string fileName in Model.UploadDetails.RejectedDuplicates)
+    {
+        <li>@fileName</li>
+    }
+</ul>
+}
+
 @foreach (var file in Model.UploadDetails.Files)
 {
     @await Component.InvokeAsync( "FileThumbnail", new { file = file } )

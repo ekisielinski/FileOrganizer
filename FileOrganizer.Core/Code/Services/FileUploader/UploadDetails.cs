@@ -6,7 +6,7 @@ namespace FileOrganizer.Core.Services
 {
     public sealed class UploadDetails
     {
-        public UploadDetails( UploadId id, IEnumerable<FileDetails> files, UploadDescription description )
+        public UploadDetails( UploadId id, IEnumerable<FileDetails> files, UploadDescription description, IReadOnlyList<string> rejectedDuplicates )
         {
             Guard.NotNull( id, nameof( id ) );
             Guard.NotNull( files, nameof( files ) );
@@ -15,6 +15,8 @@ namespace FileOrganizer.Core.Services
             Id = id;
             Files = ArgUtils.ToRoList( files, nameof( files ) );
             Description = description;
+
+            RejectedDuplicates = Guard.NotNull( rejectedDuplicates, nameof( rejectedDuplicates ) );
         }
 
         //====== public properties
@@ -25,6 +27,8 @@ namespace FileOrganizer.Core.Services
 
         public UploadDescription Description { get; }
 
-        public DataSize UploadSize => Files.Select( x => x.FileSize ).Aggregate( DataSize.Sum );
+        public IReadOnlyList<string> RejectedDuplicates { get; }
+
+        public DataSize UploadSize => Files.Select( x => x.FileSize ).Aggregate( DataSize.Zero, DataSize.Sum );
     }
 }

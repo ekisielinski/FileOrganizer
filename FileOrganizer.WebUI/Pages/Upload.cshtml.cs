@@ -42,7 +42,7 @@ namespace FileOrganizer.WebUI.Pages
 
                 var result = reader.GetUploadDetails( uploadId );
 
-                if (result.Files.Count == 1)
+                if (result.Files.Count == 1 && result.RejectedDuplicates.Count == 0)
                 {
                     return RedirectToPage( "View", new { fileId = result.Files[0].FileId.Value } );
                 }
