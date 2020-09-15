@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace FileOrganizer.Core
 {
@@ -48,9 +49,12 @@ namespace FileOrganizer.Core
             var upload3 = new UploadParameters( Enumerable.Repeat( CreateFakeImage( 50, 50, Color.BurlyWood, "_.jpg" ), 10),
                 new UploadDescription( "Many small squares" ) );
 
+            var upload4 = new UploadParameters( new[] { CreateFakeTextFile( "hello", "hello.txt" ) }, new UploadDescription( "1 text file" ) );
+
             fileUploader.Upload( upload1 );
             fileUploader.Upload( upload2 );
             fileUploader.Upload( upload3 );
+            fileUploader.Upload( upload4 );
 
             // temp
             fileDetailsUpdater.UpdateTitle( new FileId( 0 ), new FileTitle( "Red square" ) );
@@ -68,6 +72,15 @@ namespace FileOrganizer.Core
             bitmap.Save( ms, ImageFormat.Jpeg );
 
             return new SourceFile( ms, new MimeType( "image/jpeg" ), orginalFileName );
+        }
+
+        private static SourceFile CreateFakeTextFile( string text, string? orginalFileName )
+        {
+            byte[]? bytes = Encoding.UTF8.GetBytes( text );
+
+            var ms = new MemoryStream( bytes );
+
+            return new SourceFile( ms, new MimeType( "text/plain" ), orginalFileName );
         }
 
         private static AppUser CreateUser( string name, string displayName, params UserRole[] roles )
