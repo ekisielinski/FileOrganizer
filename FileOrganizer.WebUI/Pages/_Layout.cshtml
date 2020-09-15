@@ -13,9 +13,11 @@
     }
     <link href="~/styles/site.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
-    @await Component.InvokeAsync( "LoginStatus" )
-    @await Component.InvokeAsync( "MainMenu" )
-    @RenderBody()
+<body class="layout-container">
+    <div class="layout-sidebar">
+        @await Component.InvokeAsync( "LoginStatus" )
+        @await Component.InvokeAsync( "MainMenu" )
+    </div>
+    <div class="layout-content">@RenderBody()</div>
 </body>
 </html>

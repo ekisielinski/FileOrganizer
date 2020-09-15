@@ -4,6 +4,27 @@
     background-color: #FDFDFD;
 }
 
+.layout-container
+{
+    display: grid;
+    grid-template-columns: 250px 1.6fr;
+    grid-template-rows: 1fr;
+    gap: 1px 1px;
+    grid-template-areas: "sidebar content";
+}
+
+.layout-sidebar
+{
+    grid-area: sidebar;
+    background-color: #ddd;
+    padding: 8px;
+}
+
+.layout-content
+{
+    grid-area: content;
+}
+
 .thumb-link
 {
     text-decoration: none;
