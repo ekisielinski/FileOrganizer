@@ -6,7 +6,7 @@ using System.IO;
 
 namespace FileOrganizer.Services.FileDatabase
 {
-    public sealed class PhysicalFileDatabase : IFileDatabase
+    public sealed class PhysicalFileDatabase : IFileDatabase, IFileDatabaseCleaner
     {
         readonly string rootPath;
 
@@ -26,6 +26,17 @@ namespace FileOrganizer.Services.FileDatabase
 
         public IFileContainerReader GetContainerReader( FileDatabaseFolder folder )
             => new PhysicalFileContainer( GetFolderFullPath( folder ) );
+
+        //====== IFileDatabaseCleaner
+
+        public void DeleteAllFiles()
+        {
+            var sourceFiles = GetContainer( FileDatabaseFolder.SourceFiles) as PhysicalFileContainer;
+            sourceFiles.DeleteAllFiles();
+
+            var thumbFiles = GetContainer( FileDatabaseFolder.Thumbnails) as PhysicalFileContainer;
+            thumbFiles.DeleteAllFiles();
+        }
 
         //====== private methods
 

@@ -1,4 +1,5 @@
 using FileOrganizer.Core;
+using FileOrganizer.Services.FileDatabase;
 using FileOrganizer.WebUI.DiSetup;
 using FileOrganizer.WebUI.DiSetup.Installers;
 using FileOrganizer.WebUI.Services;
@@ -57,6 +58,9 @@ namespace FileOrganizer.WebUI
 
             using IServiceScope? serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
             {
+                var cleaner = serviceScope.ServiceProvider.GetRequiredService<IFileDatabaseCleaner>();
+                cleaner.DeleteAllFiles();
+
                 RequestorAccessor.UseAdmin = true;
                 serviceScope.ServiceProvider.GetRequiredService<IDatabaseInitializer>().Init();
                 RequestorAccessor.UseAdmin = false;

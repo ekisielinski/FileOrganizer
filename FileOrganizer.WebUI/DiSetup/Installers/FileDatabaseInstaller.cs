@@ -20,6 +20,7 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
 
             services.AddTransient<IFileDatabase>( sp => sp.GetRequiredService<PhysicalFileDatabase>() );
             services.AddTransient<IFileDatabaseReader>( sp => sp.GetRequiredService<PhysicalFileDatabase>() );
+            services.AddTransient<IFileDatabaseCleaner>( sp => sp.GetRequiredService<PhysicalFileDatabase>() );
         }
     }
 }

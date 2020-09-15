@@ -39,5 +39,17 @@ namespace FileOrganizer.Core.Helpers
         }
 
         public IFileInfo Get( FileName fileName ) => provider.GetFileInfo( fileName.Value );
+
+        //====== public methods
+
+        public void DeleteAllFiles()
+        {
+            DirectoryInfo dir = new DirectoryInfo( provider.Root );
+
+            foreach (FileInfo file in dir.EnumerateFiles())
+            {
+                file.Delete();
+            }
+        }
     }
 }
