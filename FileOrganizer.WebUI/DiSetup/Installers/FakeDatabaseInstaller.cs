@@ -3,6 +3,7 @@ using FileOrganizer.Core.FakeDatabase;
 using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace FileOrganizer.WebUI.DiSetup.Installers
 {
@@ -45,12 +46,28 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
 
         public RequestorAccessor( IAuthUserAccessor authUserAccessor ) => this.authUserAccessor = authUserAccessor;
 
-        public UserName? UserName
-            => UseAdmin ? new UserName( "admin" )
-                        : authUserAccessor.CurrentUser?.Name;
+        public UserName UserName
+        {
+            get
+            {
+                if (UseAdmin) return new UserName( "admin" );
+
+                UserName? userName = authUserAccessor.CurrentUser?.Name;
+
+                if (userName is null) throw new InvalidOperationException( "Cannot retrieve user name." );
+
+                return userName;
+            }
+        }
 
         public UserRoles Roles
-            => UseAdmin ? new UserRoles( new[] { UserRole.Administrator, UserRole.Moderator } )
-                        : authUserAccessor.CurrentUser?.Roles ?? UserRoles.Empty;
+        {
+            get
+            {
+                if (UseAdmin) return new UserRoles( new[] { UserRole.Administrator, UserRole.Moderator } );
+
+                return authUserAccessor.CurrentUser?.Roles ?? UserRoles.Empty;
+            }
+        }
     }
 }
