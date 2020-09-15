@@ -2,7 +2,7 @@
 
 namespace FileOrganizer.Core
 {
-    public interface IActivityLogReader
+    public interface IActivityLogReader : IDomainQuery
     {
         IReadOnlyList<ActivityLogEntry> GetAll();
     }

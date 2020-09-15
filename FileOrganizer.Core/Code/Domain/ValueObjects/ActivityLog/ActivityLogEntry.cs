@@ -2,7 +2,7 @@
 
 namespace FileOrganizer.Core
 {
-    public sealed class ActivityLogEntry
+    public sealed class ActivityLogEntry : IValueObject
     {
         public ActivityLogEntry( UserName userName, UtcTimestamp timestamp, string message )
         {
