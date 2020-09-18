@@ -1,10 +1,11 @@
 ﻿using FileOrganizer.Core;
-using FileOrganizer.Services.FileDatabase;
 
 namespace FileOrganizer.WebUI.Services
 {
     public interface IStaticFilesLinkGenerator
     {
-        string GetDatabaseFilePath( FileName fileName, FileDatabaseFolder folder );
+        string GetSourceFilePath( FileName fileName );
+
+        string GetThumbnailPath( FileName fileName );
     }
 }

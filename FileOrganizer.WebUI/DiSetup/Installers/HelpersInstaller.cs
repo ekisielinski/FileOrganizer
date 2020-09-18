@@ -18,7 +18,7 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
 
             services.AddTransient<IThumbnailMaker>( sp => new ThumbnailMaker(
                 sp.GetRequiredService<IImageResizer>(),
-                sp.GetRequiredService<IFileDatabase>().GetContainer( FileDatabaseFolder.Thumbnails )
+                sp.GetRequiredService<IFileDatabase>().Thumbnails
                 ) );
         }
     }

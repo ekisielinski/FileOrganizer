@@ -1,6 +1,5 @@
 ﻿using FileOrganizer.CommonUtils;
 using FileOrganizer.Core.Services;
-using FileOrganizer.Services.FileDatabase;
 using FileOrganizer.WebUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
@@ -24,16 +23,16 @@ namespace FileOrganizer.WebUI.Pages.Shared.Components
         {
             // todo: for files w/o thumbnail we should serve special image
 
-            string link = string.Empty;
+            string thumbLink = string.Empty;
 
             if (file.DatabaseFiles.Thumbnail != null)
             {
-                link = linkGenerator.GetDatabaseFilePath( file.DatabaseFiles.Thumbnail, FileDatabaseFolder.Thumbnails );
+                thumbLink = linkGenerator.GetThumbnailPath( file.DatabaseFiles.Thumbnail );
             }
 
             // TODO: create model
 
-            ViewBag.ThumbLink = link;
+            ViewBag.ThumbLink = thumbLink;
             ViewBag.DimensionString = file.ImageDetails.Size is Size size ? $"{size.Width}x{size.Height}" : "unknown";
 
             return View( file );

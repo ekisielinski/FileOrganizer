@@ -1,7 +1,6 @@
 ﻿using FileOrganizer.CommonUtils;
 using FileOrganizer.Core;
 using FileOrganizer.Core.Services;
-using FileOrganizer.Services.FileDatabase;
 using FileOrganizer.WebUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -42,7 +41,7 @@ namespace FileOrganizer.WebUI.Pages
 
         public string GetThumbFilePath( FileDetails fileDetails )
         {
-            return linkGenerator.GetDatabaseFilePath( fileDetails.DatabaseFiles.Thumbnail, FileDatabaseFolder.Thumbnails );
+            return linkGenerator.GetThumbnailPath( fileDetails.DatabaseFiles.Thumbnail );
         }
     }
 }

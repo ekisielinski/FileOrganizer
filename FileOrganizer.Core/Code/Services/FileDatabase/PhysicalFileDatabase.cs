@@ -1,7 +1,6 @@
 ﻿using FileOrganizer.CommonUtils;
 using FileOrganizer.Core;
 using FileOrganizer.Core.Helpers;
-using System;
 using System.IO;
 
 namespace FileOrganizer.Services.FileDatabase
@@ -9,6 +8,9 @@ namespace FileOrganizer.Services.FileDatabase
     public sealed class PhysicalFileDatabase : IFileDatabase, IFileDatabaseCleaner
     {
         readonly string rootPath;
+
+        PhysicalFileContainer? sourceFiles = null;
+        PhysicalFileContainer? thumbnails = null;
 
         //====== ctors
 
@@ -19,38 +21,34 @@ namespace FileOrganizer.Services.FileDatabase
             this.rootPath = Path.GetFullPath( rootPath );
         }
 
-        //===== IFileDatabase
+        //====== IFileDatabase
 
-        public IFileContainer GetContainer( FileDatabaseFolder folder )
-            => new PhysicalFileContainer( GetFolderFullPath( folder ) );
+        public IFileContainer SourceFiles => sourceFiles ??= CreateContainer( "Files" );
+        public IFileContainer Thumbnails  => thumbnails  ??= CreateContainer( "Thumbs" );
 
-        public IFileContainerReader GetContainerReader( FileDatabaseFolder folder )
-            => new PhysicalFileContainer( GetFolderFullPath( folder ) );
+        //====== IFileDatabaseReader
+
+        public IFileContainerReader SourceFilesReader => SourceFiles;
+        public IFileContainerReader ThumbnailsReader  => Thumbnails;
 
         //====== IFileDatabaseCleaner
 
         public void DeleteAllFiles()
         {
-            var sourceFiles = GetContainer( FileDatabaseFolder.SourceFiles) as PhysicalFileContainer;
-            sourceFiles.DeleteAllFiles();
+            _ = SourceFiles;
+            _ = Thumbnails;
 
-            var thumbFiles = GetContainer( FileDatabaseFolder.Thumbnails) as PhysicalFileContainer;
-            thumbFiles.DeleteAllFiles();
+            sourceFiles!.DeleteAllFiles();
+            thumbnails!.DeleteAllFiles();
         }
 
         //====== private methods
 
-        private DirectoryFullPath GetFolderFullPath( FileDatabaseFolder folder )
+        private PhysicalFileContainer CreateContainer( string dirName )
         {
-            string dirPath = Path.Combine( rootPath, folder switch
-            {
-                FileDatabaseFolder.SourceFiles => "Files",
-                FileDatabaseFolder.Thumbnails  => "Thumbs",
+            var dirPath = new DirectoryFullPath( Path.Combine( rootPath, dirName ) );
 
-                _ => throw new ArgumentException( "Invalid enum value.", nameof( folder ) )
-            } );
-
-            return new DirectoryFullPath( dirPath );
+            return new PhysicalFileContainer( dirPath );
         }
     }
 }

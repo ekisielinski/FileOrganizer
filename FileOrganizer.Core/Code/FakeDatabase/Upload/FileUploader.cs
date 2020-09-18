@@ -59,8 +59,7 @@ namespace FileOrganizer.Core.FakeDatabase
                 {
                     string newFileName = FileUtils.GetRandomFileNameWithTimestamp( timestamp.Value, sourceFile.OrginalFileName );
 
-                    IFileInfo fileInfo = fileDatabase.GetContainer( FileDatabaseFolder.SourceFiles )
-                                                     .Create( sourceFile.Content, new FileName( newFileName ) );
+                    IFileInfo fileInfo = fileDatabase.SourceFiles.Create( sourceFile.Content, new FileName( newFileName ) );
 
                     ThumbnailMakerResult? thumbResult = thumbnailMaker.TryMakeAndSaveThumbnail( fileInfo, timestamp );
 

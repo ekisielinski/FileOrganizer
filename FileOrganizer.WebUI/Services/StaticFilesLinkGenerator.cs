@@ -1,10 +1,8 @@
 ﻿using FileOrganizer.CommonUtils;
 using FileOrganizer.Core;
-using FileOrganizer.Services.FileDatabase;
 using FileOrganizer.WebUI.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using System;
 
 namespace FileOrganizer.WebUI.Services
 {
@@ -23,23 +21,24 @@ namespace FileOrganizer.WebUI.Services
 
         //====== IStaticFilesLinkGenerator
 
-        public string GetDatabaseFilePath( FileName fileName, FileDatabaseFolder folder )
+        public string GetSourceFilePath( FileName fileName )
+            => GetPath( fileName, nameof( StaticFilesController.File ) );
+
+        public string GetThumbnailPath( FileName fileName )
+            => GetPath( fileName, nameof( StaticFilesController.Thumb ) );
+
+        //====== private methods
+
+        private string GetPath( FileName fileName, string actionName )
         {
             Guard.NotNull( fileName, nameof( fileName ) );
-
-            string actionName = folder switch
-            {
-                FileDatabaseFolder.SourceFiles => nameof( StaticFilesController.File ),
-                FileDatabaseFolder.Thumbnails  => nameof( StaticFilesController.Thumb ),
-
-                _ => throw new ArgumentException( "Invalid enum value.", nameof( folder ) )
-            };
-
+            Guard.NotNull( actionName, nameof( actionName ) );
+         
             return linkGenerator.GetPathByAction(
                 httpContext: accessor.HttpContext,
-                action:      actionName,
-                controller:  "StaticFiles", // TODO: controller name utils...
-                values:      new { fileName = fileName.Value }
+                action: actionName,
+                controller: "StaticFiles", // TODO: controller name utils...
+                values: new { fileName = fileName.Value }
                 );
         }
     }

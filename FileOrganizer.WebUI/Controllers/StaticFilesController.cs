@@ -25,16 +25,14 @@ namespace FileOrganizer.WebUI.Controllers
 
         public IActionResult File( string fileName )
         {
-            IFileInfo file = reader.GetContainerReader( FileDatabaseFolder.SourceFiles )
-                                   .Get( new FileName( fileName ));
+            IFileInfo file = reader.SourceFilesReader.Get( new FileName( fileName ));
 
             return FileInfoToActionResult( file );
         }
 
         public IActionResult Thumb( string fileName )
         {
-            IFileInfo file = reader.GetContainerReader( FileDatabaseFolder.Thumbnails )
-                                   .Get( new FileName( fileName ));
+            IFileInfo file = reader.ThumbnailsReader.Get( new FileName( fileName ));
 
             return FileInfoToActionResult( file );
         }
