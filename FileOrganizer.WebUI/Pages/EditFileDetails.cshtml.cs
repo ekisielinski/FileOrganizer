@@ -7,15 +7,15 @@ namespace FileOrganizer.WebUI.Pages
 {
     public class EditFileDetailsModel : PageModel
     {
-        [BindProperty] public string Title       { get; set; } = string.Empty;
-        [BindProperty] public string Description { get; set; } = string.Empty;
+        [BindProperty] public string? Title       { get; set; }
+        [BindProperty] public string? Description { get; set; }
         
         [BindProperty, HiddenInput]
         public int FileId { get; set; }
 
         //---
 
-        public FileDetails FileDetails { get; set; }
+        public FileDetails? FileDetails { get; private set; }
 
         //====== actions
 
@@ -24,13 +24,16 @@ namespace FileOrganizer.WebUI.Pages
             FileDetails = reader.GetFileDetailsById( new FileId( fileId ) );
             
             Description = FileDetails.Description.Value;
-            Title = FileDetails.Title.Value;
+            Title       = FileDetails.Title.Value;
         }
 
         public IActionResult OnPost( [FromServices] IFileDetailsUpdater updater )
         {
-            updater.UpdateTitle( new FileId( FileId ), new FileTitle( Title ) );
-            updater.UpdateDescription( new FileId( FileId ), new FileDescription( Description ) );
+            var title = new FileTitle( Title ?? string.Empty );
+            var description = new FileDescription( Description ?? string.Empty );
+
+            updater.UpdateTitle( new FileId( FileId ), title );
+            updater.UpdateDescription( new FileId( FileId ), description );
 
             return RedirectToPage( "View", new { fileId = FileId } );
         }

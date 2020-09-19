@@ -1,10 +1,12 @@
-﻿namespace FileOrganizer.Core
+﻿using FileOrganizer.CommonUtils;
+
+namespace FileOrganizer.Core
 {
     public sealed class FileDescription : IValueObject
     {
         public FileDescription( string value )
         {
-            Value = value;
+            Value = Guard.NotNull( value, nameof( value ) );
         }
 
         //====== public properties
