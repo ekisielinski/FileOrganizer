@@ -1,5 +1,6 @@
 ﻿using FileOrganizer.Core;
 using FileOrganizer.Core.Services;
+using FileOrganizer.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,6 +14,9 @@ namespace FileOrganizer.WebUI.Pages
         [BindProperty, HiddenInput]
         public int FileId { get; set; }
 
+        [BindProperty]
+        public PartialDateTimeModel PrimaryDateTime { get; set; }
+
         //---
 
         public FileDetails? FileDetails { get; private set; }
@@ -25,15 +29,19 @@ namespace FileOrganizer.WebUI.Pages
             
             Description = FileDetails.Description.Value;
             Title       = FileDetails.Title.Value;
+
+            PrimaryDateTime = new PartialDateTimeModel( FileDetails.PrimaryDateTime );
         }
 
         public IActionResult OnPost( [FromServices] IFileDetailsUpdater updater )
         {
             var title = new FileTitle( Title ?? string.Empty );
             var description = new FileDescription( Description ?? string.Empty );
+            var primaryDateTime = PrimaryDateTime.ToPartialDateTime();
 
             updater.UpdateTitle( new FileId( FileId ), title );
             updater.UpdateDescription( new FileId( FileId ), description );
+            updater.UpdatePrimaryDateTime( new FileId( FileId ), primaryDateTime );
 
             return RedirectToPage( "View", new { fileId = FileId } );
         }

@@ -16,6 +16,8 @@ namespace FileOrganizer.Core.Services
         public ImageDetails ImageDetails { get; set; } = new ImageDetails();
 
         public IAppUserNames Uploader { get; set; }
+
+        public PartialDateTime PrimaryDateTime { get; set; } = PartialDateTime.Empty;
         // TODO: immutable
     }
 }

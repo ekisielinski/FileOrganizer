@@ -19,5 +19,7 @@ namespace FileOrganizer.Core.FakeDatabase
         public ImageDetails?   ImageDetails  { get; set; } = null;
         public Sha256Hash      Hash          { get; set; }
         public UserName        Uploader      { get; set; }
+
+        public PartialDateTime PrimaryDateTime { get; set; } = PartialDateTime.Empty;
     }
 }

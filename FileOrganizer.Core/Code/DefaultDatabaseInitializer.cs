@@ -59,6 +59,7 @@ namespace FileOrganizer.Core
             // temp
             fileDetailsUpdater.UpdateTitle( new FileId( 0 ), new FileTitle( "Red square" ) );
             fileDetailsUpdater.UpdateDescription( new FileId( 0 ), new FileDescription( "Red square - description" ) );
+            fileDetailsUpdater.UpdatePrimaryDateTime( new FileId( 0 ), new PartialDateTime( 2020, 1, 2, 3, 4 ) );
         }
 
         private static SourceFile CreateFakeImage( int width, int height, Color color, string? orginalFileName )

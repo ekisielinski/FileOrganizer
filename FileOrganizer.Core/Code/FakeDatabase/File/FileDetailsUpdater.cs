@@ -30,5 +30,12 @@ namespace FileOrganizer.Core.FakeDatabase
 
             logger.Add( $"Title updated for file #{fileId}. New value: {title}" );
         }
+
+        public void UpdatePrimaryDateTime( FileId fileId, PartialDateTime primaryDateTime )
+        {
+            database.Files.FirstOrDefault( x => x.Id == fileId.Value ).PrimaryDateTime = primaryDateTime;
+            
+            logger.Add( $"Primary date time updated for file #{fileId}. New value: {primaryDateTime}" );
+        }
     }
 }

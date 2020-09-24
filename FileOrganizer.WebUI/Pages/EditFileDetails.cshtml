@@ -15,6 +15,20 @@
     <br />
     <textarea asp-for="Description" cols="50" rows="5"></textarea>
 
+    <div>
+        <!-- todo: user input range -->
+        <label asp-for="PrimaryDateTime.Year"></label>
+        <input asp-for="PrimaryDateTime.Year" autocomplete="off" />
+        <label asp-for="PrimaryDateTime.Month"></label>
+        <input asp-for="PrimaryDateTime.Month" autocomplete="off" />
+        <label asp-for="PrimaryDateTime.Day"></label>
+        <input asp-for="PrimaryDateTime.Day" autocomplete="off" />
+        <label asp-for="PrimaryDateTime.Hour"></label>
+        <input asp-for="PrimaryDateTime.Hour" autocomplete="off" />
+        <label asp-for="PrimaryDateTime.Minute"></label>
+        <input asp-for="PrimaryDateTime.Minute" autocomplete="off" />
+    </div>
+
     <input asp-for="FileId">
 
     <br />
