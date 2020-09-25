@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.FeatureManagement;
 
 namespace FileOrganizer.WebUI
 {
@@ -30,6 +31,7 @@ namespace FileOrganizer.WebUI
                 options.Conventions.AuthorizeFolder( "/" );
             } );
 
+            services.AddFeatureManagement();
             services.AddHttpContextAccessor();
             services.AddTransient<IStaticFilesLinkGenerator, StaticFilesLinkGenerator>();
             services.AddTransient<IDatabaseInitializer, DefaultDatabaseInitializer>();

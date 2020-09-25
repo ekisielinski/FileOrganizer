@@ -1,22 +1,31 @@
 ﻿@page
 @model FileOrganizer.WebUI.Pages.UploadModel
+@addTagHelper *, Microsoft.FeatureManagement.AspNetCore
 
 @{ ViewBag.Title = "Upload"; }
 
-<form method="post" asp-page="Upload" enctype="multipart/form-data">
-    <label asp-for="Files">Files to upload:</label>
-    <br />
-    <input multiple asp-for="Files" />
-    <br />
-    <label asp-for="Description">Description:</label>
-    <br />
-    <textarea asp-for="Description"></textarea>
-    <br />
-    <br />
-    <button type="submit">Upload</button>
-</form>
+<feature name="AllowUploads">
 
-@if (Model.Error != null)
-{
-    <p>ERROR: @Model.Error</p>
-}
+    <form method="post" asp-page="Upload" enctype="multipart/form-data">
+        <label asp-for="Files">Files to upload:</label>
+        <br />
+        <input multiple asp-for="Files" />
+        <br />
+        <label asp-for="Description">Description:</label>
+        <br />
+        <textarea asp-for="Description"></textarea>
+        <br />
+        <br />
+        <button type="submit">Upload</button>
+    </form>
+
+    @if (Model.Error != null)
+    {
+        <p>ERROR: @Model.Error</p>
+    }
+
+</feature>
+
+<feature name="AllowUploads" negate="true">
+    <p>Sorry, upload functcionality is disabled.</p>
+</feature>
