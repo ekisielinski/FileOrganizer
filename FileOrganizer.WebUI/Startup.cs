@@ -3,6 +3,7 @@ using FileOrganizer.Services.FileDatabase;
 using FileOrganizer.WebUI.DiSetup;
 using FileOrganizer.WebUI.DiSetup.Installers;
 using FileOrganizer.WebUI.Services;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ namespace FileOrganizer.WebUI
             services.AddRazorPages( options =>
             {
                 options.Conventions.AuthorizeFolder( "/" );
-            } );
+            } ).AddFluentValidation( cfg => cfg.RegisterValidatorsFromAssemblyContaining<Startup>() );
 
             services.AddFeatureManagement();
             services.AddHttpContextAccessor();

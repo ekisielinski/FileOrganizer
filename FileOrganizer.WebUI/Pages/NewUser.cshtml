@@ -4,25 +4,25 @@
 <h2>Create new user</h2>
 
 <form asp-page="NewUser" method="post">
-    <label asp-for="UserName">User name</label><br />
-    <input asp-for="UserName" autocomplete="off" /><br />
-    <span asp-validation-for="UserName"></span>
+    <label asp-for="Model.UserName">User name</label><br />
+    <input asp-for="Model.UserName" autocomplete="off" /><br />
+    <span asp-validation-for="Model.UserName"></span>
 
     <br />
 
-    <label asp-for="UserDisplayName">Display name</label><br />
-    <input asp-for="UserDisplayName" autocomplete="off" /><br />
+    <label asp-for="Model.UserDisplayName">Display name</label><br />
+    <input asp-for="Model.UserDisplayName" autocomplete="off" /><br />
 
     <br />
 
-    <label asp-for="Password"></label><br />
-    <input asp-for="Password" type="password" /><br />
-    <span asp-validation-for="Password"></span>
+    <label asp-for="Model.Password"></label><br />
+    <input asp-for="Model.Password" type="password" /><br />
+    <span asp-validation-for="Model.Password"></span>
 
     <br />
 
-    <label asp-for="IsModerator">Add moderator privileges</label><br />
-    <input asp-for="IsModerator" /><br />
+    <label asp-for="Model.IsModerator">Add moderator privileges</label><br />
+    <input asp-for="Model.IsModerator" /><br />
 
     <div asp-validation-summary="ModelOnly">
         <br />

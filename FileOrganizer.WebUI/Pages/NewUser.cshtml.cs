@@ -1,27 +1,17 @@
 ﻿using FileOrganizer.Core;
+using FileOrganizer.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace FileOrganizer.WebUI.Pages
 {
     public class NewUserModel : PageModel
     {
-        [BindProperty, Required]
-        public string UserName { get; set; } = string.Empty;
-
         [BindProperty]
-        public string? UserDisplayName { get; set; }
+        public CreateNewUserRequest Model { get; set; } = new CreateNewUserRequest();
 
-        [BindProperty, Required]
-        public string Password { get; set; } = string.Empty;
-
-        [BindProperty]
-        public bool IsModerator { get; set; }
-
-        //---
+        //--- actions
 
         public void OnGet()
         {
@@ -34,16 +24,7 @@ namespace FileOrganizer.WebUI.Pages
 
             try
             {
-                var userName = new UserName( UserName );
-                var displayName = new UserDisplayName( UserDisplayName ?? string.Empty );
-
-                var rolesList = new List<UserRole>();
-                if (IsModerator) rolesList.Add( UserRole.Moderator );
-                var roles = new UserRoles( rolesList );
-
-                var appUser = new AppUser( userName, displayName, roles );
-
-                creator.Create( appUser, new UserPassword( Password ) );
+                creator.Create( Model.ToAppUser(), Model.ToUserPassword() );
             }
             catch (Exception ex)
             {
