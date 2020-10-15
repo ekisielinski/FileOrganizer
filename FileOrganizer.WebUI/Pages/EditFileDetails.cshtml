@@ -28,6 +28,13 @@
         <label asp-for="PrimaryDateTime.Minute"></label>
         <input asp-for="PrimaryDateTime.Minute" autocomplete="off" />
     </div>
+    <div>
+        <span style="display:block" asp-validation-for="PrimaryDateTime.Year"></span>
+        <span style="display:block" asp-validation-for="PrimaryDateTime.Month"></span>
+        <span style="display:block" asp-validation-for="PrimaryDateTime.Day"></span>
+        <span style="display:block" asp-validation-for="PrimaryDateTime.Hour"></span>
+        <span style="display:block" asp-validation-for="PrimaryDateTime.Minute"></span>
+    </div>
 
     <input asp-for="FileId">
 

@@ -8,11 +8,11 @@ namespace FileOrganizer.Core
         {
             // TODO: add guard method in common utils
 
-            if (month < 0 || month > 11)
-                throw new ArgumentOutOfRangeException( nameof( month ), month, "Value must be in range [0..11]." );
+            if (month < 1 || month > 12)
+                throw new ArgumentOutOfRangeException( nameof( month ), month, "Value must be in range [1..12]." );
 
-            if (day < 0 || day > 30) // TODO: additional ckecking if year or month is present
-                throw new ArgumentOutOfRangeException( nameof( day ), day, "Value must be in range [0..30]." );
+            if (day < 1 || day > 31) // TODO: additional ckecking if year or month is present
+                throw new ArgumentOutOfRangeException( nameof( day ), day, "Value must be in range [1..31]." );
 
             if (hour < 0 || hour > 23)
                 throw new ArgumentOutOfRangeException( nameof( hour ), hour, "Value must be in range [0..23]." );

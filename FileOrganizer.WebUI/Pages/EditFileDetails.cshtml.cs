@@ -8,6 +8,9 @@ namespace FileOrganizer.WebUI.Pages
 {
     public class EditFileDetailsModel : PageModel
     {
+        readonly IFileDetailsReader reader;
+        readonly IFileDetailsUpdater updater;
+
         [BindProperty] public string? Title       { get; set; }
         [BindProperty] public string? Description { get; set; }
         
@@ -21,9 +24,17 @@ namespace FileOrganizer.WebUI.Pages
 
         public FileDetails? FileDetails { get; private set; }
 
+        //====== ctors
+
+        public EditFileDetailsModel( IFileDetailsReader reader, IFileDetailsUpdater updater )
+        {
+            this.reader = reader;
+            this.updater = updater;
+        }
+
         //====== actions
 
-        public void OnGet( int fileId, [FromServices] IFileDetailsReader reader )
+        public void OnGet( int fileId )
         {
             FileDetails = reader.GetFileDetailsById( new FileId( fileId ) );
             
@@ -33,8 +44,14 @@ namespace FileOrganizer.WebUI.Pages
             PrimaryDateTime = new PartialDateTimeModel( FileDetails.PrimaryDateTime );
         }
 
-        public IActionResult OnPost( [FromServices] IFileDetailsUpdater updater )
+        public IActionResult OnPost( int fileId )
         {
+            if (ModelState.IsValid == false)
+            {
+                OnGet( fileId ); // TODO: refactor
+                return Page();
+            }
+
             var title = new FileTitle( Title ?? string.Empty );
             var description = new FileDescription( Description ?? string.Empty );
             var primaryDateTime = PrimaryDateTime.ToPartialDateTime();
