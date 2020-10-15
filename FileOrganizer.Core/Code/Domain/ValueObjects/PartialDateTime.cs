@@ -1,4 +1,4 @@
-﻿using System;
+﻿using FileOrganizer.CommonUtils;
 
 namespace FileOrganizer.Core
 {
@@ -6,19 +6,12 @@ namespace FileOrganizer.Core
     {
         public PartialDateTime( int? year, int? month, int? day, int? hour, int? minute )
         {
-            // TODO: add guard method in common utils
-
-            if (month < 1 || month > 12)
-                throw new ArgumentOutOfRangeException( nameof( month ), month, "Value must be in range [1..12]." );
-
-            if (day < 1 || day > 31) // TODO: additional ckecking if year or month is present
-                throw new ArgumentOutOfRangeException( nameof( day ), day, "Value must be in range [1..31]." );
-
-            if (hour < 0 || hour > 23)
-                throw new ArgumentOutOfRangeException( nameof( hour ), hour, "Value must be in range [0..23]." );
-
-            if (minute < 0 || minute > 59)
-                throw new ArgumentOutOfRangeException( nameof( minute ), minute, "Value must be in range [0..59]." );
+            Guard.InRangeNullable( year,   -5000, 5000, nameof( year ) );
+            Guard.InRangeNullable( month,  1, 12,       nameof( month ) );
+            // TODO: additional ckecking if year or month is present
+            Guard.InRangeNullable( day,    1, 31,       nameof( day ) );
+            Guard.InRangeNullable( hour,   0, 23,       nameof( hour ) );
+            Guard.InRangeNullable( minute, 0, 59,       nameof( minute ) );
 
             Year   = year;
             Month  = month;
