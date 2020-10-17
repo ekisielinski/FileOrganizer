@@ -3,6 +3,7 @@ using System.Drawing;
 using FileOrganizer.CommonUtils;
 using System.IO;
 using System.Drawing.Imaging;
+using FileOrganizer.Domain;
 
 namespace FileOrganizer.Core.Helpers
 {

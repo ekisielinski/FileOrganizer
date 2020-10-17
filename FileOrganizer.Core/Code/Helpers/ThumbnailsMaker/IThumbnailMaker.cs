@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.FileProviders;
+﻿using FileOrganizer.Domain;
+using Microsoft.Extensions.FileProviders;
 
 namespace FileOrganizer.Core.Helpers
 {

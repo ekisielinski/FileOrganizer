@@ -1,5 +1,6 @@
 ﻿@page
-@inject FileOrganizer.Core.IAppUserFinder finder
+@using FileOrganizer.Domain 
+@inject MediatR.IMediator mediator
 
 <a asp-page="NewUser">Create new</a>
 
@@ -12,7 +13,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var appUser in finder.GetAllAppUsers())
+        @foreach (var appUser in await mediator.Send( new GetAppUsersQuery() ))
         {
             <tr>
                 <td>@appUser.Name</td>

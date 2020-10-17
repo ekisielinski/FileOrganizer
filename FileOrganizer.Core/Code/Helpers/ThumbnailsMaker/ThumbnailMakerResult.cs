@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using FileOrganizer.CommonUtils;
+using FileOrganizer.Domain;
 
 namespace FileOrganizer.Core.Helpers
 {

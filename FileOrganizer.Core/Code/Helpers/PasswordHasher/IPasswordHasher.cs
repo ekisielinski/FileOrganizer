@@ -1,4 +1,6 @@
-﻿namespace FileOrganizer.Core.Helpers
+﻿using FileOrganizer.Domain;
+
+namespace FileOrganizer.Core.Helpers
 {
     public interface IPasswordHasher
     {

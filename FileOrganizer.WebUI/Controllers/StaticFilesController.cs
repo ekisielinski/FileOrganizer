@@ -1,5 +1,6 @@
 ﻿using FileOrganizer.CommonUtils;
 using FileOrganizer.Core;
+using FileOrganizer.Domain;
 using FileOrganizer.Services.FileDatabase;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

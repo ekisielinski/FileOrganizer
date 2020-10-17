@@ -1,9 +1,11 @@
-﻿using FileOrganizer.Core.Services;
-using FileOrganizer.Core;
+﻿using FileOrganizer.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq;
+using FileOrganizer.Domain;
+using MediatR;
+using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Pages
 {
@@ -26,7 +28,7 @@ namespace FileOrganizer.WebUI.Pages
 
         }
 
-        public IActionResult OnPost( [FromServices] IFileUploader fileUploader, [FromServices] IUploadDetailsReader reader )
+        public async Task<IActionResult> OnPost( [FromServices] IMediator mediator )
         {
             if (Files?.Count > 0)
             {
@@ -38,9 +40,10 @@ namespace FileOrganizer.WebUI.Pages
 
                 var parameters = new UploadParameters( uploads, new UploadDescription( Description ?? string.Empty ) );
 
-                UploadId uploadId = fileUploader.Upload( parameters );
+                UploadId uploadId = await mediator.Send( new UploadFilesCommand( parameters ));
 
-                var result = reader.GetUploadDetails( uploadId );
+
+                var result = await mediator.Send( new GetUploadDetailsQuery( uploadId ));
 
                 if (result.Files.Count == 1 && result.RejectedDuplicates.Count == 0)
                 {

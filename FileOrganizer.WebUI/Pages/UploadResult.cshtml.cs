@@ -1,9 +1,11 @@
 ﻿using FileOrganizer.CommonUtils;
 using FileOrganizer.Core;
-using FileOrganizer.Core.Services;
+using FileOrganizer.Domain;
 using FileOrganizer.WebUI.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Pages
 {
@@ -22,11 +24,13 @@ namespace FileOrganizer.WebUI.Pages
 
         //====== actions
 
-        public IActionResult OnGet( int uploadId, [FromServices] IUploadDetailsReader reader )
+        public async Task<IActionResult> OnGet( int uploadId, [FromServices] IMediator mediator )
         {
             try
             {
-                UploadDetails = reader.GetUploadDetails( new UploadId( uploadId ) );
+                var cmd = new GetUploadDetailsQuery( new UploadId( uploadId ) );
+
+                UploadDetails = await mediator.Send( cmd );
             }
             catch
             {

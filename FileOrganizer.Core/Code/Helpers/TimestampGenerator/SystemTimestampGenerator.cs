@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileOrganizer.Domain;
+using System;
 
 namespace FileOrganizer.Core.Helpers
 {

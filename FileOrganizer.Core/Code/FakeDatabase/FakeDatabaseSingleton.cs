@@ -1,4 +1,5 @@
 ﻿using FileOrganizer.Core.Helpers;
+using FileOrganizer.Domain;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,8 +9,8 @@ namespace FileOrganizer.Core.FakeDatabase
     {
         readonly ITimestampGenerator timestampGenerator;
 
-        internal int uploadId = -1;
-        internal int fileId = -1;
+        internal int uploadId = 0;
+        internal int fileId = 0;
 
         internal List<UploadEntry> Uploads { get; } = new List<UploadEntry>();
         internal List<FileEntry>   Files   { get; } = new List<FileEntry>();

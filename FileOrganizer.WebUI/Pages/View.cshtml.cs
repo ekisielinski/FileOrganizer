@@ -1,9 +1,9 @@
-﻿using FileOrganizer.Core;
-using FileOrganizer.Core.Services;
-using FileOrganizer.Services.FileDatabase;
+﻿using FileOrganizer.Domain;
 using FileOrganizer.WebUI.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Pages
 {
@@ -14,11 +14,11 @@ namespace FileOrganizer.WebUI.Pages
 
         //====== actions
 
-        public IActionResult OnGet( int fileId,
-            [FromServices] IFileDetailsReader fileDetailsReader,
+        public async Task<IActionResult> OnGet( int fileId,
+            [FromServices] IMediator mediator,
             [FromServices] IStaticFilesLinkGenerator linkGenerator)
         {
-            FileDetails = fileDetailsReader.GetFileDetailsById( new FileId( fileId ) );
+            FileDetails = await mediator.Send( new GetFileDetailsQuery( new FileId( fileId ) ) );
 
             if (FileDetails is null) return NotFound();
 

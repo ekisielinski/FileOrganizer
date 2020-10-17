@@ -1,5 +1,5 @@
-﻿using FileOrganizer.CommonUtils;
-using FileOrganizer.Core.Services;
+﻿using FileOrganizer.Domain;
+using MediatR;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -10,27 +10,50 @@ namespace FileOrganizer.Core
 {
     public sealed class DefaultDatabaseInitializer : IDatabaseInitializer
     {
-        readonly IAppUserCreator appUserCreator;
-        readonly IFileUploader fileUploader;
-        readonly IFileDetailsUpdater fileDetailsUpdater;
+        readonly IMediator mediator;
 
         //====== ctors
 
-        public DefaultDatabaseInitializer( IAppUserCreator appUserCreator, IFileUploader fileUploader, IFileDetailsUpdater fileDetailsUpdater )
+        public DefaultDatabaseInitializer( IMediator mediator )
         {
-            this.appUserCreator = Guard.NotNull( appUserCreator, nameof( appUserCreator ) );
-            this.fileUploader = Guard.NotNull( fileUploader, nameof( fileUploader ) );
-            this.fileDetailsUpdater = Guard.NotNull( fileDetailsUpdater, nameof( fileDetailsUpdater ) );
+            this.mediator = mediator;
         }
 
         //====== IDatabaseInitializer
 
-        public void Init()
+        private void CreateAppUsers()
         {
-            appUserCreator.Create( CreateUser( "admin", "Administrator", UserRole.Administrator, UserRole.Moderator ), new UserPassword( "admin" ) );
-            appUserCreator.Create( CreateUser( "mod", "Moderator", UserRole.Moderator ), new UserPassword( "mod" ) );
-            appUserCreator.Create( CreateUser( "user", "User" ), new UserPassword( "user" ) );
+            var cmd1 = new CreateAppUserCommand( new UserName( "admin" ), new UserDisplayName( "Administrator" ), new UserPassword( "admin" ) );
+            var cmd2 = new CreateAppUserCommand( new UserName( "mod"   ), new UserDisplayName( "Moderator"     ), new UserPassword( "mod"   ) );
+            var cmd3 = new CreateAppUserCommand( new UserName( "user"  ), new UserDisplayName( "User"          ), new UserPassword( "user"  ) );
 
+            mediator.Send( cmd1 ).Wait(); // TODO: .Wait()
+            mediator.Send( cmd2 ).Wait();
+            mediator.Send( cmd3 ).Wait();
+        }
+
+        private void UpdateEmails()
+        {
+            var cmd1 = new UpdateAppUserDetailsCommand( new UserName( "admin" ), null, new EmailAddress( "admin@x.com" ), false );
+            var cmd2 = new UpdateAppUserDetailsCommand( new UserName( "mod" ),   null, new EmailAddress( "mod@x.com" ),   false );
+            var cmd3 = new UpdateAppUserDetailsCommand( new UserName( "user" ),  null, new EmailAddress( "user@x.com" ),  false );
+
+            mediator.Send( cmd1 ).Wait(); // todo: wait
+            mediator.Send( cmd2 ).Wait();
+            mediator.Send( cmd3 ).Wait();
+        }
+
+        private void UpdateUserRoles()
+        {
+            var cmd1 = new SetAppUserRolesCommand( new UserName( "admin" ), new UserRoles( new[] { UserRole.Administrator } ) );
+            var cmd2 = new SetAppUserRolesCommand( new UserName( "mod" ),   new UserRoles( new[] { UserRole.Moderator } ) );
+
+            mediator.Send( cmd1 ).Wait();
+            mediator.Send( cmd2 ).Wait();
+        }
+
+        private void UploadFiles()
+        {
             var upload1 = new UploadParameters( new[]
             {
                 CreateFakeImage( 100, 100, Color.Red, "red.jpg" ),
@@ -51,15 +74,26 @@ namespace FileOrganizer.Core
 
             var upload4 = new UploadParameters( new[] { CreateFakeTextFile( "hello", "hello.txt" ) }, new UploadDescription( "1 text file" ) );
 
-            fileUploader.Upload( upload1 );
-            fileUploader.Upload( upload2 );
-            fileUploader.Upload( upload3 );
-            fileUploader.Upload( upload4 );
+            mediator.Send( new UploadFilesCommand( upload1 ) ).Wait(); // todo wait
+            mediator.Send( new UploadFilesCommand( upload2 ) ).Wait();
+            mediator.Send( new UploadFilesCommand( upload3 ) ).Wait();
+            mediator.Send( new UploadFilesCommand( upload4 ) ).Wait();
+        }
 
-            // temp
-            fileDetailsUpdater.UpdateTitle( new FileId( 0 ), new FileTitle( "Red square" ) );
-            fileDetailsUpdater.UpdateDescription( new FileId( 0 ), new FileDescription( "Red square - description" ) );
-            fileDetailsUpdater.UpdatePrimaryDateTime( new FileId( 0 ), new PartialDateTime( 2020, 1, 2, 3, 4 ) );
+        public void Init()
+        {
+            CreateAppUsers();
+            UpdateUserRoles();
+            UpdateEmails();
+            UploadFiles();
+
+            var cmd = new UpdateFileDetailsCommand(
+                new FileId( 1 ),
+                new FileTitle( "Red square" ),
+                new FileDescription( "Red square - description" ),
+                new PartialDateTime( 2020, 1, 2, 3, 4 ) );
+
+            mediator.Send( cmd ).Wait(); // todo: wait
         }
 
         private static SourceFile CreateFakeImage( int width, int height, Color color, string? orginalFileName )
@@ -82,13 +116,6 @@ namespace FileOrganizer.Core
             var ms = new MemoryStream( bytes );
 
             return new SourceFile( ms, new MimeType( "text/plain" ), orginalFileName );
-        }
-
-        private static AppUser CreateUser( string name, string displayName, params UserRole[] roles )
-        {
-            var userRoles = new UserRoles( roles );
-
-            return new AppUser( new UserName( name ), new UserDisplayName( displayName ), userRoles );
         }
     }
 }

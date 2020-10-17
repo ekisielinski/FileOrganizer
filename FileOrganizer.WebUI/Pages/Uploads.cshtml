@@ -1,5 +1,5 @@
 ﻿@page
-@inject FileOrganizer.Core.IUploadInfoReader reader
+@inject MediatR.IMediator mediator
 
 <table>
     <thead>
@@ -14,13 +14,13 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in reader.GetAll())
+        @foreach (var item in mediator.Send( new FileOrganizer.Domain.GetUploadBasicInfosQuery() ).Result )
         {
             <tr>
                 <td><a asp-page="UploadResult" asp-route-uploadid="@item.Id">@item.Id</a></td>
-                <td>@item.WhenAdded</td>
-                <td>@item.Owner.Name</td>
-                <td>@item.Owner.DisplayName</td>
+                <td>@item.WhenUploaded</td>
+                <td>@item.Uploader.Name</td>
+                <td>@item.Uploader.DisplayName</td>
                 <td>@item.FileCount</td>
                 <td>@item.TotalSize</td>
                 <td>@item.Description</td>

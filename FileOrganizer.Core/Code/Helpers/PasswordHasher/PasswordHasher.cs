@@ -1,4 +1,5 @@
 ﻿using FileOrganizer.CommonUtils;
+using FileOrganizer.Domain;
 using Microsoft.AspNetCore.Identity;
 
 namespace FileOrganizer.Core.Helpers

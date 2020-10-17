@@ -1,15 +1,16 @@
 ﻿using FileOrganizer.Core;
-using FileOrganizer.Core.Services;
+using FileOrganizer.Domain;
 using FileOrganizer.WebUI.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Pages
 {
     public class EditFileDetailsModel : PageModel
     {
-        readonly IFileDetailsReader reader;
-        readonly IFileDetailsUpdater updater;
+        readonly IMediator mediator;
 
         [BindProperty] public string? Title       { get; set; }
         [BindProperty] public string? Description { get; set; }
@@ -26,17 +27,16 @@ namespace FileOrganizer.WebUI.Pages
 
         //====== ctors
 
-        public EditFileDetailsModel( IFileDetailsReader reader, IFileDetailsUpdater updater )
+        public EditFileDetailsModel( IMediator mediator )
         {
-            this.reader = reader;
-            this.updater = updater;
+            this.mediator = mediator;
         }
 
         //====== actions
 
-        public void OnGet( int fileId )
+        public async Task OnGet( int fileId )
         {
-            FileDetails = reader.GetFileDetailsById( new FileId( fileId ) );
+            FileDetails = await mediator.Send( new GetFileDetailsQuery( new FileId( fileId ) ) );
             
             Description = FileDetails.Description.Value;
             Title       = FileDetails.Title.Value;
@@ -44,11 +44,11 @@ namespace FileOrganizer.WebUI.Pages
             PrimaryDateTime = new PartialDateTimeModel( FileDetails.PrimaryDateTime );
         }
 
-        public IActionResult OnPost( int fileId )
+        public async Task<IActionResult> OnPost( int fileId )
         {
             if (ModelState.IsValid == false)
             {
-                OnGet( fileId ); // TODO: refactor
+                await OnGet( fileId ); // TODO: refactor
                 return Page();
             }
 
@@ -56,9 +56,8 @@ namespace FileOrganizer.WebUI.Pages
             var description = new FileDescription( Description ?? string.Empty );
             var primaryDateTime = PrimaryDateTime.ToPartialDateTime();
 
-            updater.UpdateTitle( new FileId( FileId ), title );
-            updater.UpdateDescription( new FileId( FileId ), description );
-            updater.UpdatePrimaryDateTime( new FileId( FileId ), primaryDateTime );
+            var cmd = new UpdateFileDetailsCommand( new FileId( FileId ), title, description, primaryDateTime );
+            await mediator.Send( cmd );
 
             return RedirectToPage( "View", new { fileId = FileId } );
         }

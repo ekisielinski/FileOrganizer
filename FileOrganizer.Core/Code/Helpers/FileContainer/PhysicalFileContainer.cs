@@ -1,4 +1,5 @@
 ﻿using FileOrganizer.CommonUtils;
+using FileOrganizer.Domain;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.FileProviders.Physical;
 using System.IO;

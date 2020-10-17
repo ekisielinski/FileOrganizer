@@ -1,4 +1,6 @@
-﻿namespace FileOrganizer.Core.FakeDatabase
+﻿using FileOrganizer.Domain;
+
+namespace FileOrganizer.Core.FakeDatabase
 {
     public interface IRequestorAccessor
     {

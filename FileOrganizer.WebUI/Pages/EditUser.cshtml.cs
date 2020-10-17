@@ -1,6 +1,8 @@
-using FileOrganizer.Core;
+using FileOrganizer.Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Pages
 {
@@ -10,36 +12,38 @@ namespace FileOrganizer.WebUI.Pages
 
         //---
 
-        [BindProperty]
-        public string? DisplayName { get; set; }
-
-        [BindProperty]
-        public string? Email { get; set; }
+        [BindProperty] public string? DisplayName { get; set; }
+        [BindProperty] public string? Email { get; set; }
 
         //====== actions
 
-        public void OnGet( string userName, [FromServices] IAppUserReader reader )
+        public async Task OnGet( string userName, [FromServices] IMediator mediator )
         {
-            Details = reader.GetUserDetails( new UserName( userName ) );
+            var query = new GetAppUserDetailsQuery( new UserName( userName ) );
+
+            Details = await mediator.Send( query );
 
             DisplayName = Details.User.DisplayName.Value;
             Email = Details.Email?.Value;
         }
 
-        public IActionResult OnPost( string userName, [FromServices] IAppUserUpdater updater )
+        public async Task<IActionResult> OnPost( string userName, [FromServices] IMediator mediator )
         {
-            var un = new UserName( userName );
-
-            updater.SetDisplayName( un, new UserDisplayName( DisplayName ?? string.Empty ) );
-
             EmailAddress? email = null;
 
-            if (!(Email is null))
+            if (!string.IsNullOrEmpty( Email ))
             {
                 email = new EmailAddress( Email );
             }
 
-            updater.SetEmail( un, email );
+            var cmd = new UpdateAppUserDetailsCommand(
+                new UserName( userName ),
+                new UserDisplayName( DisplayName ?? string.Empty ),
+                email,
+                deleteEmail: email is null
+                );
+
+            await mediator.Send( cmd );
 
             return RedirectToPage( "User", new { userName = userName } );
         }

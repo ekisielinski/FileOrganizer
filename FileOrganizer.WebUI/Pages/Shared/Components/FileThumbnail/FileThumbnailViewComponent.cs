@@ -1,5 +1,5 @@
 ﻿using FileOrganizer.CommonUtils;
-using FileOrganizer.Core.Services;
+using FileOrganizer.Domain;
 using FileOrganizer.WebUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
@@ -33,7 +33,7 @@ namespace FileOrganizer.WebUI.Pages.Shared.Components
             // TODO: create model
 
             ViewBag.ThumbLink = thumbLink;
-            ViewBag.DimensionString = file.ImageDetails.Size is Size size ? $"{size.Width}x{size.Height}" : "unknown";
+            ViewBag.DimensionString = file.ImageDetails.Dimensions is Size size ? $"{size.Width}x{size.Height}" : "unknown";
 
             return View( file );
         }

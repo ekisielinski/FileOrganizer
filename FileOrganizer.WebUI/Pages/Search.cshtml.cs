@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FileOrganizer.Core;
-using FileOrganizer.Core.Services;
+using System.Threading.Tasks;
+using FileOrganizer.Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,10 +17,7 @@ namespace FileOrganizer.WebUI.Pages
         [BindProperty( SupportsGet = true )]
         public int PageIndex { get; set; } = 0;
 
-        public IReadOnlyList<FileDetails> Files { get; set; } = new List<FileDetails>();
-
-        public int FileCount { get; set; }
-        public int PageCount { get; set; }
+        public FileSearchResult SearchResult { get; set; }
 
         public List<SelectListItem> PageSizeSelectList = new List<SelectListItem>
         {
@@ -31,19 +29,14 @@ namespace FileOrganizer.WebUI.Pages
 
         //====== actions
 
-        public void OnGet( [FromServices] IFileSearcher searcher )
+        public async Task OnGet( [FromServices] IMediator mediator )
         {
             FixPageSize();
 
-            FileCount = searcher.CountFiles();
-
-            PageCount = FileCount / PageSize;
-            if (FileCount % PageSize > 0) PageCount++;
-
             // TODO: min max validation...
-            var paging = new PagingParameters( PageSize, PageIndex );
+            var cmd = new SearchForFilesQuery( new PagingParameters( PageSize, PageIndex ) );
 
-            Files = searcher.GetFiles( paging );
+            SearchResult = await mediator.Send( cmd );
         }
 
         private void FixPageSize()

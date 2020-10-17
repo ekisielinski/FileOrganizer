@@ -1,8 +1,10 @@
-﻿using FileOrganizer.Core;
+﻿using FileOrganizer.Domain;
 using FileOrganizer.WebUI.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Pages
 {
@@ -15,20 +17,22 @@ namespace FileOrganizer.WebUI.Pages
 
         public void OnGet()
         {
-
+            // empty
         }
 
-        public IActionResult OnPost( [FromServices] IAppUserCreator creator )
+        public async Task<IActionResult> OnPost( [FromServices] IMediator mediator )
         {
             if (ModelState.IsValid == false) return Page();
 
             try
             {
-                creator.Create( Model.ToAppUser(), Model.ToUserPassword() );
+                var command = new CreateAppUserCommand( Model.ToUserName(), Model.ToUserDisplayName(), Model.ToUserPassword() );
+
+                await mediator.Send( command );
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError( "", "Failed to create new user. " + ex.Message );
+                ModelState.AddModelError( string.Empty, "Failed to create new user. " + ex.Message );
 
                 return Page();
             }

@@ -1,6 +1,8 @@
-﻿using FileOrganizer.Core;
+﻿using FileOrganizer.Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Pages
 {
@@ -10,11 +12,13 @@ namespace FileOrganizer.WebUI.Pages
 
         //====== actions
 
-        public IActionResult OnGet( string userName, [FromServices] IAppUserReader reader )
+        public async Task<IActionResult> OnGet( string userName, [FromServices] IMediator mediator )
         {
             try
             {
-                Details = reader.GetUserDetails( new UserName( userName ) );
+                var query = new GetAppUserDetailsQuery( new UserName( userName ) );
+
+                Details = await mediator.Send( query );
             }
             catch
             {

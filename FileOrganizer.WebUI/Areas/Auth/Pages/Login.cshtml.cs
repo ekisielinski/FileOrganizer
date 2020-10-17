@@ -1,4 +1,5 @@
 using FileOrganizer.Core;
+using FileOrganizer.Domain;
 using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

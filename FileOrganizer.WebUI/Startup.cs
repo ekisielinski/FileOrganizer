@@ -1,9 +1,11 @@
 using FileOrganizer.Core;
+using FileOrganizer.Core.FakeDatabase;
 using FileOrganizer.Services.FileDatabase;
 using FileOrganizer.WebUI.DiSetup;
 using FileOrganizer.WebUI.DiSetup.Installers;
 using FileOrganizer.WebUI.Services;
 using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +33,8 @@ namespace FileOrganizer.WebUI
             {
                 options.Conventions.AuthorizeFolder( "/" );
             } ).AddFluentValidation( cfg => cfg.RegisterValidatorsFromAssemblyContaining<Startup>() );
+
+            services.AddMediatR( typeof( CreateAppUserHandler ).Assembly );
 
             services.AddFeatureManagement();
             services.AddHttpContextAccessor();

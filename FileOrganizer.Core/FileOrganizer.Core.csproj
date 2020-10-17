@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="3.1.6" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="3.1.6" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.7" />
@@ -15,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FileOrganizer.CommonUtils\FileOrganizer.CommonUtils.csproj" />
+    <ProjectReference Include="..\FileOrganizer.Domain\FileOrganizer.Domain.csproj" />
   </ItemGroup>
 
 </Project>
