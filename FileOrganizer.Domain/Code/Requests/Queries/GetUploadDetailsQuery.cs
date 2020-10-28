@@ -1,8 +1,7 @@
 ﻿using FileOrganizer.CommonUtils;
-using FileOrganizer.Domain;
 using MediatR;
 
-namespace FileOrganizer.Core
+namespace FileOrganizer.Domain
 {
     public sealed class GetUploadDetailsQuery : IRequest<UploadDetails>
     {

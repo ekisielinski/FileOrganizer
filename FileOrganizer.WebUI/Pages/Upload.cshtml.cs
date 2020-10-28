@@ -1,5 +1,4 @@
-﻿using FileOrganizer.Core;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Pages
 {
+    [RequestSizeLimit( 100_000_000 )]
     public class UploadModel : PageModel
     {
         [BindProperty]
@@ -27,7 +27,7 @@ namespace FileOrganizer.WebUI.Pages
         {
 
         }
-
+        
         public async Task<IActionResult> OnPost( [FromServices] IMediator mediator )
         {
             if (Files?.Count > 0)

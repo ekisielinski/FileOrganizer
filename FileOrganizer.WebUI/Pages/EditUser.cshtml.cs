@@ -1,3 +1,4 @@
+using FileOrganizer.CommonUtils;
 using FileOrganizer.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,19 +30,17 @@ namespace FileOrganizer.WebUI.Pages
 
         public async Task<IActionResult> OnPost( string userName, [FromServices] IMediator mediator )
         {
-            EmailAddress? email = null;
+            var emailData = DataUpdateBehavior<EmailAddress>.DeleteValue();
 
             if (!string.IsNullOrEmpty( Email ))
             {
-                email = new EmailAddress( Email );
+                emailData = DataUpdateBehavior<EmailAddress>.CreateOrUpdateValue( new EmailAddress( Email ) );
             }
 
             var cmd = new UpdateAppUserDetailsCommand(
                 new UserName( userName ),
                 new UserDisplayName( DisplayName ?? string.Empty ),
-                email,
-                deleteEmail: email is null
-                );
+                emailData );
 
             await mediator.Send( cmd );
 

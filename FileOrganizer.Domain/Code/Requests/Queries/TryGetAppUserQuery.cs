@@ -3,15 +3,18 @@ using MediatR;
 
 namespace FileOrganizer.Domain
 {
-    public sealed class GetAppUserDetailsQuery : IRequest<AppUserDetails>
+    public sealed class TryGetAppUserQuery : IRequest<AppUser?>
     {
-        public GetAppUserDetailsQuery( UserName userName )
+        public TryGetAppUserQuery( UserName userName, UserPassword password )
         {
             UserName = Guard.NotNull( userName, nameof( userName ) );
+            Password = Guard.NotNull( password, nameof( password ) );
         }
 
         //====== public properties
 
         public UserName UserName { get; }
+
+        public UserPassword Password { get; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FileOrganizer.Domain;
+﻿using FileOrganizer.CommonUtils;
+using FileOrganizer.Domain;
 using MediatR;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -31,18 +32,7 @@ namespace FileOrganizer.Core
             mediator.Send( cmd2 ).Wait();
             mediator.Send( cmd3 ).Wait();
         }
-
-        private void UpdateEmails()
-        {
-            var cmd1 = new UpdateAppUserDetailsCommand( new UserName( "admin" ), null, new EmailAddress( "admin@x.com" ), false );
-            var cmd2 = new UpdateAppUserDetailsCommand( new UserName( "mod" ),   null, new EmailAddress( "mod@x.com" ),   false );
-            var cmd3 = new UpdateAppUserDetailsCommand( new UserName( "user" ),  null, new EmailAddress( "user@x.com" ),  false );
-
-            mediator.Send( cmd1 ).Wait(); // todo: wait
-            mediator.Send( cmd2 ).Wait();
-            mediator.Send( cmd3 ).Wait();
-        }
-
+        
         private void UpdateUserRoles()
         {
             var cmd1 = new SetAppUserRolesCommand( new UserName( "admin" ), new UserRoles( new[] { UserRole.Administrator } ) );
@@ -50,6 +40,23 @@ namespace FileOrganizer.Core
 
             mediator.Send( cmd1 ).Wait();
             mediator.Send( cmd2 ).Wait();
+        }
+        
+        private void UpdateEmails()
+        {
+            var cmd1 = new UpdateAppUserDetailsCommand( new UserName( "admin" ), null, DataUpdateBehavior<EmailAddress>.CreateOrUpdateValue( new EmailAddress( "admin@x.com" ) ) );
+            var cmd2 = new UpdateAppUserDetailsCommand( new UserName( "mod" ),   null, DataUpdateBehavior<EmailAddress>.CreateOrUpdateValue( new EmailAddress( "mod@x.com"   ) ) );
+            var cmd3 = new UpdateAppUserDetailsCommand( new UserName( "user" ),  null, DataUpdateBehavior<EmailAddress>.CreateOrUpdateValue( new EmailAddress( "user@x.com"  ) ) );
+
+            mediator.Send( cmd1 ).Wait(); // todo: wait
+            mediator.Send( cmd2 ).Wait();
+            mediator.Send( cmd3 ).Wait();
+        }
+
+        public void UpdateDisplayName()
+        {
+            var cmd = new UpdateAppUserDetailsCommand( new UserName( "user" ), new UserDisplayName( "user (updated)" ), DataUpdateBehavior<EmailAddress>.IgnoreValue() );
+            mediator.Send( cmd ).Wait(); // todo: wait
         }
 
         private void UploadFiles()
@@ -85,6 +92,7 @@ namespace FileOrganizer.Core
             CreateAppUsers();
             UpdateUserRoles();
             UpdateEmails();
+            UpdateDisplayName();
             UploadFiles();
 
             var cmd = new UpdateFileDetailsCommand(

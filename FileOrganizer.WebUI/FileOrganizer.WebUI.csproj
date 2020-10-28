@@ -9,6 +9,7 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
   </ItemGroup>
@@ -16,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FileOrganizer.CommonUtils\FileOrganizer.CommonUtils.csproj" />
     <ProjectReference Include="..\FileOrganizer.Core\FileOrganizer.Core.csproj" />
+    <ProjectReference Include="..\FileOrganizer.EFDatabase\FileOrganizer.EFDatabase.csproj" />
   </ItemGroup>
 
   <ItemGroup>

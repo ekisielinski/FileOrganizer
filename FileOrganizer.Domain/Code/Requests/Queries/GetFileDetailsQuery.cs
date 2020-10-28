@@ -10,6 +10,8 @@ namespace FileOrganizer.Domain
             FileId = Guard.NotNull( fileId, nameof( fileId ) );
         }
 
+        //====== public properties
+
         public FileId FileId { get; }
     }
 }

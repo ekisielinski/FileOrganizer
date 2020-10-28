@@ -11,6 +11,8 @@ namespace FileOrganizer.Domain
             UserRoles = Guard.NotNull( userRoles, nameof( userRoles ) );
         }
 
+        //====== public properties
+
         public UserName  UserName  { get; }
         public UserRoles UserRoles { get; }
     }

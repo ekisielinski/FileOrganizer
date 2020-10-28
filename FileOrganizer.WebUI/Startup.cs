@@ -1,5 +1,6 @@
 using FileOrganizer.Core;
 using FileOrganizer.Core.FakeDatabase;
+using FileOrganizer.EFDatabase;
 using FileOrganizer.Services.FileDatabase;
 using FileOrganizer.WebUI.DiSetup;
 using FileOrganizer.WebUI.DiSetup.Installers;
@@ -8,6 +9,7 @@ using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,12 +36,11 @@ namespace FileOrganizer.WebUI
                 options.Conventions.AuthorizeFolder( "/" );
             } ).AddFluentValidation( cfg => cfg.RegisterValidatorsFromAssemblyContaining<Startup>() );
 
-            services.AddMediatR( typeof( CreateAppUserHandler ).Assembly );
-
             services.AddFeatureManagement();
             services.AddHttpContextAccessor();
             services.AddTransient<IStaticFilesLinkGenerator, StaticFilesLinkGenerator>();
             services.AddTransient<IDatabaseInitializer, DefaultDatabaseInitializer>();
+            services.AddTransient<IRequestorAccessor, RequestorAccessor>();
 
             ServicesInstallerHelper.InstallAll( services, Configuration, typeof( Startup ).Assembly );
         }
@@ -65,12 +66,18 @@ namespace FileOrganizer.WebUI
 
             using IServiceScope? serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
             {
-                var cleaner = serviceScope.ServiceProvider.GetRequiredService<IFileDatabaseCleaner>();
-                cleaner.DeleteAllFiles();
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<FileOrganizerEntities>();
+                bool created = dbContext.Database.EnsureCreated();
 
-                RequestorAccessor.UseAdmin = true;
-                serviceScope.ServiceProvider.GetRequiredService<IDatabaseInitializer>().Init();
-                RequestorAccessor.UseAdmin = false;
+                if (created)
+                {
+                    var cleaner = serviceScope.ServiceProvider.GetRequiredService<IFileDatabaseCleaner>();
+                    cleaner.DeleteAllFiles();
+
+                    RequestorAccessor.UseAdmin = true;
+                    serviceScope.ServiceProvider.GetRequiredService<IDatabaseInitializer>().Init();
+                    RequestorAccessor.UseAdmin = false;
+                }
             }
         }
     }

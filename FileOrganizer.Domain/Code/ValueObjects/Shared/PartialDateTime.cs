@@ -26,17 +26,39 @@ namespace FileOrganizer.Domain
         public int? Hour   { get; }
         public int? Minute { get; }
 
+        //====== public methods
+
+        public string ToSpecialString()
+        {
+            var year   = Year?  .ToString( "0000" ) ?? "????";
+            var month  = Month? .ToString( "00" ) ?? "??";
+            var day    = Day?   .ToString( "00" ) ?? "??";
+            var hour   = Hour?  .ToString( "00" ) ?? "??";
+            var minute = Minute?.ToString( "00" ) ?? "??";
+
+            return $"{year}.{month}.{day} {hour}:{minute}";
+        }
+
+        //====== public static methods
+
+        public static PartialDateTime FromSpecialString( string value )
+        {
+            Guard.NotNull( value, nameof( value ) );
+
+            // todo: throw if invalid format
+
+            string[] segments = value.Split( '.', ' ', ':' );
+
+            return new PartialDateTime(
+                MiscUtils.TryParse( segments[0] ),
+                MiscUtils.TryParse( segments[1] ),
+                MiscUtils.TryParse( segments[2] ),
+                MiscUtils.TryParse( segments[3] ),
+                MiscUtils.TryParse( segments[4] ) );
+        }
+
         //====== override: Object
 
-        public override string ToString()
-        {
-            var year   = Year?  .ToString() ?? "????";
-            var month  = Month? .ToString() ?? "??";
-            var day    = Day?   .ToString() ?? "??";
-            var hour   = Hour?  .ToString() ?? "??";
-            var minute = Minute?.ToString() ?? "??";
-
-            return $"{year}.{month}.{day} {hour}:{minute}"; // TODO: format to 2 digits
-        }
+        public override string ToString() => ToSpecialString();
     }
 }

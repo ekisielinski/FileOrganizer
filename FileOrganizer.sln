@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileOrganizer.CommonUtils",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileOrganizer.Core", "FileOrganizer.Core\FileOrganizer.Core.csproj", "{B0AD0863-2952-41AE-B1F0-46AC5C8D96DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileOrganizer.Domain", "FileOrganizer.Domain\FileOrganizer.Domain.csproj", "{14B08F80-4036-4FEB-8845-7C3C37C81231}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileOrganizer.Domain", "FileOrganizer.Domain\FileOrganizer.Domain.csproj", "{14B08F80-4036-4FEB-8845-7C3C37C81231}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileOrganizer.EFDatabase", "FileOrganizer.EFDatabase\FileOrganizer.EFDatabase.csproj", "{7DB14806-F735-448D-BB83-EC9DE1EFC3B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{14B08F80-4036-4FEB-8845-7C3C37C81231}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14B08F80-4036-4FEB-8845-7C3C37C81231}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14B08F80-4036-4FEB-8845-7C3C37C81231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DB14806-F735-448D-BB83-EC9DE1EFC3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DB14806-F735-448D-BB83-EC9DE1EFC3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DB14806-F735-448D-BB83-EC9DE1EFC3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DB14806-F735-448D-BB83-EC9DE1EFC3B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

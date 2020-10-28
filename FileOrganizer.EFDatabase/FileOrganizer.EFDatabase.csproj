@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>FileOrganizer.EFDatabase</AssemblyName>
+    <RootNamespace>FileOrganizer.EFDatabase</RootNamespace>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FileOrganizer.Core\FileOrganizer.Core.csproj" />
+    <ProjectReference Include="..\FileOrganizer.Domain\FileOrganizer.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

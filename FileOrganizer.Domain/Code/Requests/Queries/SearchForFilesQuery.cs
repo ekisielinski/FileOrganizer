@@ -10,6 +10,8 @@ namespace FileOrganizer.Domain
             PagingParameters = Guard.NotNull( pagingParameters, nameof( pagingParameters ) );
         }
 
+        //====== public properties
+
         public PagingParameters PagingParameters { get; }
     }
 }

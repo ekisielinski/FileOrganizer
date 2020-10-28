@@ -15,7 +15,7 @@ namespace FileOrganizer.CommonUtils
 
             foreach (T item in items)
             {
-                if (item is null) throw new ArgumentException( "Given enumerable contains null value.", paramName );
+                if (item is null) throw new ArgumentException( "Given enumerable contains null element.", paramName );
 
                 result.Add( item );
             }

@@ -10,6 +10,8 @@ namespace FileOrganizer.Domain
             Parameters = Guard.NotNull( parameters, nameof( parameters ) );
         }
 
+        //====== public properties
+
         public UploadParameters Parameters { get; }
     }
 }
