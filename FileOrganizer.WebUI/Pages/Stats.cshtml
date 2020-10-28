@@ -1,0 +1,9 @@
+﻿@page
+@model FileOrganizer.WebUI.Pages.StatsModel
+
+<ul>
+    <li>Files: @Model.Stats.FileCount</li>
+    <li>Uploads: @Model.Stats.UploadCount</li>
+    <li>Users: @Model.Stats.UserCount</li>
+    <li>Space occupied: @Model.Stats.OccupiedSpace</li>
+</ul>
