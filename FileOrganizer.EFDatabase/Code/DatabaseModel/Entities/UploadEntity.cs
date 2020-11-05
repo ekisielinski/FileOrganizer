@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 
@@ -14,22 +15,31 @@ namespace FileOrganizer.EFDatabase
         public long          TotalSize    { get; set; } // todo: read about computed columns
 
         public int           UploaderId   { get; set; }
-        public AppUserEntity Uploader     { get; set; }
+        
+        //--- navigation
 
-        public List<FileEntity> Files { get; set; }
+        // UploaderId
+        public AppUserEntity? Uploader { get; set; }
 
+        public ICollection<FileEntity>? Files { get; set; }
+        
         //public IReadOnlyList<string> RejectedDuplicates { get; set; }
+    }
 
-        public static void Configure( EntityTypeBuilder<UploadEntity> builder )
+
+
+    public sealed class UploadEntityConfiguration : IEntityTypeConfiguration<UploadEntity>
+    {
+        public void Configure( EntityTypeBuilder<UploadEntity> builder )
         {
             builder
                 .HasKey( x => x.Id );
 
             builder
                 .Property( x => x.Description )
-                .IsRequired( false )
                 .IsUnicode()
-                .HasMaxLength( 5000 );
+                .HasMaxLength( 5000 )
+                .IsRequired( false );
 
             builder
                 .Property( x => x.UtcWhenAdded )
@@ -44,8 +54,16 @@ namespace FileOrganizer.EFDatabase
                 .IsRequired();
 
             builder
-                .HasOne( x => x.Uploader )
-                .WithMany( x => x.Uploads )
+                .Property( x => x.UploaderId )
+                .IsRequired();
+
+            //---
+
+            builder
+                .HasOne<AppUserEntity>( upload => upload.Uploader! )
+                .WithMany( appUser => appUser.Uploads )
+                .HasPrincipalKey( appUser => appUser.Id )
+                .HasForeignKey( upload => upload.UploaderId )
                 .IsRequired();
         }
     }

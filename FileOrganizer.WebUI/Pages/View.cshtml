@@ -25,6 +25,18 @@
 
     <br />
 
+    <a asp-page="NewFileLink" asp-route-fileId="@Model.FileDetails.FileId.Value">Add Link</a>
+    <ul>
+        @foreach(var link in Model.Links)
+        {
+            <li>
+                <a href="@link.Address" target="_blank">@link.Title</a>
+                @link.Comment<br />
+                @link.WhenAdded<br />
+                @link.AddedBy
+            </li>
+        }
+    </ul>
     <a asp-page="EditFileDetails" asp-route-fileid="@Model.FileDetails.FileId.Value">Edit File Details</a>
 </p>
 

@@ -48,8 +48,6 @@ namespace FileOrganizer.EFDatabase
             );
         }
 
-
-
         public static AppUser ToAppUser( AppUserEntity entity )
         {
             Guard.NotNull( entity, nameof( entity ) );
@@ -57,8 +55,7 @@ namespace FileOrganizer.EFDatabase
             return new AppUser(
               new UserName( entity.UserName ),
               new UserDisplayName( entity.DisplayName ?? string.Empty ),
-              new UserRoles( entity.UserRoles.Select( ToUserRole ) )
-              );
+              new UserRoles( entity.UserRoles.Select( ToUserRole ) ) );
         }
 
         public static AppUserNames ToAppUserNames( AppUserEntity entity )
@@ -68,7 +65,7 @@ namespace FileOrganizer.EFDatabase
             return new AppUserNames( new UserName( entity.UserName ), new UserDisplayName( entity.DisplayName ?? string.Empty ) );
         }
 
-        public static ActivityLogEntry ToActivityLogEntry( ActivityLogEntryEntity entity )
+        public static ActivityLogEntry ToActivityLogEntry( ActivityLogEntity entity )
         {
             Guard.NotNull( entity, nameof( entity ) );
 
@@ -77,32 +74,31 @@ namespace FileOrganizer.EFDatabase
             return new ActivityLogEntry(
                 new UserName( entity.Issuer.UserName ),
                 new UtcTimestamp( entity.UtcTimestamp.ToUniversalTime() ),
-                entity.Message
-            );
+                entity.Message );
         }
 
         public static FileDetails ToFileDetails( FileEntity entity )
         {
             Guard.NotNull( entity, nameof( entity ) );
 
-            if (entity.Image is null) throw new Exception( "image must be included" );
+            if (entity.Image is null) throw new Exception( "Image property must be included." );
 
             return new FileDetails
             {
-                FileId = new FileId( entity.Id ),
+                FileId          = new FileId( entity.Id ),
 
-                Uploader = ToAppUserNames( entity.Uploader ),
-                DatabaseFiles = new DatabaseFiles( new Domain.FileName( entity.SourceFileName ), entity.Image.ThumbnailFileName is null ? null : new FileName( entity.Image.ThumbnailFileName ) ),
+                Uploader        = ToAppUserNames( entity.Uploader ),
+                DatabaseFiles   = new DatabaseFiles( new Domain.FileName( entity.SourceFileName ), entity.Image.ThumbnailFileName is null ? null : new FileName( entity.Image.ThumbnailFileName ) ),
 
-                Title = new FileTitle( entity.Title ?? "" ),
-                Description = new FileDescription( entity.Description ?? "" ),
+                Title           = new FileTitle( entity.Title ?? "" ),
+                Description     = new FileDescription( entity.Description ?? "" ),
                 PrimaryDateTime = ToPrimaryDateTime( entity.PrimaryDateTime ),
 
-                FileSize = new DataSize( entity.SourceFileSize ),
+                FileSize        = new DataSize( entity.SourceFileSize ),
 
                 ImageDetails = new ImageDetails()
                 {
-                    Dimensions = MappingUtils.GetImageDimensions( entity.Image )
+                    Dimensions = GetImageDimensions( entity.Image )
                 }
             };
         }
@@ -115,6 +111,24 @@ namespace FileOrganizer.EFDatabase
             Guard.NotNull( entity, nameof( entity ) );
 
             return new UserRole( entity.RoleName );
+        }
+
+        public static FileLink ToFileLink( FileLinkEntity entity )
+        {
+            if (entity.Issuer is null) throw new ArgumentException( "The Issuer property must be included." );
+
+            return new FileLink
+            {
+                //FileId    = new FileId( entity.FileId ),
+                FileId = new FileId( entity.File.Id ),
+
+                Id        = new LinkId( entity.Id ),
+                Address   = new LinkUrl( entity.Address ),
+                Title     = new LinkTitle( entity.Title ),
+                Comment   = new LinkComment( entity.Comment ),
+                WhenAdded = new UtcTimestamp( entity.UtcWhenAdded.ToUniversalTime() ),
+                AddedBy   = ToAppUserNames( entity.Issuer )
+            };
         }
     }
 }

@@ -3,6 +3,7 @@ using FileOrganizer.WebUI.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Pages
@@ -11,6 +12,8 @@ namespace FileOrganizer.WebUI.Pages
     {
         public FileDetails? FileDetails { get; set; }
         public string? FilePath { get; set; }
+
+        public IReadOnlyList<FileLink> Links { get; private set; } = new List<FileLink>();
 
         //====== actions
 
@@ -21,6 +24,8 @@ namespace FileOrganizer.WebUI.Pages
             FileDetails = await mediator.Send( new GetFileDetailsQuery( new FileId( fileId ) ) );
 
             if (FileDetails is null) return NotFound();
+
+            Links = await mediator.Send( new GetFileLinksQuery( new FileId( fileId ) ) );
 
             FilePath = linkGenerator.GetSourceFilePath( FileDetails.DatabaseFiles.Source );
 

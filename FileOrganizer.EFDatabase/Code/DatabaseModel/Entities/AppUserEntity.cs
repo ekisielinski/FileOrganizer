@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 
@@ -14,31 +15,23 @@ namespace FileOrganizer.EFDatabase
         public string   PasswordHash   { get; set; } = string.Empty;
         public DateTime UtcWhenCreated { get; set; }
 
-        //---
+        //--- navigation
 
-        public ICollection<ActivityLogEntryEntity> ActivityLog { get; set; }
-        public ICollection<UserRolesEntity>        UserRoles   { get; set; }
-        public ICollection<UploadEntity>           Uploads     { get; set; }
-        public ICollection<FileEntity>             Files       { get; set; }
+        public ICollection<ActivityLogEntity>? ActivityLog { get; set; }
+        public ICollection<UserRolesEntity>?   UserRoles   { get; set; }
+        public ICollection<UploadEntity>?      Uploads     { get; set; }
+        public ICollection<FileEntity>?        Files       { get; set; }
+        public ICollection<LinkEntity>?        FileLinks   { get; set; }
+    }
 
-        //====== public static methods
 
-        public static void Configure( EntityTypeBuilder<AppUserEntity> builder )
+
+    public sealed class AppUserEntityConfiguration : IEntityTypeConfiguration<AppUserEntity>
+    {
+        public void Configure( EntityTypeBuilder<AppUserEntity> builder )
         {
             builder
-                .HasMany( x => x.Files )
-                .WithOne( x => x.Uploader );
-
-
-            builder
-                .HasMany( x => x.UserRoles )
-                .WithOne( x => x.AssignedTo );
-
-            builder
-                .HasMany( x => x.ActivityLog )
-                .WithOne( x => x.Issuer );
-
-            //--- app users
+                .HasKey( x => x.Id );
 
             builder
                 .HasIndex( x => x.UserName )
@@ -49,7 +42,23 @@ namespace FileOrganizer.EFDatabase
                 .IsRequired();
 
             builder
+                .Property( x => x.DisplayName )
+                .HasMaxLength( 80 )
+                .IsUnicode()
+                .IsRequired( false );
+
+            builder
+                .Property( x => x.EmailAddress )
+                .HasMaxLength( 320 )
+                .IsRequired( false );
+
+            builder
                 .Property( x => x.PasswordHash )
+                .HasMaxLength( 100 )
+                .IsRequired();
+
+            builder
+                .Property( x => x.UtcWhenCreated )
                 .IsRequired();
         }
     }

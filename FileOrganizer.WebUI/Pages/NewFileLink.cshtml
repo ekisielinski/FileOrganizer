@@ -1,0 +1,25 @@
+﻿@page "/links/new/{fileId}"
+@model FileOrganizer.WebUI.Pages.NewFileLinkModel
+
+Add link to file:<br />
+
+@await Component.InvokeAsync( "FileThumbnail", new { file = Model.FileDetails } )
+
+<br />
+<br />
+
+<form asp-page="NewFileLink" method="post" asp-route-fileId="@Model.FileDetails!.FileId.Value">
+    <label asp-for="LinkUrl">Address:</label>
+    <input asp-for="LinkUrl" autocomplete="off" />
+    <br />
+
+    <label asp-for="LinkTitle">Title:</label>
+    <input asp-for="LinkTitle" autocomplete="off" />
+    <br />
+
+    <label asp-for="LinkComment">Comment:</label>
+    <input asp-for="LinkComment" autocomplete="off" />
+    <br />
+
+    <input type="submit" value="Create" />
+</form>

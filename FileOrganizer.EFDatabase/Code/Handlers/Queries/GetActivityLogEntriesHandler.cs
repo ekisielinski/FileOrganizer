@@ -24,7 +24,7 @@ namespace FileOrganizer.EFDatabase.Handlers
 
         public async Task<IReadOnlyList<ActivityLogEntry>> Handle( GetActivityLogEntriesQuery request, CancellationToken cancellationToken )
         {
-            List<ActivityLogEntryEntity>? logs = null;
+            List<ActivityLogEntity>? logs = null;
 
             if (request.UserNameFilter is null)
             {

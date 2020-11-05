@@ -102,6 +102,14 @@ namespace FileOrganizer.Core
                 new PartialDateTime( 2020, 1, 2, 3, 4 ) );
 
             mediator.Send( cmd ).Wait(); // todo: wait
+
+            var cmd1 = new AddFileLinkCommand(
+                new FileId( 1 ),
+                new LinkUrl( "http://example.com" ),
+                new LinkTitle( "Example Site" ),
+                new LinkComment( "Comment.." ) );
+
+            mediator.Send( cmd1 ).Wait(); // todo: wait
         }
 
         private static SourceFile CreateFakeImage( int width, int height, Color color, string? orginalFileName )

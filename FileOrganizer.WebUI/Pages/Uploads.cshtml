@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in mediator.Send( new FileOrganizer.Domain.GetUploadBasicInfosQuery() ).Result )
+        @foreach (var item in await mediator.Send( new FileOrganizer.Domain.GetUploadBasicInfosQuery() ) )
         {
             <tr>
                 <td><a asp-page="UploadResult" asp-route-uploadid="@item.Id">@item.Id</a></td>

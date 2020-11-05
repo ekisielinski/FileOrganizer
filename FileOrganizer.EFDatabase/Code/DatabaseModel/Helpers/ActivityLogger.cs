@@ -23,7 +23,7 @@ namespace FileOrganizer.EFDatabase
         {
             if (string.IsNullOrEmpty( message )) throw new ArgumentException( "Message cannot be null or empty.", nameof( message ) );
 
-            var entity = new ActivityLogEntryEntity
+            var entity = new ActivityLogEntity
             {
                 Message      = message,
                 UtcTimestamp = context.UtcNow.Value,
