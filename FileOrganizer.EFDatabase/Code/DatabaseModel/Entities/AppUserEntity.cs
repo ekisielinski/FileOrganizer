@@ -22,6 +22,7 @@ namespace FileOrganizer.EFDatabase
         public ICollection<UploadEntity>?      Uploads     { get; set; }
         public ICollection<FileEntity>?        Files       { get; set; }
         public ICollection<LinkEntity>?        FileLinks   { get; set; }
+        public ICollection<TagEntity>?         Tags        { get; set; }
     }
 
 

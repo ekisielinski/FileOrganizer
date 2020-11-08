@@ -64,9 +64,9 @@ namespace FileOrganizer.Core
             var upload1 = new UploadParameters( new[]
             {
                 CreateFakeImage( 100, 100, Color.Red, "red.jpg" ),
-                CreateFakeImage( 25,  25, Color.Green, "green.jpg" ),
-                CreateFakeImage( 100, 20, Color.Blue, "blue.jpg" ),
-                CreateFakeImage( 20, 80, Color.Black, "black.jpg" ),
+                CreateFakeImage( 25,  25,  Color.Green, "green.jpg" ),
+                CreateFakeImage( 100, 20,  Color.Blue, "blue.jpg" ),
+                CreateFakeImage( 20,  80,  Color.Black, "black.jpg" ),
             }, new UploadDescription( "Small rectangles" ) );
 
             var upload2 = new UploadParameters( new[]
@@ -110,6 +110,12 @@ namespace FileOrganizer.Core
                 new LinkComment( "Comment.." ) );
 
             mediator.Send( cmd1 ).Wait(); // todo: wait
+
+            var cmd2 = new CreateTagCommand( new TagName( "tag1" ), new TagDisplayName( "Tag1 Display name" ), new TagDescription( "Tag1 desc" ) );
+            var cmd3 = new CreateTagCommand( new TagName( "tag2" ), new TagDisplayName( "Tag2 Display name" ), new TagDescription( "Tag2 desc" ) );
+
+            mediator.Send( cmd2 ).Wait(); // todo: wait
+            mediator.Send( cmd3 ).Wait(); // todo: wait
         }
 
         private static SourceFile CreateFakeImage( int width, int height, Color color, string? orginalFileName )

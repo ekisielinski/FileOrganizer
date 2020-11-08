@@ -130,5 +130,14 @@ namespace FileOrganizer.EFDatabase
                 AddedBy   = ToAppUserNames( entity.Issuer )
             };
         }
+
+        public static Tag ToTag( TagEntity entity )
+        {
+            return new Tag(
+                new TagName( entity.Name ),
+                new TagDisplayName( entity.DisplayName ?? string.Empty ),
+                new TagDescription( entity.Description ?? string.Empty ),
+                new UtcTimestamp( entity.UtcWhenAdded.ToUniversalTime() ) );
+        }
     }
 }

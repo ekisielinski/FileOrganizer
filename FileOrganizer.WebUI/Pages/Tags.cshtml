@@ -1,0 +1,12 @@
+﻿@page
+@model FileOrganizer.WebUI.Pages.TagsModel
+
+<h1>Tags</h1>
+
+<a asp-page="CreateTag">Create Tag</a>
+<ul>
+    @foreach (var tag in Model.Tags)
+    {
+        <li>@tag.Name -- @tag.DisplayName -- @tag.Description</li>
+    }
+</ul>

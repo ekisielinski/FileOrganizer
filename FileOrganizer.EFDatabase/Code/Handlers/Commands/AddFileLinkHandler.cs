@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace FileOrganizer.EFDatabase.Handlers
 {
-    public sealed class AddFileLinkHanlder : IRequestHandler<AddFileLinkCommand, LinkId>
+    public sealed class AddFileLinkHandler : IRequestHandler<AddFileLinkCommand, LinkId>
     {
         readonly EFAppContext context;
         readonly IActivityLogger logger;
 
         //====== ctors
 
-        public AddFileLinkHanlder( EFAppContext context, IActivityLogger logger )
+        public AddFileLinkHandler( EFAppContext context, IActivityLogger logger )
         {
             this.context = Guard.NotNull( context, nameof( context ) );
             this.logger  = Guard.NotNull( logger, nameof( logger ) );

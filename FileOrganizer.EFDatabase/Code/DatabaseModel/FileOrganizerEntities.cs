@@ -18,6 +18,7 @@ namespace FileOrganizer.EFDatabase
         public DbSet<FileLinkEntity>     FileLinks   { get; set; }
         public DbSet<ImageEntity>        ImageInfos  { get; set; }
         public DbSet<UploadEntity>       Uploads     { get; set; }
+        public DbSet<TagEntity>          Tags        { get; set; }
 
         //====== protected virtual methods
 
