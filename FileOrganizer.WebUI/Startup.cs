@@ -1,15 +1,12 @@
 using FileOrganizer.Core;
-using FileOrganizer.Core.FakeDatabase;
 using FileOrganizer.EFDatabase;
 using FileOrganizer.Services.FileDatabase;
 using FileOrganizer.WebUI.DiSetup;
 using FileOrganizer.WebUI.DiSetup.Installers;
 using FileOrganizer.WebUI.Services;
 using FluentValidation.AspNetCore;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,7 +14,7 @@ using Microsoft.FeatureManagement;
 
 namespace FileOrganizer.WebUI
 {
-    public class Startup
+    public sealed class Startup
     {
         public Startup( IConfiguration configuration ) => Configuration = configuration;
 

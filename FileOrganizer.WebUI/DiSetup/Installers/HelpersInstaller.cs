@@ -13,8 +13,9 @@ namespace FileOrganizer.WebUI.DiSetup.Installers
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<IImageResizer, ImageResizer>();
             services.AddTransient<ITimestampGenerator, SystemTimestampGenerator>();
+            services.AddTransient<IMetadataReader, MetadataReader>();
 
-            // todo: move services with dependencies to different folder than services w/o dependencies
+            // TODO: move services with dependencies to different folder than services w/o dependencies
 
             services.AddTransient<IThumbnailMaker>( sp => new ThumbnailMaker(
                 sp.GetRequiredService<IImageResizer>(),
