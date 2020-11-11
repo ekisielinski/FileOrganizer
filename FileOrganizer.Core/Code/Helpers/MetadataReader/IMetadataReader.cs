@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using FileOrganizer.Domain;
 using System.IO;
 
 namespace FileOrganizer.Core.Helpers
 {
     public interface IMetadataReader
     {
-        IReadOnlyList<MetadataExtractor.Directory> GetMetadata( Stream stream );
+        FileMetadataContainer GetMetadata( Stream stream );
     }
 }

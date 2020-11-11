@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace FileOrganizer.EFDatabase.Handlers
 {
+    // todo: move thumbnail genweration to separate command
     public sealed class UploadFilesHandler : IRequestHandler<UploadFilesCommand, UploadId>
     {
         readonly EFAppContext context;

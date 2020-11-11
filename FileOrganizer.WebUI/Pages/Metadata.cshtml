@@ -1,0 +1,30 @@
+﻿@page
+@model FileOrganizer.WebUI.Pages.MetadataModel
+
+@if (Model.RenderError)
+{
+    <p>@Model.Error</p>
+}
+
+@if (Model.RenderMetadata)
+{
+    <ul>
+        @foreach (var group in Model.Metadata.Groups)
+        {
+            <li>
+                <p><b>@group.Name</b></p>
+                <ul>
+                    @foreach (var entry in group.Entries)
+                    {
+                        <li>@entry.Name : @entry.Value</li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+}
+
+@if (Model.RenderMetadataNotFound)
+{
+    <p>Metadata for this file was not found.</p>
+}
