@@ -6,18 +6,22 @@ namespace FileOrganizer.Domain
     {
         public Statistics( int fileCount, int uploadCount, int userCount, DataSize occupiedSpace )
         {
-            FileCount = fileCount;
-            UploadCount = uploadCount;
-            UserCount = userCount;
+            FileCount     = fileCount;
+            UploadCount   = uploadCount;
+            UserCount     = userCount;
             OccupiedSpace = occupiedSpace;
             //todo: validation
         }
 
-        public int FileCount { get; }
-        public int UploadCount { get; }
-        public DataSize OccupiedSpace { get; }
-        public int UserCount { get; }
+        //====== public properties
 
-        public static Statistics Empty { get; } = new Statistics( 0, 0, 0, DataSize.Zero );
+        public int      FileCount     { get; }
+        public int      UploadCount   { get; }
+        public DataSize OccupiedSpace { get; }
+        public int      UserCount     { get; }
+
+        //====== public static properties
+
+        public static Statistics Empty { get; } = new( 0, 0, 0, DataSize.Zero );
     }
 }

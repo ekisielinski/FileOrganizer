@@ -19,7 +19,7 @@ namespace FileOrganizer.Domain
 
         //====== public static properties
 
-        public static PagingParameters AllAtOnce { get; } = new PagingParameters( int.MaxValue, 0 );
+        public static PagingParameters AllAtOnce { get; } = new( int.MaxValue, 0 );
 
         //====== override: Object
 

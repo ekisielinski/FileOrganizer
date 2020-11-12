@@ -48,7 +48,7 @@ namespace FileOrganizer.Services.FileDatabase
         {
             var dirPath = new DirectoryFullPath( Path.Combine( rootPath, dirName ) );
 
-            return new PhysicalFileContainer( dirPath );
+            return new( dirPath );
         }
     }
 }

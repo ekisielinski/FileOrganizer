@@ -45,7 +45,7 @@ namespace FileOrganizer.Core.Helpers
 
         public void DeleteAllFiles()
         {
-            DirectoryInfo dir = new DirectoryInfo( provider.Root );
+            var dir = new DirectoryInfo( provider.Root );
 
             foreach (FileInfo file in dir.EnumerateFiles())
             {

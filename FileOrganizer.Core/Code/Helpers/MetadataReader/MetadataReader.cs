@@ -25,12 +25,12 @@ namespace FileOrganizer.Core.Helpers
 
         private FileMetadataGroup ToGroup( MetadataExtractor.Directory dir )
         {
-            return new FileMetadataGroup( dir.Name, dir.Tags.Select( ToEntry ) );
+            return new( dir.Name, dir.Tags.Select( ToEntry ) );
         }
 
         private FileMetadataEntry ToEntry( MetadataExtractor.Tag tag )
         {
-            return new FileMetadataEntry( tag.Name, tag.Description ?? string.Empty );
+            return new( tag.Name, tag.Description ?? string.Empty );
         }
     }
 }

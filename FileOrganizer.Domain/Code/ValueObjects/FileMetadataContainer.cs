@@ -19,6 +19,6 @@ namespace FileOrganizer.Domain
 
         //====== public static properties
 
-        public static FileMetadataContainer Empty { get; } = new FileMetadataContainer( Enumerable.Empty<FileMetadataGroup>() );
+        public static FileMetadataContainer Empty { get; } = new( Enumerable.Empty<FileMetadataGroup>() );
     }
 }

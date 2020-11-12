@@ -16,7 +16,7 @@ namespace FileOrganizer.Core.Helpers
 
         public ThumbnailMaker( IImageResizer imageResizer, IFileContainer fileContainer )
         {
-            this.imageResizer  = Guard.NotNull( imageResizer, nameof( imageResizer ) );
+            this.imageResizer  = Guard.NotNull( imageResizer,  nameof( imageResizer  ) );
             this.fileContainer = Guard.NotNull( fileContainer, nameof( fileContainer ) );
         }
 
@@ -24,7 +24,7 @@ namespace FileOrganizer.Core.Helpers
 
         public ThumbnailMakerResult? TryMakeAndSaveThumbnail( IFileInfo fileInfo, UtcTimestamp timestamp )
         {
-            Guard.NotNull( fileInfo, nameof( fileInfo ) );
+            Guard.NotNull( fileInfo,  nameof( fileInfo  ) );
             Guard.NotNull( timestamp, nameof( timestamp ) );
 
             try
