@@ -61,7 +61,7 @@ namespace FileOrganizer.WebUI
                 ep.MapRazorPages();
             } );
 
-            using IServiceScope? serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            using IServiceScope serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<FileOrganizerEntities>();
                 bool created = dbContext.Database.EnsureCreated();

@@ -1,5 +1,4 @@
 ﻿using FileOrganizer.CommonUtils;
-using FileOrganizer.Core;
 using FileOrganizer.Domain;
 
 namespace FileOrganizer.WebUI.Models
@@ -29,7 +28,6 @@ namespace FileOrganizer.WebUI.Models
 
         //====== public methods
 
-        public PartialDateTime ToPartialDateTime()
-            => new PartialDateTime( Year, Month, Day, Hour, Minute );
+        public PartialDateTime ToPartialDateTime() => new( Year, Month, Day, Hour, Minute );
     }
 }

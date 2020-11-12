@@ -11,6 +11,8 @@ namespace FileOrganizer.WebUI.Pages
     {
         public IReadOnlyList<Tag> Tags = new List<Tag>();
 
+        //====== actions
+
         public async Task OnGet( [FromServices] IMediator mediator )
         {
             Tags = await mediator.Send( new GetTagsQuery() );

@@ -16,7 +16,7 @@ namespace FileOrganizer.WebUI.Pages
         {
             try
             {
-                var query = new GetAppUserDetailsQuery( new UserName( userName ) );
+                var query = new GetAppUserDetailsQuery( new( userName ) );
 
                 Details = await mediator.Send( query );
             }

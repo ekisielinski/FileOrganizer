@@ -1,5 +1,4 @@
 ﻿using FileOrganizer.CommonUtils;
-using FileOrganizer.Core;
 using FileOrganizer.Domain;
 using FileOrganizer.WebUI.Services;
 using MediatR;
@@ -28,7 +27,7 @@ namespace FileOrganizer.WebUI.Pages
         {
             try
             {
-                var cmd = new GetUploadDetailsQuery( new UploadId( uploadId ) );
+                var cmd = new GetUploadDetailsQuery( new( uploadId ) );
 
                 UploadDetails = await mediator.Send( cmd );
             }

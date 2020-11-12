@@ -1,6 +1,5 @@
 ﻿using FileOrganizer.WebUI.Models;
 using FluentValidation;
-using System;
 
 namespace FileOrganizer.WebUI.Validators
 {

@@ -21,11 +21,11 @@ namespace FileOrganizer.WebUI.Pages
             [FromServices] IMediator mediator,
             [FromServices] IStaticFilesLinkGenerator linkGenerator)
         {
-            FileDetails = await mediator.Send( new GetFileDetailsQuery( new FileId( fileId ) ) );
+            FileDetails = await mediator.Send( new GetFileDetailsQuery( new( fileId ) ) );
 
             if (FileDetails is null) return NotFound();
 
-            Links = await mediator.Send( new GetFileLinksQuery( new FileId( fileId ) ) );
+            Links = await mediator.Send( new GetFileLinksQuery( new( fileId ) ) );
 
             FilePath = linkGenerator.GetSourceFilePath( FileDetails.DatabaseFiles.Source );
 

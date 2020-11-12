@@ -46,7 +46,7 @@ namespace FileOrganizer.WebUI.Areas.Auth.Pages
         {
             if (!ModelState.IsValid) return Page();
 
-            if (authService.Login( new UserName( UserName! ), Password! ))
+            if (authService.Login( new( UserName! ), Password! ))
             {
                 return RedirectToPage( "Index" );
             }

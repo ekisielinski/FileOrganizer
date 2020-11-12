@@ -11,7 +11,7 @@ namespace FileOrganizer.WebUI.Pages
     public class NewUserModel : PageModel
     {
         [BindProperty]
-        public CreateNewUserRequest Model { get; set; } = new CreateNewUserRequest();
+        public CreateNewUserRequest Model { get; set; } = new();
 
         //--- actions
 

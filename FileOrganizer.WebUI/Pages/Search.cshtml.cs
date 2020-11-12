@@ -21,10 +21,10 @@ namespace FileOrganizer.WebUI.Pages
 
         public List<SelectListItem> PageSizeSelectList = new List<SelectListItem>
         {
-            new SelectListItem { Value = "10",  Text = "10" },
-            new SelectListItem { Value = "25",  Text = "25" },
-            new SelectListItem { Value = "50",  Text = "50" },
-            new SelectListItem { Value = "100", Text = "100" }
+            new() { Value = "10",  Text = "10"  },
+            new() { Value = "25",  Text = "25"  },
+            new() { Value = "50",  Text = "50"  },
+            new() { Value = "100", Text = "100" }
         };
 
         //====== actions

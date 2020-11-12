@@ -13,7 +13,7 @@ namespace FileOrganizer.WebUI
         public static IHostBuilder CreateHostBuilder( string[] args )
         {
             return Host.CreateDefaultBuilder( args )
-                       .ConfigureWebHostDefaults( webBuilder => { webBuilder.UseStartup<Startup>(); } );
+                       .ConfigureWebHostDefaults( builder => { builder.UseStartup<Startup>(); } );
         }
     }
 }

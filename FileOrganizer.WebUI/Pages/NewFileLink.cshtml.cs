@@ -10,14 +10,14 @@ namespace FileOrganizer.WebUI.Pages
     {
         public FileDetails? FileDetails { get; private set; }
 
-        // todo: fluent assertion
+        // todo: fluent validation
         [BindProperty] public string LinkUrl     { get; set; }
         [BindProperty] public string LinkTitle   { get; set; }
         [BindProperty] public string LinkComment { get; set; }
 
         public async Task<IActionResult> OnGet( int? fileId, [FromServices] IMediator mediator )
         {
-            if (fileId is null) return NotFound();
+            if (fileId is null) return BadRequest();
 
             FileDetails = await mediator.Send( new GetFileDetailsQuery( new FileId( fileId.Value ) ) );
 

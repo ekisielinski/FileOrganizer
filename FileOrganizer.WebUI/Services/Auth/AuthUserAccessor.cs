@@ -35,11 +35,7 @@ namespace FileOrganizer.WebUI.Services.Auth
                     .FindAll( claim => claim.Type == ClaimTypes.Role)
                     .Select( claim => new UserRole( claim.Value ) );
 
-                return new AuthUser(
-                    new UserName( userName ),
-                    new UserDisplayName( userDisplayName ),
-                    new UserRoles( roles )
-                    );
+                return new AuthUser( new( userName ), new( userDisplayName ), new( roles ) );
             }
         }
     }

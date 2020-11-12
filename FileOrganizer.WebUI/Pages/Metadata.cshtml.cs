@@ -22,7 +22,7 @@ namespace FileOrganizer.WebUI.Pages
         {
             try
             {
-                Metadata = await mediator.Send( new GetMetadataFromFileContentQuery( new FileId( fileId ) ) );
+                Metadata = await mediator.Send( new GetMetadataFromFileContentQuery( new( fileId ) ) );
             }
             catch
             {

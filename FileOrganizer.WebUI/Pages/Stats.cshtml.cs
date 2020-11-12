@@ -10,6 +10,8 @@ namespace FileOrganizer.WebUI.Pages
     {
         public Statistics Stats { get; private set; } = Statistics.Empty;
 
+        //====== actions
+
         public async Task OnGetAsync( [FromServices] IMediator mediator )
         {
             Stats = await mediator.Send( new GetStatisticsQuery() );

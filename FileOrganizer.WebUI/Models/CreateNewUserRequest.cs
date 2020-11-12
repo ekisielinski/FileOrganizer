@@ -10,8 +10,8 @@ namespace FileOrganizer.WebUI.Models
 
         //====== public methods
 
-        public UserPassword ToUserPassword() => new UserPassword( Password );
-        public UserName ToUserName() => new UserName( UserName );
-        public UserDisplayName ToUserDisplayName() => new UserDisplayName( UserDisplayName );
+        public UserPassword    ToUserPassword()    => new( Password );
+        public UserName        ToUserName()        => new( UserName );
+        public UserDisplayName ToUserDisplayName() => new( UserDisplayName );
     }
 }

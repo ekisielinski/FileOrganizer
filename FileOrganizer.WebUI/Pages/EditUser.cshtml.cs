@@ -20,7 +20,7 @@ namespace FileOrganizer.WebUI.Pages
 
         public async Task OnGet( string userName, [FromServices] IMediator mediator )
         {
-            var query = new GetAppUserDetailsQuery( new UserName( userName ) );
+            var query = new GetAppUserDetailsQuery( new( userName ) );
 
             Details = await mediator.Send( query );
 
@@ -34,12 +34,12 @@ namespace FileOrganizer.WebUI.Pages
 
             if (!string.IsNullOrEmpty( Email ))
             {
-                emailData = DataUpdateBehavior<EmailAddress>.CreateOrUpdateValue( new EmailAddress( Email ) );
+                emailData = DataUpdateBehavior<EmailAddress>.CreateOrUpdateValue( new( Email ) );
             }
 
             var cmd = new UpdateAppUserDetailsCommand(
-                new UserName( userName ),
-                new UserDisplayName( DisplayName ?? string.Empty ),
+                new( userName ),
+                new( DisplayName ?? string.Empty ),
                 emailData );
 
             await mediator.Send( cmd );

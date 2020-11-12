@@ -1,4 +1,4 @@
-﻿using FileOrganizer.Core;
+﻿using FileOrganizer.CommonUtils;
 using FileOrganizer.Domain;
 using FileOrganizer.WebUI.Models;
 using MediatR;
@@ -28,9 +28,7 @@ namespace FileOrganizer.WebUI.Pages
         //====== ctors
 
         public EditFileDetailsModel( IMediator mediator )
-        {
-            this.mediator = mediator;
-        }
+            => this.mediator = Guard.NotNull( mediator, nameof( mediator ) );
 
         //====== actions
 
@@ -52,11 +50,11 @@ namespace FileOrganizer.WebUI.Pages
                 return Page();
             }
 
-            var title = new FileTitle( Title ?? string.Empty );
-            var description = new FileDescription( Description ?? string.Empty );
-            var primaryDateTime = PrimaryDateTime.ToPartialDateTime();
+            FileTitle       title           = new( Title ?? string.Empty );
+            FileDescription description     = new( Description ?? string.Empty );
+            PartialDateTime primaryDateTime = PrimaryDateTime.ToPartialDateTime();
 
-            var cmd = new UpdateFileDetailsCommand( new FileId( FileId ), title, description, primaryDateTime );
+            var cmd = new UpdateFileDetailsCommand( new( FileId ), title, description, primaryDateTime );
             await mediator.Send( cmd );
 
             return RedirectToPage( "View", new { fileId = FileId } );

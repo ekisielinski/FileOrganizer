@@ -1,5 +1,4 @@
 ﻿using FileOrganizer.CommonUtils;
-using FileOrganizer.Core;
 using FileOrganizer.Domain;
 
 namespace FileOrganizer.WebUI.Services.Auth
