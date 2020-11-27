@@ -1,4 +1,5 @@
 ﻿using FileOrganizer.CommonUtils;
+using System;
 
 namespace FileOrganizer.Domain
 {
@@ -40,6 +41,13 @@ namespace FileOrganizer.Domain
         }
 
         //====== public static methods
+
+        public static PartialDateTime FromUtcDateTime( DateTime dateTime )
+        {
+            if (dateTime.Kind != DateTimeKind.Utc) throw new ArgumentException( "Given DateTime must be UTC." );
+
+            return new( dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute );
+        }
 
         public static PartialDateTime FromSpecialString( string value )
         {

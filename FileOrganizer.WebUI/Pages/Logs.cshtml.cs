@@ -13,11 +13,11 @@ namespace FileOrganizer.WebUI.Pages
 
         //====== actions
 
-        public async Task OnGet( [FromServices] IMediator mediator )
+        public async Task OnGetAsync( [FromServices] ISender sender )
         {
-            var query = new GetActivityLogEntriesQuery( null );
+            GetActivityLogEntriesQuery query = new();
 
-            Logs = await mediator.Send( query );
+            Logs = await sender.Send( query );
         }
     }
 }

@@ -1,15 +1,12 @@
-using FileOrganizer.Core;
-using FileOrganizer.Domain;
+using FileOrganizer.CommonUtils;
+using FileOrganizer.WebUI.Areas.Auth.Models;
 using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
 
 namespace FileOrganizer.WebUI.Areas.Auth.Pages
 {
-    // TODO: add return Url
-
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
@@ -17,19 +14,14 @@ namespace FileOrganizer.WebUI.Areas.Auth.Pages
 
         //====== ctors
 
-        public LoginModel( IAuthService authService ) => this.authService = authService;
+        public LoginModel( IAuthService authService )
+        {
+            this.authService = Guard.NotNull( authService, nameof( authService ) );
+        }
 
         //====== public properties
 
-        [BindProperty]
-        [Required( ErrorMessage = "User name is required." )]
-        public string? UserName { get; set; }
-
-        [BindProperty]
-        [Required( ErrorMessage = "Password is required." )]
-        public string? Password { get; set; }
-
-        //---
+        [BindProperty] public LoginForm Form { get; set; } = new();
 
         public string? Error { get; private set; }
 
@@ -37,16 +29,16 @@ namespace FileOrganizer.WebUI.Areas.Auth.Pages
 
         public IActionResult OnGet()
         {
-            if (authService.CurrentUser != null) return RedirectToPage( "Index" );
+            if (authService.CurrentUser is null) return Page();
 
-            return Page();
+            return RedirectToPage( "Index" );
         }
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid) return Page();
+            if (ModelState.IsValid == false) return Page();
 
-            if (authService.Login( new( UserName! ), Password! ))
+            if (authService.Login( new( Form.UserName! ), Form.Password! ))
             {
                 return RedirectToPage( "Index" );
             }

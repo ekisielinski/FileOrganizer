@@ -5,13 +5,8 @@ namespace FileOrganizer.Domain
 {
     public sealed class GetActivityLogEntriesQuery : IRequest<IReadOnlyList<ActivityLogEntry>>
     {
-        public GetActivityLogEntriesQuery( UserName? userNameFilter )
-        {
-            UserNameFilter = userNameFilter;
-        }
+        public UserName? UserNameFilter { get; init; } = null;
 
-        //====== public properties
-
-        public UserName? UserNameFilter { get; }
+        public PagingParameters Paging { get; init; } = PagingParameters.AllAtOnce;
     }
 }

@@ -119,8 +119,7 @@ namespace FileOrganizer.EFDatabase
 
             return new FileLink
             {
-                //FileId    = new FileId( entity.FileId ),
-                FileId = new FileId( entity.File.Id ),
+                FileId    = new FileId( entity.File.Id ),
 
                 Id        = new LinkId( entity.Id ),
                 Address   = new LinkUrl( entity.Address ),

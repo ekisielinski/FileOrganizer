@@ -2,26 +2,21 @@
 
 namespace FileOrganizer.Domain
 {
-    public sealed class FileTitle
+    public sealed record FileTitle
     {
         public FileTitle( string value )
         {
-            Value = Guard.NotNull( value, nameof( value ) );
-            // TODO: validation
+            Value = Guard.NotNull( value, nameof( value ) ); // TODO: more validation
         }
-
-        //====== public properties
 
         public string Value { get; }
 
         public bool IsEmpty => Value.Length == 0;
 
-        //====== public static properties
+        public static FileTitle Empty { get; } = new( string.Empty );
 
-        public static FileTitle Empty { get; } = new FileTitle( string.Empty );
+        public static implicit operator string( FileTitle fileTitle ) => Guard.NotNull( fileTitle, nameof( fileTitle ) ).Value;
 
-        //====== override: Object
-
-        public override string ToString() => Value.ToString();
+        public override string ToString() => Value;
     }
 }

@@ -54,7 +54,11 @@ namespace FileOrganizer.WebUI.Pages
             FileDescription description     = new( Description ?? string.Empty );
             PartialDateTime primaryDateTime = PrimaryDateTime.ToPartialDateTime();
 
-            var cmd = new UpdateFileDetailsCommand( new( FileId ), title, description, primaryDateTime );
+            var cmd = new UpdateFileDetailsCommand( new( FileId ) )
+            {
+                FileTitle = title, Description = description, PrimaryDateTime = primaryDateTime
+            };
+
             await mediator.Send( cmd );
 
             return RedirectToPage( "View", new { fileId = FileId } );

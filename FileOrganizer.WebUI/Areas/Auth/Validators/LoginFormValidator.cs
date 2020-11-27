@@ -1,19 +1,16 @@
-﻿using FileOrganizer.WebUI.Models;
+﻿using FileOrganizer.WebUI.Areas.Auth.Models;
 using FluentValidation;
 
-namespace FileOrganizer.WebUI.Validators
+namespace FileOrganizer.WebUI.Areas.Auth.Validators
 {
-    public sealed class CreateNewUserRequestValidator : AbstractValidator<CreateNewUserRequest>
+    public sealed class LoginFormValidator : AbstractValidator<LoginForm>
     {
-        public CreateNewUserRequestValidator()
+        public LoginFormValidator()
         {
             RuleFor( x => x.UserName )
                 .NotEmpty()
                 .Length( 3, 50 )
                 .Matches( "^[a-z0-9_]*$" ).WithMessage( "You can use only these characters: a..z 0..9 and _ (underscore)." );
-
-            RuleFor( x => x.UserDisplayName )
-                .Length( 0, 80 );
 
             RuleFor( x => x.Password )
                 .NotEmpty()

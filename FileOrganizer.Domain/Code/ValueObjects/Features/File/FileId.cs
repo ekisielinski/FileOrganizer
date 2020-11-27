@@ -2,18 +2,13 @@
 
 namespace FileOrganizer.Domain
 {
-    public sealed class FileId
+    public sealed record FileId
     {
-        public FileId( int value )
-        {
-            Value = Guard.MinValue( value, 1, nameof( value ) );
-        }
-
-        //====== public properties
+        public FileId( int value ) => Value = Guard.MinValue( value, 1, nameof( value ) );
 
         public int Value { get; }
 
-        //====== override: Object
+        public static implicit operator int( FileId fileId ) => Guard.NotNull( fileId, nameof( fileId ) ).Value;
 
         public override string ToString() => Value.ToString();
     }

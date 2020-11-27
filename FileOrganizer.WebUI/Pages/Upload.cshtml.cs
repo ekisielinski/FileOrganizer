@@ -28,7 +28,7 @@ namespace FileOrganizer.WebUI.Pages
 
         }
         
-        public async Task<IActionResult> OnPost( [FromServices] IMediator mediator )
+        public async Task<IActionResult> OnPostAsync( [FromServices] IMediator mediator )
         {
             if (Files?.Count > 0)
             {
@@ -39,11 +39,18 @@ namespace FileOrganizer.WebUI.Pages
                 // TODO: should we dispose streams after upload?
 
                 var parameters = new UploadParameters( uploads, new UploadDescription( Description ?? string.Empty ) );
-
                 UploadId uploadId = await mediator.Send( new UploadFilesCommand( parameters ));
 
+                try
+                {
+                    await mediator.Send( new UpdateUploadDetailsFromMetadataCommand( uploadId ) );
+                }
+                catch
+                {
+                    // TODO: error logging
+                }
 
-                var result = await mediator.Send( new GetUploadDetailsQuery( uploadId ));
+                UploadDetails result = await mediator.Send( new GetUploadDetailsQuery( uploadId ));
 
                 if (result.Files.Count == 1 && result.RejectedDuplicates.Count == 0)
                 {

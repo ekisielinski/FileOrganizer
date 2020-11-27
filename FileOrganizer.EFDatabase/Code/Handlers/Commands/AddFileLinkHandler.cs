@@ -27,7 +27,7 @@ namespace FileOrganizer.EFDatabase.Handlers
             var newEntity = new FileLinkEntity
             {
                 //FileId = request.FileId.Value,
-                File = context.Entities.Files.FirstOrDefault(x => x.Id == request.FileId.Value),
+                File = context.Entities.Files.FirstOrDefault( x => x.Id == request.FileId.Value ),
 
                 Address = request.Address.Value,
                 Title = request.Title?.Value,

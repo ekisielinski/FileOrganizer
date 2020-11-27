@@ -22,9 +22,9 @@ namespace FileOrganizer.Core
 
         private void CreateAppUsers()
         {
-            var cmd1 = new CreateAppUserCommand( new( "admin" ), new( "Administrator" ), new( "admin" ) );
-            var cmd2 = new CreateAppUserCommand( new( "mod"   ), new( "Moderator"     ), new( "mod"   ) );
-            var cmd3 = new CreateAppUserCommand( new( "user"  ), new( "User"          ), new( "user"  ) );
+            var cmd1 = new CreateAppUserCommand( new( "admin" ), new( "Administrator" ), new( "admin12345" ) );
+            var cmd2 = new CreateAppUserCommand( new( "mod"   ), new( "Moderator"     ), new( "mod12345"   ) );
+            var cmd3 = new CreateAppUserCommand( new( "user"  ), new( "User"          ), new( "user12345"  ) );
 
             mediator.Send( cmd1 ).Wait(); // TODO: .Wait()
             mediator.Send( cmd2 ).Wait();
@@ -93,11 +93,12 @@ namespace FileOrganizer.Core
             UpdateDisplayName();
             UploadFiles();
 
-            var cmd = new UpdateFileDetailsCommand(
-                new FileId( 1 ),
-                new FileTitle( "Red square" ),
-                new FileDescription( "Red square - description" ),
-                new PartialDateTime( 2020, 1, 2, 3, 4 ) );
+            var cmd = new UpdateFileDetailsCommand( new FileId( 1 ) )
+            {
+                FileTitle       = new FileTitle( "Red square" ),
+                Description     = new FileDescription( "Red square - description" ),
+                PrimaryDateTime = new PartialDateTime( 2020, 1, 2, 3, 4 )
+            };
 
             mediator.Send( cmd ).Wait(); // todo: wait
 

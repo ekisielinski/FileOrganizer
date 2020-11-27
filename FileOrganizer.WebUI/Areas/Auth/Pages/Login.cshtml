@@ -4,15 +4,15 @@
 <form method="post" asp-page="Login">
 
     <div>
-        <label asp-for="UserName">User</label>
-        <input asp-for="UserName" autocomplete="off" />
-        <span asp-validation-for="UserName"></span>
+        <label asp-for="Form.UserName">User</label>
+        <input asp-for="Form.UserName" autocomplete="off" />
+        <span asp-validation-for="Form.UserName"></span>
     </div>
 
     <div>
-        <label for="pass">Pass</label>
-        <input id="pass" type="password" name="Password">
-        <span asp-validation-for="Password"></span>
+        <label asp-for="Form.Password">Pass</label>
+        <input asp-for="Form.Password" />
+        <span asp-validation-for="Form.Password"></span>
     </div>
 
     <button type="submit">Login</button>
