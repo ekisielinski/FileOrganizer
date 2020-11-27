@@ -13,6 +13,7 @@
         public static DataSize Zero { get; } = new DataSize( 0 );
         public static DataSize KiB  { get; } = new DataSize( 1024 );
         public static DataSize MiB  { get; } = new DataSize( 1024 * 1024 );
+        public static DataSize GiB  { get; } = new DataSize( 1024 * 1024 * 1024 );
 
         //====== public static methods
 

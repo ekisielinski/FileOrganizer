@@ -4,6 +4,7 @@ using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Areas.Auth.Pages
 {
@@ -34,14 +35,13 @@ namespace FileOrganizer.WebUI.Areas.Auth.Pages
             return RedirectToPage( "Index" );
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid == false) return Page();
 
-            if (authService.Login( new( Form.UserName! ), Form.Password! ))
-            {
-                return RedirectToPage( "Index" );
-            }
+            bool loggedIn = await authService.LoginAsync( new( Form.UserName! ), Form.Password! );
+
+            if (loggedIn) return RedirectToPage( "Index" );
 
             Error = "Invalid credentials!";
 

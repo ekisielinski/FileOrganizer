@@ -1,11 +1,12 @@
 ﻿using FileOrganizer.Domain;
+using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Services.Auth
 {
     public interface IAuthService : IAuthUserAccessor
     {
-        bool Login( UserName userName, string password );
+        Task<bool> LoginAsync( UserName userName, string password );
 
-        void Logout();
+        Task LogoutAsync();
     }
 }

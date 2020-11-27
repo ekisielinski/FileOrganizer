@@ -3,8 +3,10 @@ using FileOrganizer.Domain;
 using FileOrganizer.EFDatabase;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Services.Auth
 {
@@ -30,7 +32,7 @@ namespace FileOrganizer.WebUI.Services.Auth
 
         public AuthUser? CurrentUser => authUserAccessor.CurrentUser;
 
-        public bool Login( UserName userName, string password )
+        public async Task<bool> LoginAsync( UserName userName, string password )
         {
             Guard.NotNull( userName, nameof( userName ) );
             Guard.NotNull( password, nameof( password ) );
@@ -53,14 +55,18 @@ namespace FileOrganizer.WebUI.Services.Auth
             var identity = new ClaimsIdentity( userClaims, "CookieAuthentication" );
             var userPrincipal = new ClaimsPrincipal( new[] { identity } );
 
-            httpContextAccessor.HttpContext.SignInAsync( userPrincipal ); // TODO: async
+            if (httpContextAccessor.HttpContext is null) throw new InvalidOperationException( "HttpContext is not available." );
+
+            await httpContextAccessor.HttpContext.SignInAsync( userPrincipal );
 
             return true;
         }
 
-        public void Logout()
+        public async Task LogoutAsync()
         {
-            httpContextAccessor.HttpContext.SignOutAsync(); // TODO: async
+            if (httpContextAccessor.HttpContext is null) throw new InvalidOperationException( "HttpContext is not available." );
+
+            await httpContextAccessor.HttpContext.SignOutAsync();
         }
     }
 }
