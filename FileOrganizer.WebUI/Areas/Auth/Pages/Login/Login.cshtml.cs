@@ -1,12 +1,11 @@
 using FileOrganizer.CommonUtils;
-using FileOrganizer.WebUI.Areas.Auth.Models;
 using FileOrganizer.WebUI.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
-namespace FileOrganizer.WebUI.Areas.Auth.Pages
+namespace FileOrganizer.WebUI.Areas.Auth.Pages.Login
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
@@ -32,7 +31,7 @@ namespace FileOrganizer.WebUI.Areas.Auth.Pages
         {
             if (authService.CurrentUser is null) return Page();
 
-            return RedirectToPage( "Index" );
+            return RedirectToPage( "/Index" );
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -41,7 +40,7 @@ namespace FileOrganizer.WebUI.Areas.Auth.Pages
 
             bool loggedIn = await authService.LoginAsync( new( Form.UserName! ), Form.Password! );
 
-            if (loggedIn) return RedirectToPage( "Index" );
+            if (loggedIn) return RedirectToPage( "/Index" );
 
             Error = "Invalid credentials!";
 

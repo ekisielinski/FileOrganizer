@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FileOrganizer.WebUI.Areas.Auth.Models
+namespace FileOrganizer.WebUI.Areas.Auth.Pages.Login
 {
     public sealed class LoginForm
     {

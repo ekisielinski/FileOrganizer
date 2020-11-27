@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
-namespace FileOrganizer.WebUI.Areas.Auth.Pages
+namespace FileOrganizer.WebUI.Areas.Auth.Pages.Logout
 {
     [Authorize]
     public class LogoutModel : PageModel

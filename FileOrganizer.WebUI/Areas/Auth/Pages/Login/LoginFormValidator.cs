@@ -1,7 +1,6 @@
-﻿using FileOrganizer.WebUI.Areas.Auth.Models;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace FileOrganizer.WebUI.Areas.Auth.Validators
+namespace FileOrganizer.WebUI.Areas.Auth.Pages.Login
 {
     public sealed class LoginFormValidator : AbstractValidator<LoginForm>
     {

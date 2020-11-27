@@ -1,18 +1,18 @@
 ﻿@page "/login"
-@model FileOrganizer.WebUI.Areas.Auth.Pages.LoginModel
+@model FileOrganizer.WebUI.Areas.Auth.Pages.Login.LoginModel
 
 <form method="post" asp-page="Login">
 
     <div>
         <label asp-for="Form.UserName">User</label>
         <input asp-for="Form.UserName" autocomplete="off" />
-        <span asp-validation-for="Form.UserName"></span>
+        <span asp-validation-for="Form.UserName" class="error"></span>
     </div>
 
     <div>
         <label asp-for="Form.Password">Pass</label>
         <input asp-for="Form.Password" />
-        <span asp-validation-for="Form.Password"></span>
+        <span asp-validation-for="Form.Password" class="error"></span>
     </div>
 
     <button type="submit">Login</button>
@@ -21,7 +21,7 @@
 
 @if (Model.Error != null)
 {
-    <div>
+    <div class="error">
         ERROR: @Model.Error
     </div>
 }
