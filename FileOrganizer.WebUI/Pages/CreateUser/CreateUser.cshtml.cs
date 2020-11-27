@@ -1,5 +1,4 @@
 ﻿using FileOrganizer.Domain;
-using FileOrganizer.WebUI.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,7 +10,7 @@ namespace FileOrganizer.WebUI.Pages
     public class NewUserModel : PageModel
     {
         [BindProperty]
-        public CreateNewUserRequest Model { get; set; } = new();
+        public CreateUserForm Form { get; set; } = new();
 
         //--- actions
 
@@ -20,15 +19,15 @@ namespace FileOrganizer.WebUI.Pages
             // empty
         }
 
-        public async Task<IActionResult> OnPost( [FromServices] IMediator mediator )
+        public async Task<IActionResult> OnPostAsync( [FromServices] IMediator mediator )
         {
             if (ModelState.IsValid == false) return Page();
 
             try
             {
-                var command = new CreateAppUserCommand( Model.ToUserName(), Model.ToUserDisplayName(), Model.ToUserPassword() );
+                var cmd = new CreateAppUserCommand( Form.ToUserName(), Form.ToUserDisplayName(), Form.ToUserPassword() );
 
-                await mediator.Send( command );
+                await mediator.Send( cmd );
             }
             catch (Exception ex)
             {
@@ -37,7 +36,7 @@ namespace FileOrganizer.WebUI.Pages
                 return Page();
             }
 
-            return RedirectToPage( "Users" );
+            return RedirectToPage( "/Users" );
         }
     }
 }

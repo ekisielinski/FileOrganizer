@@ -1,11 +1,10 @@
-﻿using FileOrganizer.WebUI.Models;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace FileOrganizer.WebUI.Validators
+namespace FileOrganizer.WebUI.Pages
 {
-    public sealed class CreateNewUserRequestValidator : AbstractValidator<CreateNewUserRequest>
+    public sealed class CreateUserFormValidator : AbstractValidator<CreateUserForm>
     {
-        public CreateNewUserRequestValidator()
+        public CreateUserFormValidator()
         {
             RuleFor( x => x.UserName )
                 .NotEmpty()

@@ -1,0 +1,33 @@
+﻿@page "/users/new"
+@model FileOrganizer.WebUI.Pages.NewUserModel
+
+<h2>Create new user</h2>
+
+<form asp-page="NewUser" method="post">
+    <label asp-for="Form.UserName">User name</label><br />
+    <input asp-for="Form.UserName" autocomplete="off" /><br />
+    <span asp-validation-for="Form.UserName"></span>
+
+    <br />
+
+    <label asp-for="Form.UserDisplayName">Display name</label><br />
+    <input asp-for="Form.UserDisplayName" autocomplete="off" /><br />
+
+    <br />
+
+    <label asp-for="Form.Password"></label><br />
+    <input asp-for="Form.Password" type="password" /><br />
+    <span asp-validation-for="Form.Password"></span>
+
+    <div asp-validation-summary="ModelOnly">
+        <br />
+        <span>Please correct the following errors</span>
+    </div>
+
+    <br />
+
+    <input type="submit" value="Create" />
+
+</form>
+
+<a asp-page="/Users">Back to users</a>
