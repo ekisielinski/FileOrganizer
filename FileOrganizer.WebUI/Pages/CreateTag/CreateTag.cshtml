@@ -1,0 +1,35 @@
+﻿@page "/tags/create"
+@model FileOrganizer.WebUI.Pages.CreateTag.CreateTagModel
+
+<h1>Create Tag</h1>
+
+<form method="post">
+
+    <label asp-for="@Model.Form.Name">Tag Name</label><br />
+    <input asp-for="@Model.Form.Name" autocomplete="off" /><br />
+    <span asp-validation-for="@Model.Form.Name"></span>
+
+    <br />
+
+    <label asp-for="@Model.Form.DisplayName">Display Name</label><br />
+    <input asp-for="@Model.Form.DisplayName" autocomplete="off" /><br />
+    <span asp-validation-for="@Model.Form.DisplayName"></span>
+
+    <br />
+
+    <label asp-for="@Model.Form.Description">Description</label><br />
+    <input asp-for="@Model.Form.Description" autocomplete="off" /><br />
+    <span asp-validation-for="@Model.Form.Description"></span>
+
+    <br />
+
+    <div asp-validation-summary="ModelOnly">
+        <br />
+        <span>Please correct the following errors:</span>
+    </div>
+
+    <br />
+
+    <input type="submit" value="Create" />
+
+</form>

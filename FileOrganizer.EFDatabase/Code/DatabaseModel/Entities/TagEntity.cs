@@ -30,6 +30,12 @@ namespace FileOrganizer.EFDatabase
                 .HasKey( x => x.Name );
 
             builder
+                .Property( x => x.Name )
+                .IsRequired()
+                .IsUnicode()
+                .HasMaxLength( 50 );
+
+            builder
                 .Property( x => x.DisplayName )
                 .IsUnicode()
                 .HasMaxLength( 80 )
