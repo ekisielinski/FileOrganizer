@@ -19,10 +19,8 @@
         <button type="submit">Upload</button>
     </form>
 
-    @if (Model.Error != null)
-    {
-        <p>ERROR: @Model.Error</p>
-    }
+    <div asp-validation-summary="ModelOnly">
+    </div>
 
 </feature>
 

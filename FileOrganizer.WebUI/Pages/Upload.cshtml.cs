@@ -17,10 +17,6 @@ namespace FileOrganizer.WebUI.Pages
         [BindProperty]
         public string? Description { get; set; }
 
-        //---
-
-        public string? Error { get; private set; }
-
         //====== actions
 
         public void OnGet()
@@ -60,7 +56,7 @@ namespace FileOrganizer.WebUI.Pages
                 return RedirectToPage( "UploadResult", new { uploadId = result.Id.Value } );
             }
 
-            Error = "Select at least one file.";
+            ModelState.AddModelError( string.Empty, "Select at least one file." );
 
             return Page();
         }
