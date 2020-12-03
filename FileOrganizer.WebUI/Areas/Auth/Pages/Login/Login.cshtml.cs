@@ -23,8 +23,6 @@ namespace FileOrganizer.WebUI.Areas.Auth.Pages.Login
 
         [BindProperty] public LoginForm Form { get; set; } = new();
 
-        public string? Error { get; private set; }
-
         //====== actions
 
         public IActionResult OnGet()
@@ -42,7 +40,7 @@ namespace FileOrganizer.WebUI.Areas.Auth.Pages.Login
 
             if (loggedIn) return RedirectToPage( "/Index" );
 
-            Error = "Invalid credentials!";
+            ModelState.AddModelError( string.Empty, "Invalid credentials!" );
 
             return Page();
         }

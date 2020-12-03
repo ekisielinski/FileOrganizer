@@ -19,9 +19,5 @@
 
 </form>
 
-@if (Model.Error != null)
-{
-    <div class="error">
-        ERROR: @Model.Error
-    </div>
-}
+<div class="error" asp-validation-summary="ModelOnly">
+</div>
