@@ -10,15 +10,14 @@
 
         //====== public static properties
 
-        public static DataSize Zero { get; } = new DataSize( 0 );
-        public static DataSize KiB  { get; } = new DataSize( 1024 );
-        public static DataSize MiB  { get; } = new DataSize( 1024 * 1024 );
-        public static DataSize GiB  { get; } = new DataSize( 1024 * 1024 * 1024 );
+        public static DataSize Zero { get; } = new( 0 );
+        public static DataSize KiB  { get; } = new( 1024 );
+        public static DataSize MiB  { get; } = new( 1024 * 1024 );
+        public static DataSize GiB  { get; } = new( 1024 * 1024 * 1024 );
 
         //====== public static methods
 
-        public static DataSize Sum( DataSize first, DataSize second )
-            => new DataSize( first.Bytes + second.Bytes );
+        public static DataSize Sum( DataSize first, DataSize second ) => new( first.Bytes + second.Bytes );
         
         //====== override: Object
 
