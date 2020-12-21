@@ -1,4 +1,40 @@
-﻿.error
+﻿html
 {
-    color: red;
+    background-color: #F0F0F0;
+    font-size: 15px;
+}
+
+form
+{
+    text-align: center;
+}
+
+input[type=password], input[type=text]
+{
+    padding: 4px 6px;
+    margin: 5px;
+    font-size: 15px;
+    border: 2px solid rgba(0,0,0,0.2);
+    border-radius: 5px;
+    color: #444;
+    width: 200px;
+}
+
+.loginButton
+{
+    display: block;
+    margin: 12px auto;
+    padding: 4px 16px;
+    font-size: 14px;
+}
+
+.appNameHeader
+{
+    text-align: center;
+    font-size: 40px;
+}
+
+.error
+{
+    color: #E00;
 }

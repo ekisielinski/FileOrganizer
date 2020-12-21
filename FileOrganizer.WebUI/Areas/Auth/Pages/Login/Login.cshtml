@@ -6,18 +6,20 @@
     <div>
         <label asp-for="Form.UserName">User</label>
         <input asp-for="Form.UserName" autocomplete="off" />
+        <br />
         <span asp-validation-for="Form.UserName" class="error"></span>
     </div>
 
     <div>
         <label asp-for="Form.Password">Pass</label>
         <input asp-for="Form.Password" />
+        <br />
         <span asp-validation-for="Form.Password" class="error"></span>
     </div>
 
-    <button type="submit">Login</button>
+    <div class="error" asp-validation-summary="ModelOnly">
+    </div>
+
+    <button type="submit" class="loginButton">Login</button>
 
 </form>
-
-<div class="error" asp-validation-summary="ModelOnly">
-</div>
