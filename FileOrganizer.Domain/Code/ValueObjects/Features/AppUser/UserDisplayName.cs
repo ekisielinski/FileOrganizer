@@ -18,7 +18,7 @@ namespace FileOrganizer.Domain
 
         //====== public static properties
 
-        public static UserDisplayName None { get; } = new UserDisplayName( string.Empty );
+        public static UserDisplayName Empty { get; } = new UserDisplayName( string.Empty );
 
         //====== override: Object
 

@@ -22,7 +22,7 @@ namespace FileOrganizer.WebUI.Services.Auth
 
         public override string ToString()
         {
-            if (DisplayName != UserDisplayName.None) return $"{DisplayName} ({Name})";
+            if (DisplayName != UserDisplayName.Empty) return $"{DisplayName} ({Name})";
 
             return Name.ToString();
         }
