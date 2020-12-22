@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace FileOrganizer.WebUI.Pages
 {
-    public class NewFileLinkModel : PageModel
+    public sealed class CreateLinkModel : PageModel
     {
         public FileDetails? FileDetails { get; private set; }
 
-        // todo: fluent validation
-        [BindProperty] public string LinkUrl     { get; set; }
-        [BindProperty] public string LinkTitle   { get; set; }
-        [BindProperty] public string LinkComment { get; set; }
+        [BindProperty] public CreateLinkForm Form { get; set; } = new();
+
+        //====== actions
 
         public async Task<IActionResult> OnGet( int? fileId, [FromServices] IMediator mediator )
         {
@@ -26,14 +25,12 @@ namespace FileOrganizer.WebUI.Pages
 
         public async Task<IActionResult> OnPostAsync( int? fileId, [FromServices] IMediator mediator )
         {
-            await mediator.Send( new AddFileLinkCommand(
-                new FileId( fileId.Value ),
-                new LinkUrl( LinkUrl ),
-                new LinkTitle( LinkTitle ),
-                new LinkComment( LinkComment )
-                ) );
+            if (ModelState.IsValid == false) return await OnGet( fileId, mediator ); // todo: is is OK?
 
-            return RedirectToPage( "View", new { fileId = fileId.Value } );
+            var cmd = new AddFileLinkCommand( new ( fileId.Value ), new ( Form.Url ), new ( Form.Title ), new ( Form.Comment ) );
+            await mediator.Send( cmd );
+
+            return RedirectToPage( "/View", new { fileId = fileId.Value } );
         }
     }
 }

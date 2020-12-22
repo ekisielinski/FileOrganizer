@@ -25,7 +25,7 @@
 
     <br />
     <a asp-page="Metadata" asp-route-fileid="@Model.FileDetails.FileId.Value">View metadata</a><br />
-    <a asp-page="NewFileLink" asp-route-fileId="@Model.FileDetails.FileId.Value">Add Link</a>
+    <a asp-page="/CreateLink/CreateLink" asp-route-fileId="@Model.FileDetails.FileId.Value">Add Link</a>
     <ul>
         @foreach(var link in Model.Links)
         {
