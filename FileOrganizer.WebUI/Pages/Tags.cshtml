@@ -4,6 +4,11 @@
 <h1>Tags</h1>
 
 <a asp-page="/CreateTag/CreateTag">Create Tag</a>
+
+<br /><br />
+Number of tags: <b>@Model.Tags.Count</b>
+<br />
+
 <ul>
     @foreach (var tag in Model.Tags)
     {
