@@ -43,7 +43,7 @@ namespace FileOrganizer.EFDatabase.Handlers
 
             var messages = new List<string>();
 
-            if (request.EmailAddress.CreateOrUpdate) messages.Add( $"Email updated for user '{request.UserName}'. New value: " + (request.EmailAddress?.ToString() ?? "<empty>") );
+            if (request.EmailAddress.Ignore == false) messages.Add( $"Email updated for user '{request.UserName}'. New value: " + (request.EmailAddress.Data?.ToString() ?? "<empty>") );
             if (setDisplayName) messages.Add( $"Display name updated for user '{request.UserName}'. New value: {request.DisplayName}" );
 
             logger.Add( string.Join( "\r\n", messages ) );
