@@ -16,19 +16,17 @@ namespace FileOrganizer.EFDatabase.Handlers
         //====== ctors
 
         public GetUploadBasicInfosHandler( EFAppContext context )
-        {
-            this.context = Guard.NotNull( context, nameof( context ) );
-        }
+            => this.context = Guard.NotNull( context, nameof( context ) );
 
         //====== IRequestHandler
 
         public async Task<IReadOnlyList<UploadBasicInfo>> Handle( GetUploadBasicInfosQuery request, CancellationToken cancellationToken )
         {
-            List<UploadEntity>? entities = await context.Entities
+            List<UploadEntity> entities = await context.Entities
                 .Uploads
+                .AsNoTracking()
                 .Include( x => x.Uploader )
                 .OrderByDescending( x => x.UtcWhenAdded )
-                .AsNoTracking()
                 .ToListAsync();
 
             return entities.Select( MappingUtils.ToUploadBasicInfo ).ToList();

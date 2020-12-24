@@ -14,9 +14,7 @@ namespace FileOrganizer.EFDatabase.Handlers
         //====== ctors
 
         public GetStatisticsHandler( EFAppContext context )
-        {
-            this.context = Guard.NotNull( context, nameof( context ) );
-        }
+            => this.context = Guard.NotNull( context, nameof( context ) );
 
         //====== IRequestHandler
 

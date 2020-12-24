@@ -25,8 +25,9 @@ namespace FileOrganizer.EFDatabase.Handlers
 
         public async Task<AppUser?> Handle( TryGetAppUserQuery request, CancellationToken cancellationToken )
         {
-            AppUserEntity entity = await context.Entities
+            AppUserEntity? entity = await context.Entities
                 .AppUsers
+                .AsNoTracking()
                 .Include( x => x.UserRoles )
                 .FirstOrDefaultAsync( x => x.UserName == request.UserName.Value );
 

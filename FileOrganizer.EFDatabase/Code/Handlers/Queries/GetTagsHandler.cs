@@ -16,15 +16,13 @@ namespace FileOrganizer.EFDatabase.Handlers
         //====== ctors
 
         public GetTagsHandler( EFAppContext context )
-        {
-            this.context = Guard.NotNull( context, nameof( context ) );
-        }
+            => this.context = Guard.NotNull( context, nameof( context ) );
 
         //====== IRequestHandler
 
         public async Task<IReadOnlyList<Tag>> Handle( GetTagsQuery request, CancellationToken cancellationToken )
         {
-            var tags = await context.Entities.Tags.ToListAsync();
+            List<TagEntity> tags = await context.Entities.Tags.ToListAsync();
 
             return tags.Select( MappingUtils.ToTag ).ToList();
         }

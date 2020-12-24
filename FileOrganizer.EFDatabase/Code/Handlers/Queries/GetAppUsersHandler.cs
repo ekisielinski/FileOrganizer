@@ -16,9 +16,7 @@ namespace FileOrganizer.EFDatabase.Handlers
         //====== ctors
 
         public GetAppUsersHandler( EFAppContext context )
-        {
-            this.context = Guard.NotNull( context, nameof( context ) );
-        }
+            => this.context = Guard.NotNull( context, nameof( context ) );
 
         //====== IRequestHandler
 
@@ -26,8 +24,8 @@ namespace FileOrganizer.EFDatabase.Handlers
         {
             List<AppUserEntity> entities = await context.Entities
                 .AppUsers
-                .Include( x => x.UserRoles )
                 .AsNoTracking()
+                .Include( x => x.UserRoles )
                 .ToListAsync();
 
             return entities.Select( MappingUtils.ToAppUser ).ToList();

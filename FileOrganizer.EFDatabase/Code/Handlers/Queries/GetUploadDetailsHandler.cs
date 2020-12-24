@@ -17,9 +17,7 @@ namespace FileOrganizer.EFDatabase.Handlers
         //====== ctors
 
         public GetUploadDetailsHandler( EFAppContext context )
-        {
-            this.context = Guard.NotNull( context, nameof( context ) );
-        }
+            => this.context = Guard.NotNull( context, nameof( context ) );
 
         //====== IRequestHandler
 
@@ -27,9 +25,9 @@ namespace FileOrganizer.EFDatabase.Handlers
         {
             UploadEntity? entity = await context.Entities
                 .Uploads
+                .AsNoTracking()
                 .Include( "Files.Image" ) // todo nameof
                 .Include( "Files.Uploader")
-                .AsNoTracking()
                 .FirstOrDefaultAsync( x => x.Id == request.UploadId.Value);
 
             if (entity is null) throw new Exception( "Upload not found." ); // TODO: custom exception
@@ -39,7 +37,7 @@ namespace FileOrganizer.EFDatabase.Handlers
             return new UploadDetails(
                 request.UploadId,
                 fileDetailsList,
-                new UploadDescription( entity.Description ?? ""),
+                new UploadDescription( entity.Description ?? string.Empty ),
                 new string[] { }  ); // todo: add rejected to dastabase
         }
     }

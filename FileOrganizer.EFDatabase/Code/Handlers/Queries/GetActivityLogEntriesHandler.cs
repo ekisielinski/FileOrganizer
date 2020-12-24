@@ -16,32 +16,22 @@ namespace FileOrganizer.EFDatabase.Handlers
         //====== ctors
 
         public GetActivityLogEntriesHandler( EFAppContext context )
-        {
-            this.context = Guard.NotNull( context, nameof( context ) );
-        }
+            => this.context = Guard.NotNull( context, nameof( context ) );
 
         //====== IRequestHandler
 
         public async Task<IReadOnlyList<ActivityLogEntry>> Handle( GetActivityLogEntriesQuery request, CancellationToken cancellationToken )
         {
-            List<ActivityLogEntity>? logs = null;
+            string? userNameFilter = request.UserNameFilter?.Value;
 
-            if (request.UserNameFilter is null)
-            {
-                logs = await context.Entities
-                    .ActivityLog
-                    .Include( x => x.Issuer )
-                    .OrderByDescending( x => x.UtcTimestamp )
-                    .ToListAsync();
-
-                return logs.Select( MappingUtils.ToActivityLogEntry ).ToList();
-            }
-
-            logs = await context.Entities
+            List<ActivityLogEntity> logs = await context.Entities
                 .ActivityLog
-                .Include( x=> x.Issuer )
-                .Where( x => x.Issuer!.UserName == request.UserNameFilter.Value )
+                .AsNoTracking()
+                .Include( x => x.Issuer )
+                .Where( x => userNameFilter == null || x.Issuer!.UserName == userNameFilter )
                 .OrderByDescending( x => x.UtcTimestamp )
+                .Skip( request.Paging.SkipCount )
+                .Take( request.Paging.PageSize )
                 .ToListAsync();
 
             return logs.Select( MappingUtils.ToActivityLogEntry ).ToList();

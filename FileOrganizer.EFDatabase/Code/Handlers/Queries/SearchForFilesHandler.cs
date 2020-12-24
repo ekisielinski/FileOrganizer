@@ -16,9 +16,7 @@ namespace FileOrganizer.EFDatabase.Handlers
         //====== ctors
 
         public SearchForFilesHandler( EFAppContext context )
-        {
-            this.context = Guard.NotNull( context, nameof( context ) );
-        }
+            => this.context = Guard.NotNull( context, nameof( context ) );
 
         //====== IRequestHandler
 
@@ -26,13 +24,13 @@ namespace FileOrganizer.EFDatabase.Handlers
         {
             int count = await context.Entities.Files.CountAsync(); // TODO: as 1 query?
 
-            List<FileEntity>? entities = await context.Entities
+            List<FileEntity> entities = await context.Entities
                 .Files
+                .AsNoTracking()
                 .Skip( request.PagingParameters.SkipCount )
                 .Take( request.PagingParameters.PageSize )
                 .Include( x => x.Uploader )
                 .Include( x => x.Image )
-                .AsNoTracking()
                 .ToListAsync();
 
             IReadOnlyList<FileDetails> retrieved = entities.Select( MappingUtils.ToFileDetails ).ToList();

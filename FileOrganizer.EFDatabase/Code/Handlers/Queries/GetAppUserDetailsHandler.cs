@@ -15,9 +15,7 @@ namespace FileOrganizer.Core.FakeDatabase
         //====== ctors
 
         public GetAppUserDetailsHandler( EFAppContext context )
-        {
-            this.context = Guard.NotNull( context, nameof( context ) );
-        }
+            => this.context = Guard.NotNull( context, nameof( context ) );
 
         //====== IRequestHandler
 
@@ -25,11 +23,11 @@ namespace FileOrganizer.Core.FakeDatabase
         {
             AppUserEntity? entity = await context.Entities
                 .AppUsers
-                .Include( x => x.UserRoles )
                 .AsNoTracking()
+                .Include( x => x.UserRoles )
                 .FirstOrDefaultAsync( x => x.UserName == request.UserName.Value );
 
-            if (entity is null) throw new System.Exception( "User not found." ); // todo: custom ex
+            if (entity is null) throw new System.Exception( "User not found." ); // TODO: custom ex
 
             return MappingUtils.ToAppUserDetails( entity );
         }

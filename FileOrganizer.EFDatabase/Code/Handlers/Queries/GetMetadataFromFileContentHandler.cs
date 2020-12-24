@@ -31,10 +31,10 @@ namespace FileOrganizer.EFDatabase.Handlers
         {
             FileEntity? entity = await context.Entities.Files.FindAsync( request.FileId.Value );
 
-            if (entity is null) throw new Exception( "File not found: " + request.FileId ); // TODO: custom exception
+            if (entity is null) throw new Exception( "File not found: " + request.FileId ); // TODO: custom ex
 
             IFileInfo fileInfo = fileReader.SourceFilesReader.Get( new FileName( entity.SourceFileName ) );
-            if (fileInfo.Exists == false) throw new Exception( "File not found: " + request.FileId ); // TODO: custom exception
+            if (fileInfo.Exists == false) throw new Exception( "File not found: " + request.FileId ); // TODO: custom ex
 
             using var stream = fileInfo.CreateReadStream();
             FileMetadataContainer container = metadataReader.GetMetadata( stream );

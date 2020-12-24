@@ -2,6 +2,7 @@
 using FileOrganizer.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,9 +15,7 @@ namespace FileOrganizer.EFDatabase.Handlers
         //====== ctors
 
         public GetFileDetailsHandler( EFAppContext context )
-        {
-            this.context = Guard.NotNull( context, nameof( context ) );
-        }
+            => this.context = Guard.NotNull( context, nameof( context ) );
 
         //====== IRequestHandler
 
@@ -24,12 +23,12 @@ namespace FileOrganizer.EFDatabase.Handlers
         {
             FileEntity? entity = await context.Entities
                 .Files
+                .AsNoTracking()
                 .Include( x => x.Uploader )
                 .Include( x => x.Image )
-                .AsNoTracking()
                 .FirstOrDefaultAsync( x => x.Id == request.FileId.Value );
 
-            if (entity is null) throw new System.Exception( "File not found." ); // todo: custom ex
+            if (entity is null) throw new Exception( "File not found." ); // TODO: custom ex
 
             return MappingUtils.ToFileDetails( entity );
         }
