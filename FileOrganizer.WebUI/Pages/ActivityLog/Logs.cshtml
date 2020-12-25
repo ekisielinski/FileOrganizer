@@ -1,7 +1,15 @@
 ﻿@page
 @model FileOrganizer.WebUI.Pages.LogsModel
 
-<h1>Logs</h1>
+<h1>Activity Log</h1>
+
+Filter by user name:<br />
+<select asp-items="Model.UsersList" onchange="window.location.href='@Model.ReloadUriBase' + this.value">
+     <option value=""></option>
+</select>
+
+<br />
+<br />
 
 <table>
     <thead>
@@ -15,11 +23,11 @@
     <tbody>
         @foreach (var entry in Model.Logs)
         {
-        <tr>
-            <td>@entry.Timestamp</td>
-            <td>@entry.UserName</td>
-            <td>@entry.Message</td>
-        </tr>
+            <tr>
+                <td>@entry.Timestamp</td>
+                <td>@entry.UserName</td>
+                <td>@entry.Message</td>
+            </tr>
         }
     </tbody>
 </table>
