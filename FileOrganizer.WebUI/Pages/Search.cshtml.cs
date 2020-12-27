@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FileOrganizer.Domain;
+using FileOrganizer.WebUI.Pages.Shared.Components;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -27,6 +28,8 @@ namespace FileOrganizer.WebUI.Pages
             new() { Value = "100", Text = "100" }
         };
 
+        public PagerModel PagerModel { get; set; } = new PagerModel();
+
         //====== actions
 
         public async Task OnGet( [FromServices] IMediator mediator )
@@ -37,6 +40,13 @@ namespace FileOrganizer.WebUI.Pages
             var cmd = new SearchForFilesQuery( new PagingParameters( PageSize, PageIndex ) );
 
             SearchResult = await mediator.Send( cmd );
+
+            PagerModel = new PagerModel
+            {
+                PageCount   = SearchResult.PageCount,
+                CurrentPage = PageIndex,
+                UrlFactory  = (pindex) => $"?pageIndex={pindex}&pageSize={PageSize}"
+            };
         }
 
         private void FixPageSize()

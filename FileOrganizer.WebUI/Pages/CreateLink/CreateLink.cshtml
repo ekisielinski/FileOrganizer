@@ -9,6 +9,7 @@ Add link to file:<br />
 <br />
 
 <form asp-page="NewFileLink" method="post" asp-route-fileId="@Model.FileDetails!.FileId.Value">
+    
     <label asp-for="Form.Url">Address:</label>
     <input asp-for="Form.Url" autocomplete="off" />
     <span asp-validation-for="Form.Url"></span>
@@ -25,6 +26,7 @@ Add link to file:<br />
     <br />
 
     <input type="submit" value="Create" />
+
 </form>
 
 <a asp-page="/View" asp-route-fileid="@Model.FileDetails!.FileId.Value">Cancel</a>

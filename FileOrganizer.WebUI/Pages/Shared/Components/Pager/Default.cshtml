@@ -1,0 +1,23 @@
+﻿@model FileOrganizer.WebUI.Pages.Shared.Components.PagerModel
+
+<div>
+    @if (Model.IsRequired)
+    {
+        <p>Pages:</p>
+        @for (int i = 0; i < Model.PageCount; i++)
+        {
+            int pageNumber = i + 1;
+
+            <a href="@Model.UrlFactory(i)">
+                @if (Model.CurrentPage == i)
+                {
+                    <b> @pageNumber </b>
+                }
+                else
+                {
+                    <span> @pageNumber </span>
+                }
+            </a>
+        }
+    }
+</div>
