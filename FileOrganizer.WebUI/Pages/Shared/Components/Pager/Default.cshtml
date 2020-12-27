@@ -1,15 +1,16 @@
 ﻿@model FileOrganizer.WebUI.Pages.Shared.Components.PagerModel
 
-<div>
-    @if (Model.IsRequired)
-    {
-        <p>Pages:</p>
+
+@if (Model.IsRequired)
+{
+    <div class="pagination">
         @for (int i = 0; i < Model.PageCount; i++)
         {
             int pageNumber = i + 1;
+            bool currentPage = Model.CurrentPage == i;
 
-            <a href="@Model.UrlFactory(i)">
-                @if (Model.CurrentPage == i)
+            <a @Html.Raw(currentPage ? "data-active" : "") href="@Model.UrlFactory(i)">
+                @if (currentPage)
                 {
                     <b> @pageNumber </b>
                 }
@@ -19,5 +20,5 @@
                 }
             </a>
         }
-    }
-</div>
+    </div>
+}

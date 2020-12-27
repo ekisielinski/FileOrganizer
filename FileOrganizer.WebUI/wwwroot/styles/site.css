@@ -106,3 +106,33 @@ input[type=number]
 {
     background-color: rgba(0, 0, 0, 0.2);
 }
+
+.pagination
+{
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    font-size: 17px;
+    cursor: default;
+    margin: 8px;
+    display: inline-block;
+}
+
+    .pagination a
+    {
+        text-decoration: none;
+        color: black;
+        background-color: rgba(0, 0, 0, 0.1);
+        padding: 3px 6px;
+        display: inline-block;
+    }
+
+        .pagination a:hover
+        {
+            background-color: orange;
+        }
+
+        .pagination a[data-active]
+        {
+            background-color: #4b4;
+        }

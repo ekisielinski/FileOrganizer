@@ -16,3 +16,5 @@
         @await Component.InvokeAsync( "FileThumbnail", new { file = file } )
     }
 </div>
+
+@await Component.InvokeAsync( "Pager", Model.PagerModel )
